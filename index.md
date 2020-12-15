@@ -31,19 +31,20 @@ sections:
           Our firmware base for the ESP32 and ESP8266 allows the same ease 
           of use as Arduino without compromising on performance, 
           customisability or licensing.
-      - title: Licensed Code Kits
+      - title: Licensed IP
         content: >-
-          Our battle-tested, customisable code kits for mobile and voice apps make 
-          building great IoT apps painless.
-      - title: Web Dashboard
+          Build your next product with our specialist hardware designs or 
+          use our battle-tested, customisable code kits for mobile and voice 
+          apps to make great IoT apps.
+      - title: Realtime Dashboard
         content: >-
-          Subscribe to our robust web based dashboard that integrates with your existing 
-          IoT and authentication backends while enabling best-in-class OTA, device management,
-          visualisation and analytics.
+          Our web based dashboard integrates with your existing 
+          IoT and authentication backend while enabling best-in-class OTA, device management,
+          visualisation, realtime alerts and analytics.
       - title: Team Mentoring
         content: >-
-          Hire us to help your team ship great IoT products through code reviews, technical 
-          discussions, architectural advice and training.
+          We help teams ship great IoT products through code reviews, technical 
+          discussions, architectural advice and training. Check out our docs to get started for free.
   - section_id: testimonials
     type: section_testimonials
     title: Testimonials
