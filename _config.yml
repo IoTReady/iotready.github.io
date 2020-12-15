@@ -4,7 +4,7 @@ permalink: '/:title/'
 collections:
   posts:
     permalink: '/posts/:title/'
-description: Making IoT Simpler
+description: Simplifying IoT
 color_scheme: light
 accent_color: pink
 header:
@@ -33,7 +33,7 @@ header:
 footer:
   content: '&copy; IoTReady. All rights reserved.'
   links:
-    - label: Making IoT Simpler.
+    - label: Simplifying IoT.
       url: 'https://github.com/iotready/'
       style: link
       new_window: true

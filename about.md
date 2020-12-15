@@ -1,6 +1,6 @@
 ---
 title: About Us
-subtitle: Making IoT Simpler
+# subtitle: Simplifying IoT
 # image: images/about.jpg
 layout: page
 ---

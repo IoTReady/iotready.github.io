@@ -4,7 +4,7 @@ hide_title: true
 sections:
   - section_id: hero
     type: section_hero
-    title: 'Making IoT Simpler.'
+    title: 'Simplifying IoT.'
     content: >-
       Our metal-to-cloud building blocks have helped teams across the world ship 50000+ IoT devices. What are you working on?
     actions:
