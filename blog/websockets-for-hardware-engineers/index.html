@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Websockets for Hardware Engineers - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="Websockets are a communication protocol that allow the creation of persistent, bidirectional communication channels between client and server."/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink">
+  <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>Exto</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="https://iotready.github.io/docs/" target="_blank" rel="noopener">
+  
+  Docs
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full">
+    <header class="post-header inner-sm">
+      <h1 class="post-title line-top">Websockets for Hardware Engineers</h1>
+      
+      
+      <div class="post-subtitle">
+        Websockets promise and can deliver much more than BLE
+      </div>
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/4.jpg" alt="Websockets for Hardware Engineers" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <h2 id="before-we-start-what-is-http">Before we start, what is HTTP?</h2>
+<p>This is what HTTP REST looks like…</p>
+
+<div class="mermaid">
+journey
+    title Typical Client-Server Flow
+    section Identify Yourself!
+      SSL Handshake: 3: Client, Server
+      Authenticate: 5: Client
+      Authorize: 3: Server
+    section Make a Request
+      Ask for data: 5: Client
+      Send data: 3: Server
+</div>
+<div class="mermaid">
+journey
+    title A bit later...
+    section Identify Yourself!
+      SSL Handshake: 3: Client, Server
+      Authenticate: 4: Client
+      Authorize: 3: Server
+    section Make a Request
+      Send data: 3: Client
+      Acknowledge: 3: Server
+</div>
+
+<h3 id="we-noticed-some-issues">We noticed some issues…</h3>
+
+<ul>
+  <li>Each request is preceded by an SSL handshake (if HTTPS) and authentication</li>
+  <li>This can consume significant resources (CPU, time, memory) each time</li>
+  <li>The server can never send data to the client
+    <ul>
+      <li>The client needs to implement polling to request data any time it is needed.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="what-are-websockets">What are websockets?</h2>
+<p>Websockets are a communication protocol that allow the creation of <strong>persistent</strong>, <strong>bidirectional</strong> communication <strong>channels</strong> between client and server.</p>
+
+<div class="mermaid">
+journey
+    title A Websockets Journey
+    section Identify Yourself!
+      SSL Handshake: 3: Client, Server
+      Authenticate: 5: Client
+      Authorize: 3: Server
+    section Make a Request
+      Send data: 5: Client
+      Acknowledge: 3: Server
+    section Event on Server!
+      Send data: 3: Server
+    section Make a Request
+      Get data: 5: Client
+      Send data: 3: Server
+</div>
+
+<h3 id="persistent">Persistent</h3>
+<ul>
+  <li>Once established, the connection between client and server is kept-alive for a long period
+    <ul>
+      <li>No theoretical limit</li>
+      <li>Connection can be kept alive through regular pings</li>
+    </ul>
+  </li>
+  <li>Disconnections are events that can be monitored to trigger reconnection</li>
+</ul>
+
+<h3 id="bidirectional">Bidirectional</h3>
+<ul>
+  <li>Once the connection is established, the server can send information to the client at any time.
+    <ul>
+      <li>No need for the client to initiate the request</li>
+    </ul>
+  </li>
+  <li>Client can also send requests to the server</li>
+</ul>
+
+<h3 id="channels">Channels</h3>
+<ul>
+  <li>Each websocket connection is actually a channel
+    <ul>
+      <li>Imagine a long pipe where information can flow both ways</li>
+    </ul>
+  </li>
+  <li>Each channel is opened on a specific address, and typically, has a specific purpose</li>
+  <li>Each client can open multiple channels with the same server</li>
+  <li>Multiple clients can open channels with the same server</li>
+</ul>
+
+<h3 id="points-to-note">Points to Note</h3>
+<ul>
+  <li>Websockets is based on TCP so the server cannot broadcast messages to all clients
+    <ul>
+      <li>Instead, on the server, maintain a list of connnected clients and send them messages in a loop</li>
+    </ul>
+  </li>
+  <li>Each websocket connection consumes memory so close unused connections
+    <ul>
+      <li>Enforce ping based check of alive clients - if no response, close the connection!</li>
+    </ul>
+  </li>
+  <li>Websockets only concerns itself with the transport layer (on top of TCP) and makes no recommendation about the encoding of the data being transmitted.
+    <ul>
+      <li>You can <a href="https://www.websocket.org/echo.html">transmit text</a></li>
+      <li>Or <a href="https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md">JSON</a></li>
+      <li>Or <a href="https://techtutorialsx.com/2018/11/08/python-websocket-client-sending-binary-content/">even binary files</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+<h3 id="tools-we-need">Tools we need</h3>
+<ul>
+  <li><a href="https://github.com/vi/websocat/releases">websocat</a> or similar command line websockets client for Exercise 1</li>
+  <li><a href="https://nodejs.org/en/">NodeJS</a> or <a href="https://www.python.org/">Python 3</a> for Exercise 2</li>
+  <li><a href="https://www.espressif.com/en/products/socs/esp32/overview">ESP32</a> and <a href="https://esp-idf.readthedocs.io/">ESP-IDF</a> for Exercise 3</li>
+</ul>
+
+<h3 id="1-public-websocket-server">1. Public Websocket Server</h3>
+<ul>
+  <li>Use websocat from a terminal to connect to the <a href="https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md">Binance websocket streams</a>
+    <ul>
+      <li>These endpoints are known to work:
+        <ul>
+          <li><code class="highlighter-rouge">wss://stream.binance.com:9443/ws/!miniTicker@arr</code></li>
+          <li><code class="highlighter-rouge">wss://stream.binance.com:9443/ws/btcusdt@depth</code></li>
+          <li><code class="highlighter-rouge">wss://stream.binance.com:9443/ws/bnbbtc@depth</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Open another terminal/tab and connect to a different stream from Binance</li>
+  <li>For the really patient, check how long the connection remains open for with:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">date</span><span class="p">;</span> websocat wss://stream.binance.com:9443/ws/bnbbtc@depth<span class="p">;</span> <span class="nb">date</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="2-local-websocket-server">2. Local Websocket Server</h3>
+<h4 id="nodejs">NodeJS</h4>
+<ul>
+  <li>Follow <a href="https://flaviocopes.com/websockets/">this excellent tutorial</a> to set up a local websocket client and server</li>
+</ul>
+
+<h4 id="python">Python</h4>
+<ul>
+  <li>Follow <a href="https://codingpointer.com/python-tutorial/python-websockets">this tutorial</a> to set up a local websocket client and server</li>
+</ul>
+
+<h3 id="3-esp32-as-a-websocket-server">3. ESP32 as a Websocket Server</h3>
+<ul>
+  <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html#installation-step-by-step">Set up ESP-IDF</a> on your computer</li>
+  <li>Build and flash the <a href="https://github.com/espressif/esp-idf/tree/master/examples/protocols/http_server/ws_echo_server">Websocket Echo Server example</a> from ESP-IDF on the ESP32
+    <ul>
+      <li>You will need to configure your WiFi settings with <code class="highlighter-rouge">idf.py menuconfig</code></li>
+      <li>Once booted, the ESP32 will print its <code class="highlighter-rouge">ip_address</code>. You will need this.</li>
+    </ul>
+  </li>
+  <li>Using websocat, connect to <code class="highlighter-rouge">http://ip_address/ws/</code></li>
+  <li>Once connected, type and send any string message, e.g. <code class="highlighter-rouge">hello</code></li>
+  <li>Open a new terminal and repeat the websocat messaging.
+    <ul>
+      <li>What do you notice across the two clients?</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="more-advanced-example">More advanced example</h4>
+<ul>
+  <li>Try this <a href="https://github.com/espressif/esp-idf/tree/master/examples/protocols/websocket">slightly more advanced example</a></li>
+</ul>
+
+<h2 id="questions">Questions</h2>
+<ul>
+  <li>What are the similarities and differences between HTTP and BLE?</li>
+  <li>What are the similarities and differences between Websockets and BLE?</li>
+  <li>How would you implement an API for client to request changes (e.g. switch on lights)?</li>
+</ul>
+
+<h2 id="ideas-questions-or-corrections">Ideas, questions or corrections?</h2>
+<p>Write to us at <a href="mailto:hello@iotready.co">hello@iotready.co</a></p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2020-12-15 00:00">December 15, 2020</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+    <h2 class="read-next-title line-top">Read Next</h2>
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Making IoT Simpler.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://twitter.com/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+
+    </body> 
+</html>
