@@ -1,7 +1,7 @@
 ---
-title: Project Title 1
-subtitle: Optional Project Subtitle
-date: '2019-05-10'
+title: Smart Termination
+subtitle: Self-powered current and temperature sensors for the smart grid.
+date: '2020-05-10'
 thumb_image: images/1_thumb.jpg
 image: images/1.jpg
 layout: project

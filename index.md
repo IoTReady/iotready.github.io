@@ -4,10 +4,9 @@ hide_title: true
 sections:
   - section_id: hero
     type: section_hero
-    title: 'Hi, I''m Stackbit Exto Portfolio Theme.'
+    title: 'Making IoT Simpler.'
     content: >-
-      This section can contain a subtitle or tagline. The recommended length is
-      one to three sentences, but can be changed as you prefer.
+      Our building blocks have helped teams across the world ship 50000+ IoT devices. What are you working on?
     actions:
       - label: Let's talk
         url: /contact
@@ -16,54 +15,53 @@ sections:
     type: section_portfolio
     layout_style: mosaic
     title: Recent Work
-    subtitle: An optional subtitle of the section
+    # subtitle: An optional subtitle of the section
     projects_number: 6
     view_all_label: View All
     view_all_url: portfolio
   - section_id: services
     type: section_grid
     title: What We Do
-    subtitle: An optional subtitle of the section
+    # subtitle: An optional subtitle of the section
     col_number: two
     is_numbered: true
     grid_items:
-      - title: Service Title
+      - title: Open Source Firmware
         content: >-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl
-          ligula, cursus id molestie vel, maximus aliquet risus. Vivamus in nibh
-          fringilla, fringilla.
-      - title: Service Title
+          Our firmware base for the ESP32 and ESP8266 allows the same ease 
+          of use as Arduino without compromising on performance, 
+          customisability or licensing.
+      - title: Licensed Code Kits
         content: >-
-          Donec lobortis velit sed suscipit lobortis. Ut non quam metus. Nullam
-          a maximus mi. Quisque justo nunc, sollicitudin euismod euismod at,
-          tincidunt ut tellus.
-      - title: Service Title
+          Our battle-tested, customisable code kits for mobile and voice apps make 
+          building great IoT apps painless.
+      - title: Web Dashboard
         content: >-
-          Sed laoreet magna commodo libero euismod sodales. Nunc ac libero
-          convallis, interdum ligula vel, pretium diam. Integer commodo sem at
-          dui sollicitudin.
-      - title: Service title
+          Subscribe to our robust web based dashboard that integrates with your existing 
+          IoT and authentication backends while enabling best-in-class OTA, device management,
+          visualisation and analytics.
+      - title: Team Mentoring
         content: >-
-          Vestibulum a nunc ut eros condimentum posuere. Nullam dapibus quis
-          nunc non interdum. Pellentesque tortor ligula, gravida ac commodo eu.
+          Hire us to help your team ship great IoT products through code reviews, technical 
+          discussions, architectural advice and training.
   - section_id: testimonials
     type: section_testimonials
     title: Testimonials
-    subtitle: An optional subtitle of the section
+    # subtitle: An optional subtitle of the section
     col_number: three
     testimonials:
-      - author: Sean Salazar
+      - author: Alain Djikstra (Kaiyan)
         avatar: images/sean_salazar.jpg
         content: >-
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl
           ligula, cursus id molestie vel, maximus aliquet risus. Vivamus in nibh
           fringilla.
-      - author: Aubrey Hoover
+      - author: Homi Patel (REPL)
         avatar: images/aubrey_hoover.jpg
         content: >-
           Vestibulum a nunc ut eros condimentum posuere. Nullam dapibus quis
           nunc non interdum. Pellentesque tortor ligula, gravida ac commodo eu.
-      - author: Deegan Wallace
+      - author: Olafur Jonsson (Tovalia)
         avatar: images/deegan_wallace.jpg
         content: >-
           Sed laoreet magna commodo libero euismod sodales. Nunc ac libero
@@ -71,7 +69,7 @@ sections:
   - section_id: latest-posts
     type: section_posts
     title: Latest from the Blog
-    subtitle: An optional subtitle of the section
+    # subtitle: An optional subtitle of the section
     posts_number: 3
     col_number: three
     actions:

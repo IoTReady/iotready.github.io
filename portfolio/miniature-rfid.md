@@ -1,7 +1,7 @@
 ---
-title: Project Title 7
-subtitle: Optional Project Subtitle
-date: '2018-01-15'
+title: Miniature Livestock RFID Tags
+subtitle: Long Range On Ear UHF RFID Tags
+date: '2015-04-15'
 thumb_image: images/7_thumb.jpg
 image: images/7.jpg
 layout: project

@@ -1,7 +1,7 @@
 ---
-title: Project Title 3
-subtitle: Optional Project Subtitle
-date: '2019-04-08'
+title: Offline Content Box
+subtitle: Enabling education off-grid with Android Set Top Boxes
+date: '2019-01-23'
 thumb_image: images/3_thumb.jpg
 image: images/3.jpg
 layout: project

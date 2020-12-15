@@ -1,10 +1,10 @@
-title: Stackbit Exto Theme
+title: IoTReady
 baseurl: /
 permalink: '/:title/'
 collections:
   posts:
     permalink: '/posts/:title/'
-description: A portfolio theme with a blog
+description: Making IoT Simpler
 color_scheme: light
 accent_color: pink
 header:
@@ -20,9 +20,10 @@ header:
     - label: Blog
       url: /blog/
       style: link
-    - label: Style Guide
-      url: /style-guide/
+    - label: Docs
+      url: https://iotready.github.io/docs/
       style: link
+      new_window: true
     - label: About
       url: /about/
       style: link
@@ -30,10 +31,10 @@ header:
       url: /contact/
       style: link
 footer:
-  content: '&copy; Stackbit-Exto. All rights reserved.'
+  content: '&copy; IoTReady. All rights reserved.'
   links:
-    - label: Made with Stackbit.
-      url: 'https://www.stackbit.com'
+    - label: Making IoT Simpler.
+      url: 'https://github.com/iotready/'
       style: link
       new_window: true
   has_social: true
@@ -43,18 +44,8 @@ footer:
       style: icon
       icon_class: fa-twitter
       new_window: true
-    - label: Instagram
-      url: 'https://www.instagram.com/'
-      style: icon
-      icon_class: fa-instagram
-      new_window: true
-    - label: Dribbble
-      url: 'https://dribbble.com/'
-      style: icon
-      icon_class: fa-dribbble
-      new_window: true
     - label: LinkedIn
-      url: 'https://www.linkedin.com/'
+      url: 'https://www.linkedin.com/company/jaaga-labs'
       style: icon
       icon_class: fa-linkedin
       new_window: true

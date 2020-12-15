@@ -7,7 +7,7 @@ sections:
     content: >-
       Hi there! Thank you so much for your interest in working together. Please
       fill the contact form below or send us an email at
-      [example@example.com](mailto:example@example.com).
+      [hello@iotready.co](mailto:hello@iotready.co).
     form_id: contactForm
     form_action: /thank-you
     form_fields:
@@ -26,7 +26,7 @@ sections:
         label: Subject
         default_value: Please select
         options:
-          - Error on the site
+          - Can we work together?
           - Sponsorship
           - Other
       - input_type: textarea
