@@ -6,7 +6,7 @@ sections:
     type: section_hero
     title: 'Making IoT Simpler.'
     content: >-
-      Our building blocks have helped teams across the world ship 50000+ IoT devices. What are you working on?
+      Our metal-to-cloud building blocks have helped teams across the world ship 50000+ IoT devices. What are you working on?
     actions:
       - label: Let's talk
         url: /contact

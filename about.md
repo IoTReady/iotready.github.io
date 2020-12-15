@@ -7,7 +7,7 @@ layout: page
 
 > The right building blocks can supercharge efforts to solve problems at scale. 
 
-This was the belief that brought Tej and Jay together in late 2015 to launch what was then Jaaga Sustain - an effort to support fledgling environmental startups in India. Sustain eventually became Jaaga Labs and was the spun off as IoTReady. And here we are - growing, evolving and continuing to empower our customers through the weirdest year of our lifetimes!
+This was the belief that brought Tej and Jay together in late 2015 to launch what was then Jaaga Sustain - an effort to support fledgling environmental startups in India. Sustain eventually became Jaaga Labs and was spun off as IoTReady in early 2018. And here we are - growing, evolving and continuing to empower our customers through the weirdest year of our lifetimes!
 
 ## Why IoT?
 IoT is our comfort zone. Our realm of expertise. Jay has over 25 patents in control systems and machine communications - including the OG - [HART](https://fieldcommgroup.org/technologies/hart). Tej has been building IoT products with enterprises, large and small, for nearly 15 years. 
