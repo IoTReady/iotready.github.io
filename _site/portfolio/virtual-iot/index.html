@@ -137,22 +137,31 @@
     
     
     <div class="post-image">
-      <img src="/images/1.jpg" alt="Virtual IoT" />
+      <img src="/images/repl_accessory.jpg" alt="Virtual IoT" />
     </div><!-- .post-image -->
     
     <div class="post-content inner-sm">
       <h2 id="customer">Customer</h2>
-<p><a href="https://www.elsema.com/">Elsema</a></p>
+<p><a href="https://www.repl.com/">REPL</a></p>
 
 <blockquote>
-  <p>Elsema is a renowned name in providing a range of niche wireless remote control technologies, automatic gate and door products.</p>
+  <p>One of the leading manufacturers of cable accessories for power and telecom industries across the globe.</p>
 </blockquote>
 
 <h2 id="problem-statement">Problem Statement</h2>
+<p>REPL products are deployed in millions of locations in electricity grids across the world, <em>every year</em>. REPL wanted to introduce location traceability and enhanced post-deployment monitoring to these products using weather metrics.</p>
 
 <h2 id="solution">Solution</h2>
+<p><img src="/images/repl_connect.gif" alt="REPL Connect Animation" /></p>
+
+<p>Our web dashboard has native <strong>geo-spatial</strong> capabilities for storing, querying and visualising data. Working closely with the team at REPL, we customised our <strong>QR scanning</strong> + <strong>location tracking</strong> mobile app code kit to fit the workflow of typical operator.</p>
 
 <h3 id="challenges">Challenges</h3>
+<ul>
+  <li>The human operator is a key enabler for this solution. It took multiple iterations to optimise the UX while keeping the process transparent.</li>
+  <li>We wanted to enable a live operation state map where you could see new deployments as they are completed. This is where Elixir and Phoenix with LiveView really shine!</li>
+  <li>We are building an Ecto wrapper to be able to easily make geo-spatial queries with PostGIS.</li>
+</ul>
 
 
     </div>
