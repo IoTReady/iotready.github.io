@@ -2,15 +2,24 @@
 title: Smart Termination
 subtitle: Self-powered current and temperature sensors for the smart grid.
 date: '2020-05-10'
-thumb_image: images/1_thumb.jpg
-image: images/1.jpg
+thumb_image: images/smart_termination.jpg
+image: images/smart_termination.jpg
 layout: project
 ---
 
-Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo. Interdum ante aliquet commodo accumsan vis phasellus adipiscing. Ornare a in lacinia. Vestibulum accumsan ac metus massa tempor. Accumsan in lacinia ornare massa amet. Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan.
+## Customer - [REPL](https://www.repl.com/)
 
->"A designer knows he has achieved perfection not when there is nothing left to add, but when there is nothing left to take away." -Antoine de Saint-Exupery
+> One of the leading manufacturers of cable accessories for power and telecom industries across the globe.
 
-Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. Tempus condimentum tempus non ac varius cubilia adipiscing placerat lorem turpis at. Aliquet lorem porttitor interdum. Amet lacus. Aliquam lobortis faucibus blandit ac phasellus. In amet magna non interdum volutpat porttitor metus a ante ac neque. Nisi turpis. Commodo col. Interdum adipiscing mollis ut aliquam id ante adipiscing commodo integer arcu amet Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan commodo odio cubilia ac eu interdum placerat placerat arcu commodo lobortis adipiscing semper ornare pellentesque.
+## Problem Statement
+REPL wanted to develop a self-powered, remote comms enabled version of their medium voltage (MV) smart termination while lowering the costs to allow larger scale rollouts.
 
-Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. Tempus condimentum tempus non ac varius cubilia adipiscing placerat lorem turpis at. Aliquet lorem porttitor interdum. Amet lacus. Aliquam lobortis faucibus blandit ac phasellus. In amet magna non interdum volutpat porttitor metus a ante ac neque. Nisi turpis. Commodo col. Interdum adipiscing mollis ut aliquam id ante adipiscing commodo integer arcu amet blandit adipiscing arcu ante.
+## Solution
+![Smart Termination Sensor](/images/smart_termination.jpg)
+
+We combined off-the-shelf sensor components with a cleverly engineered energy-harvesting circuitry to build a self-powered current and temperature sensor with modular BLE/GPRS/Modbus communication interfaces. This IP is now the basis for the next generation REPL smart terminations.
+
+### Challenges
+- Terminations have a lifetime of 10 year or more. Careful combination of lithium-ion batteries and supercapacitors allows us to achieve this lifetime. 
+- We scouted the world to build a robust supply chain keeping quality and costs in mind and found a key supplier in our backyard!
+- Achieving Class 1 (1%) accuracy needed lots of expert tuning of the sensing circuit and the ADC firmware.

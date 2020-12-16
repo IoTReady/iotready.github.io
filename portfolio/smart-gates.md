@@ -7,8 +7,7 @@ image: images/elsema_remote.jpg
 layout: project
 ---
 
-## Customer
-[Elsema](https://www.elsema.com/)
+## Customer - [Elsema](https://www.elsema.com/)
 
 > Elsema is a renowned name in providing a range of niche wireless remote control technologies, automatic gate and door products.
 

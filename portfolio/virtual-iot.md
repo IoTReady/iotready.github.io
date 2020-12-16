@@ -7,8 +7,7 @@ image: images/repl_accessory.jpg
 layout: project
 ---
 
-## Customer
-[REPL](https://www.repl.com/)
+## Customer - [REPL](https://www.repl.com/)
 
 > One of the leading manufacturers of cable accessories for power and telecom industries across the globe.
 
@@ -23,5 +22,5 @@ Our web dashboard has native **geo-spatial** capabilities for storing, querying 
 ### Challenges
 - The human operator is a key enabler for this solution. It took multiple iterations to optimise the UX while keeping the process transparent. 
 - We wanted to enable a live operation state map where you could see new deployments as they are completed. This is where Elixir and Phoenix with LiveView really shine!
-- We are building an Ecto wrapper to be able to easily make geo-spatial queries with PostGIS.
+- We are continuing to optimise geo-spatial queries with PostGIS.
 
