@@ -15,7 +15,7 @@
     {% endif %}
     <div class="block-content">
       <div class="portfolio-feed layout-{{ section.layout_style }}">
-        {% assign display_projects = '/portfolio' | get_pages | sort: 'date' | reverse %}
+        {% assign display_projects = '/portfolio' | get_pages | where: "published","true" | sort: 'date' | reverse %}
         {% assign slice_length = section.projects_number | minus: 0 %}
         {% assign recent_projects = display_projects | slice: 0, slice_length %}
         {% for post in recent_projects %}

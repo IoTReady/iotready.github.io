@@ -68,3 +68,10 @@ exclude:
   - netlify.toml
   - stackbit-build.sh
   - stackbit-pull.js
+  - deploy.sh
+defaults:
+  -
+    scope:
+      path: "" # all files in the project
+    values:
+      published: true
