@@ -1,11 +1,11 @@
 ---
-title: Websockets for Hardware Engineers
-subtitle: Websockets promise and can deliver much more than BLE
+title: Websockets for Hardware Engineers - Part 1
+subtitle: Or how to use websockets for profit.
 excerpt: >-
   Websockets are a communication protocol that allow the creation of persistent, bidirectional communication channels between client and server.
 date: '2020-12-15'
-thumb_image: images/4.jpg
-image: images/4.jpg
+thumb_image: images/websockets.png
+image: images/websockets.png
 layout: post
 ---
 

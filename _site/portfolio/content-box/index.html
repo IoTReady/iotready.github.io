@@ -2,7 +2,7 @@
 <html lang="en">
     <head>    
 
-        <title>Offline Content Box - IoTReady</title>
+        <title>Offline Content Access - IoTReady</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="google" content="notranslate" />
@@ -126,30 +126,40 @@
 
   <article class="post post-full">
     <header class="post-header inner-sm">
-      <h1 class="post-title line-top">Offline Content Box</h1>
+      <h1 class="post-title line-top">Offline Content Access</h1>
       
       
       <div class="post-subtitle">
-        Enabling education off-grid with Android Set Top Boxes
+        Enabling education off-grid with, and without, Android Set Top Boxes
       </div>
       
     </header>
     
     
     <div class="post-image">
-      <img src="/images/3.jpg" alt="Offline Content Box" />
+      <img src="/images/set_top_box.jpg" alt="Offline Content Access" />
     </div><!-- .post-image -->
     
     <div class="post-content inner-sm">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mus mauris vitae ultricies leo. In vitae turpis massa sed. Mauris nunc congue nisi vitae suscipit tellus mauris a. Phasellus egestas tellus rutrum tellus pellentesque. Nulla facilisi morbi tempus iaculis urna id volutpat. Ac tortor vitae purus faucibus ornare suspendisse sed. Libero volutpat sed cras ornare arcu dui vivamus arcu felis. Suspendisse interdum consectetur libero id. Quisque egestas diam in arcu. Eget gravida cum sociis natoque penatibus et. Ipsum suspendisse ultrices gravida dictum fusce ut placerat orci. Etiam dignissim diam quis enim. Vestibulum lorem sed risus ultricies tristique nulla aliquet enim tortor. Ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Nulla malesuada pellentesque elit eget gravida cum sociis natoque. Ut venenatis tellus in metus vulputate eu scelerisque felis. Porttitor eget dolor morbi non arcu risus quis varius quam. Volutpat lacus laoreet non curabitur. Vulputate mi sit amet mauris commodo quis imperdiet massa.</p>
+      <h2 id="customer---meghshala">Customer - <a href="https://meghshala.online/">Meghshala</a></h2>
 
 <blockquote>
-  <p>“Design adds value faster than it adds costs.” - Joel Spolsky</p>
+  <p>Empowered teachers lead enlightened classrooms.</p>
 </blockquote>
 
-<p>Amet risus nullam eget felis eget. Quisque egestas diam in arcu cursus euismod quis. Nibh nisl condimentum id venenatis a condimentum. Condimentum vitae sapien pellentesque habitant morbi. Adipiscing bibendum est ultricies integer quis auctor elit. Velit laoreet id donec ultrices. Neque egestas congue quisque egestas diam. Euismod quis viverra nibh cras pulvinar mattis. Lobortis scelerisque fermentum dui faucibus. Arcu felis bibendum ut tristique. Metus vulputate eu scelerisque felis imperdiet proin fermentum. Enim nunc faucibus a pellentesque sit amet porttitor. Nec nam aliquam sem et tortor consequat. Ullamcorper a lacus vestibulum sed arcu non. Semper quis lectus nulla at volutpat. Lectus magna fringilla urna porttitor rhoncus dolor purus non. Neque laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Ut pharetra sit amet aliquam id diam maecenas ultricies. Non pulvinar neque laoreet suspendisse interdum consectetur libero. Morbi tincidunt ornare massa eget.</p>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Meghshala provide training and teaching material to teachers across India - many of whom have limited or no internet access. They needed a solution that enabled seamless content access with or without internet.</p>
 
-<p>Netus et malesuada fames ac turpis. Morbi tristique senectus et netus. Tempor commodo ullamcorper a lacus vestibulum sed. Id eu nisl nunc mi ipsum. Sed ullamcorper morbi tincidunt ornare. Tellus in metus vulputate eu scelerisque felis. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam erat. Neque volutpat ac tincidunt vitae. Enim diam vulputate ut pharetra sit amet aliquam. In eu mi bibendum neque egestas congue quisque egestas. At imperdiet dui accumsan sit. Diam sit amet nisl suscipit. Tellus in metus vulputate eu. Non pulvinar neque laoreet suspendisse interdum consectetur libero. Fusce ut placerat orci nulla pellentesque dignissim. Neque egestas congue quisque egestas diam in arcu.</p>
+<h2 id="solution">Solution</h2>
+
+<p>We worked closely with our sister firm, <a href="https://contentready.co">ContentReady</a>, to implement Bonjour style discoverability and peer-to-peer file syncing into the existing Meghshala app. Suddenly, <em>every</em> Meghshala user could enable offline access for others. The app was modified to suit set headless top boxes too with kiosk mode and similar built-in features.</p>
+
+<h3 id="challenges">Challenges</h3>
+
+<ul>
+  <li>Android is surprisingly aggressive at killing long-running/background apps. We had to invoke a bunch of tricks and chants to keep the app running!</li>
+  <li>Android, again, has no built-in support for mDNS/Bonjour services. We implemented our own custom UDP discovery protocol to work around this.</li>
+</ul>
 
     </div>
   </article><!-- .post -->
@@ -182,9 +192,9 @@
         
           
           
-<a class=" button-icon" href="https://twitter.com/" target="_blank" rel="noopener">
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
   
-  <span class="icon fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span>
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
   
 </a>
 

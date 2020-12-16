@@ -1,7 +1,7 @@
 ---
 title: Smart Termination
 subtitle: Self-powered current and temperature sensors for the smart grid.
-date: '2020-05-10'
+date: '2020-12-10'
 thumb_image: images/smart_termination.jpg
 image: images/smart_termination.jpg
 layout: project

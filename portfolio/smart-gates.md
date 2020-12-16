@@ -1,7 +1,7 @@
 ---
-title: Elsema Smart Gates 
+title: Smarter Gates 
 subtitle: IoT Enabled, App Controlled Gates  
-date: '2020-08-26'
+date: '2020-05-26'
 thumb_image: images/elsema_remote.jpg
 image: images/elsema_remote.jpg
 layout: project

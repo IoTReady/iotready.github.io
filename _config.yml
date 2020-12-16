@@ -39,10 +39,10 @@ footer:
       new_window: true
   has_social: true
   social_links:
-    - label: Twitter
-      url: 'https://twitter.com/'
+    - label: Github
+      url: 'https://github.com/iotready/'
       style: icon
-      icon_class: fa-twitter
+      icon_class: fa-github
       new_window: true
     - label: LinkedIn
       url: 'https://www.linkedin.com/company/jaaga-labs'
