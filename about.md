@@ -14,13 +14,13 @@ IoT is our comfort zone. Our realm of expertise. Jay has over 25 patents in cont
 
 ## Team
 
-### Tej Pochiraju, PhD
+### [Tej Pochiraju](https://www.linkedin.com/in/tejpochiraju/), PhD
 Tej holds a PhD in Wireless Hardware and has built and sold patents covering innovations in RFID and microwave processing.
 
-### Jay Warrior, PhD
+### [Jay Warrior](https://www.linkedin.com/in/jaywarrior/), PhD
 Jay holds a PhD in control systems and has held leadership positions in global leaders such as Agilent & .
 
-### Karan Raj Pradhan - Firmware Lead
+### [Karan Raj Pradhan](https://www.linkedin.com/in/karanrajpradhan/) - Firmware Lead
 
-### Shubham Mohapatra - Hardware Lead
+### [Shubham Mohapatra](https://www.linkedin.com/in/shubham-mohapatra-6034279a/) - Hardware Lead
 
