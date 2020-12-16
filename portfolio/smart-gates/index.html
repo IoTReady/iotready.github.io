@@ -137,21 +137,32 @@
     
     
     <div class="post-image">
-      <img src="/images/4.jpg" alt="Elsema Smart Gates" />
+      <img src="/images/elsema_remote.jpg" alt="Elsema Smart Gates" />
     </div><!-- .post-image -->
     
     <div class="post-content inner-sm">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo eget magna fermentum iaculis eu non diam. Id volutpat lacus laoreet non. Faucibus pulvinar elementum integer enim. Malesuada fames ac turpis egestas integer eget aliquet nibh. Turpis massa sed elementum tempus. Potenti nullam ac tortor vitae purus faucibus. Duis ut diam quam nulla porttitor massa. Ultrices dui sapien eget mi proin sed libero enim. Nibh venenatis cras sed felis eget velit aliquet. Nec ullamcorper sit amet risus nullam. Duis at tellus at urna. Pulvinar elementum integer enim neque. Amet cursus sit amet dictum sit amet justo. Aliquam nulla facilisi cras fermentum odio eu. Cursus in hac habitasse platea dictumst quisque sagittis. Euismod nisi porta lorem mollis aliquam ut porttitor leo.</p>
-
-<p>Eget nunc scelerisque viverra mauris in aliquam sem fringilla. Ornare arcu dui vivamus arcu felis bibendum. Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Ut sem nulla pharetra diam sit amet nisl suscipit. Fermentum leo vel orci porta. Facilisis volutpat est velit egestas. Et pharetra pharetra massa massa ultricies mi quis. Id aliquet risus feugiat in ante metus dictum at tempor. Magna fermentum iaculis eu non diam phasellus. Tellus cras adipiscing enim eu turpis egestas.</p>
+      <h2 id="customer">Customer</h2>
+<p><a href="https://www.elsema.com/">Elsema</a></p>
 
 <blockquote>
-  <p>“Designers are meant to be loved, not to be understood.” - Margaret Oscar</p>
+  <p>Elsema is a renowned name in providing a range of niche wireless remote control technologies, automatic gate and door products.</p>
 </blockquote>
 
-<p>Orci ac auctor augue mauris augue neque. Id semper risus in hendrerit gravida rutrum quisque. Et leo duis ut diam quam nulla porttitor massa. Condimentum vitae sapien pellentesque habitant morbi. Vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Hendrerit dolor magna eget est lorem ipsum dolor sit. Ipsum dolor sit amet consectetur. Eu augue ut lectus arcu bibendum at. Etiam non quam lacus suspendisse. Leo integer malesuada nunc vel. Consequat id porta nibh venenatis. Sollicitudin nibh sit amet commodo nulla facilisi nullam. Aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod. Facilisis leo vel fringilla est ullamcorper eget nulla facilisi etiam.</p>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Elsema wanted to offer their customers an app based interface to control gates as an alternative to their range of wireless remote control fobs.</p>
 
-<p>Tortor consequat id porta nibh. Lorem ipsum dolor sit amet consectetur adipiscing elit ut aliquam. Ante metus dictum at tempor. Consectetur adipiscing elit ut aliquam purus. Mauris in aliquam sem fringilla. Sed adipiscing diam donec adipiscing tristique. Posuere ac ut consequat semper viverra nam libero justo. Vulputate ut pharetra sit amet aliquam id diam maecenas ultricies. Molestie nunc non blandit massa enim nec. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices. Ac turpis egestas integer eget aliquet. Consectetur purus ut faucibus pulvinar elementum integer enim. Quis ipsum suspendisse ultrices gravida dictum fusce. Elit ullamcorper dignissim cras tincidunt lobortis. Non enim praesent elementum facilisis leo vel. Mi ipsum faucibus vitae aliquet nec ullamcorper. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Senectus et netus et malesuada fames. Massa sed elementum tempus egestas sed sed.</p>
+<h2 id="solution">Solution</h2>
+
+<p><img src="/images/elsema_animation.gif" alt="Elsema Animation" /></p>
+
+<p>Elsema had already chosen <strong>AWS IoT</strong> as their chosen backend for device-cloud-app communications. They reached out to us for our <strong>Flutter</strong> mobile app code kit that supports AWS IoT out of the box. The code kit has allowed them to focus their energy on building a great user experience and not worry about the complexities on <strong>MQTT</strong> on Android and iOS. The code kit also includes a simple flow to configure WiFi on their chosen hardware.</p>
+
+<h3 id="challenges">Challenges</h3>
+
+<ul>
+  <li>AWS IoT is wonderful and is our recommended solution for IoT brokers. However, there is no official Flutter support. So we built and open sourced our own plugin for securely connecting and communicating from Flutter!</li>
+  <li>MQTT connections are persistent but can be a challenge to maintain when apps go into the background. We had to cover a number of edge cases to ensure that the apps stay connected.</li>
+</ul>
 
     </div>
   </article><!-- .post -->
