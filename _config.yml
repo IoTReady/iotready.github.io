@@ -20,10 +20,10 @@ header:
     - label: Blog
       url: /blog/
       style: link
-    - label: Docs
-      url: https://iotready.github.io/docs/
-      style: link
-      new_window: true
+    # - label: Docs
+      # url: https://iotready.github.io/docs/
+      # style: link
+      # new_window: true
     - label: About
       url: /about/
       style: link

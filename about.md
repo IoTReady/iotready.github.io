@@ -1,7 +1,7 @@
 ---
 title: About Us
 # subtitle: Simplifying IoT
-# image: images/about.jpg
+image: images/about.jpg
 layout: page
 ---
 

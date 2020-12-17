@@ -44,29 +44,29 @@ sections:
       - title: Team Mentoring
         content: >-
           We help teams ship great IoT products through code reviews, technical 
-          discussions, architectural advice and training. Check out our docs to get started for free.
-  - section_id: testimonials
-    type: section_testimonials
-    title: Testimonials
+          discussions, architectural advice and training. Check out our docs (coming soon) to get started for free.
+  # - section_id: testimonials
+    # type: section_testimonials
+    # title: Testimonials
     # subtitle: An optional subtitle of the section
-    col_number: three
-    testimonials:
-      - author: Alain Djikstra (Kaiyan)
-        avatar: images/sean_salazar.jpg
-        content: >-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl
-          ligula, cursus id molestie vel, maximus aliquet risus. Vivamus in nibh
-          fringilla.
-      - author: Homi Patel (REPL)
-        avatar: images/aubrey_hoover.jpg
-        content: >-
-          Vestibulum a nunc ut eros condimentum posuere. Nullam dapibus quis
-          nunc non interdum. Pellentesque tortor ligula, gravida ac commodo eu.
-      - author: Olafur Jonsson (Tovalia)
-        avatar: images/deegan_wallace.jpg
-        content: >-
-          Sed laoreet magna commodo libero euismod sodales. Nunc ac libero
-          convallis, interdum ligula vel, pretium diam.
+    # col_number: three
+    # testimonials:
+    #   - author: Alain Djikstra (Kaiyan)
+    #     avatar: images/sean_salazar.jpg
+    #     content: >-
+    #       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl
+    #       ligula, cursus id molestie vel, maximus aliquet risus. Vivamus in nibh
+    #       fringilla.
+    #   - author: Homi Patel (REPL)
+    #     avatar: images/aubrey_hoover.jpg
+    #     content: >-
+    #       Vestibulum a nunc ut eros condimentum posuere. Nullam dapibus quis
+    #       nunc non interdum. Pellentesque tortor ligula, gravida ac commodo eu.
+    #   - author: Olafur Jonsson (Tovalia)
+    #     avatar: images/deegan_wallace.jpg
+    #     content: >-
+    #       Sed laoreet magna commodo libero euismod sodales. Nunc ac libero
+    #       convallis, interdum ligula vel, pretium diam.
   - section_id: latest-posts
     type: section_posts
     title: Latest from the Blog
