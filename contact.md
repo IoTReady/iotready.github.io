@@ -9,7 +9,7 @@ sections:
       fill the contact form below or send us an email at
       [hello@iotready.co](mailto:hello@iotready.co).
     form_id: contactForm
-    form_action: /thank-you
+    form_action: https://MailThis.to/hello@iotready.co
     form_fields:
       - input_type: text
         name: name
