@@ -2,7 +2,7 @@
 <html lang="en">
     <head>    
 
-        <title>Smart Termination - IoTReady</title>
+        <title>Open Source Foundations - IoTReady</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="google" content="notranslate" />
@@ -63,7 +63,7 @@
             
               
               
-              <li class="menu-item">
+              <li class="menu-item current-menu-item">
                 
                 
 <a class="" href="/open-source/" >
@@ -139,40 +139,90 @@
 
   <article class="post post-full">
     <header class="post-header inner-sm">
-      <h1 class="post-title line-top">Smart Termination</h1>
+      <h1 class="post-title line-top">Open Source Foundations</h1>
       
-      
-      <div class="post-subtitle">
-        Self-powered current and temperature sensors for the smart grid.
-      </div>
       
     </header>
     
     
-    <div class="post-image">
-      <img src="/images/smart_termination.jpg" alt="Smart Termination" />
-    </div><!-- .post-image -->
-    
     <div class="post-content inner-sm">
-      <h2 id="customer---repl">Customer - <a href="https://www.repl.com/">REPL</a></h2>
+      <p>We wouldn’t have made it very far without the open source community and are working hard on contributing back. The table aims to maintain a comprehensive list of our existing contributions with links.</p>
 
-<blockquote>
-  <p>One of the leading manufacturers of cable accessories for power and telecom industries across the globe.</p>
-</blockquote>
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Last Release</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ESP32 Firmware</td>
+      <td>01/2021</td>
+      <td>Code Review</td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/rx_ble">RX-BLE Plugin For Flutter</a></td>
+      <td>04/2020</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/wifi_configuration">WiFi Config Plugin For Flutter</a></td>
+      <td>11/2019</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/plugin_scaffold">Plugin Scaffold For Flutter</a></td>
+      <td>04/2020</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/aws_iot">AWS IoT For Flutter</a></td>
+      <td>12/2019</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/flutter_cognito_plugin">AWS Cognito For Flutter</a></td>
+      <td>06/2020</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/aws_appsync">AWS AppSync For Flutter</a></td>
+      <td>04/2020</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/flutter_pdf_viewer">PDF Viewer For Flutter</a></td>
+      <td>04/2020</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/network_file">Network File Sync For Flutter</a></td>
+      <td>09/2019</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/super_logging">Super Logger For Flutter</a></td>
+      <td>10/2020</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://pub.dev/packages/keyboard">Keyboard Events For Flutter</a></td>
+      <td>12/2019</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
 
-<h2 id="problem-statement">Problem Statement</h2>
-<p>REPL wanted to develop a self-powered, remote comms enabled version of their medium voltage (MV) smart termination while lowering the costs to allow larger scale rollouts.</p>
+<h2 id="todo">TODO</h2>
+<p><em>We will release these as time permits. However, if you have an urgent need for any of these or are willing to poke around slightly raw tools, please do reach out!</em></p>
 
-<h2 id="solution">Solution</h2>
-<p><img src="/images/smart_termination.jpg" alt="Smart Termination Sensor" /></p>
-
-<p>We combined off-the-shelf sensor components with a cleverly engineered energy-harvesting circuitry to build a self-powered current and temperature sensor with modular BLE/GPRS/Modbus communication interfaces. This IP is now the basis for the next generation REPL smart terminations.</p>
-
-<h3 id="challenges">Challenges</h3>
 <ul>
-  <li>Terminations have a lifetime of 10 year or more. Careful combination of lithium-ion batteries and supercapacitors allows us to achieve this lifetime.</li>
-  <li>We scouted the world to build a robust supply chain keeping quality and costs in mind and found a key supplier in our backyard!</li>
-  <li>Achieving Class 1 (1%) accuracy needed lots of expert tuning of the sensing circuit and the ADC firmware.</li>
+  <li>CAD files for most of our antenna library</li>
+  <li>Calculation tools for antenna range and size modeling</li>
+  <li>Sustain OS - collection of mods to Alpine Linux + flashing tools suitable for Raspberry Pi 3 and other Armv7 boards</li>
+  <li>Some more Flutter plugins as we abstract common patterns into plugins.</li>
 </ul>
 
     </div>

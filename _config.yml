@@ -17,6 +17,12 @@ header:
     - label: Portfolio
       url: /portfolio/
       style: link
+    - label: Open Source
+      url: /open-source/
+      style: link
+    - label: IP
+      url: /ip/
+      style: link
     - label: Blog
       url: /blog/
       style: link

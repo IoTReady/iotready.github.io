@@ -31,11 +31,13 @@ sections:
           Our firmware base for the ESP32 and ESP8266 allows the same ease 
           of use as Arduino without compromising on performance, 
           customisability or licensing.
+        url: /open-source/
       - title: Licensed IP
         content: >-
           Build your next product with our specialist hardware designs or 
           use our battle-tested, customisable code kits for mobile and voice 
           apps to make great IoT apps.
+        url: /ip/
       - title: Realtime Dashboard
         content: >-
           Our web based dashboard integrates with your existing 
