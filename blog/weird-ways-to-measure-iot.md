@@ -40,7 +40,7 @@ So here are the aha’s that finally allowed us to meet our goals.
 
 And this is what the final system architecture looked like..
 
-![gas measurement](images/proxy_biogas_measurement.jpg)
+![gas measurement](/images/proxy_biogas_measurement.jpg)
 
 We ended up with a low cost gas consumption measurement capability, a reliable way to capture data for billing purposes, and a process, that by using a human in the loop, provided a level of reliability that would have been hard to achieve with a more technical IoT solution.
 
