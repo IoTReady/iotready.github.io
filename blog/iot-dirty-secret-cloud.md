@@ -37,7 +37,7 @@ This architectural failure in IoT system design has been the subject of much int
 
 The decision as to how to partition functionality between the various levels of control and data processing and the devices on which the control and data processing happens is critical to obtaining a robust and performant IoT system. This is driven of course by the needs of the application, and so we need to start with the architecture of the problem.
 
-The European Union has for many years been working towards a vision for the future of industrial manufacturing called Industry 4.0. It has yielded, in my opinion one of the best architectural models for building such systems. This model is the Reference Architectural Model Industry 4.0. RAMI is a DIN standard (91345) and an IEC pre-standard (PAS 63088). Needless to say it applies squarely to IoT solutions, and I will use it in this and future articles to talk about the various critical components of an IoT solution.
+The European Union has for many years been working towards a vision for the future of industrial manufacturing called Industry 4.0. It has yielded, in my opinion one of the best architectural models for building such systems. This model is the [Reference Architectural Model Industry 4.0](https://www.plattform-i40.de/PI40/Redaktion/EN/Downloads/Publikation/rami40-an-introduction.pdf?__blob=publicationFile&v=7). RAMI is a DIN standard (91345) and an IEC pre-standard (PAS 63088). Needless to say it applies squarely to IoT solutions, and I will use it in this and future articles to talk about the various critical components of an IoT solution.
 
 ![RAMI](/images/RAMI.png)
 
