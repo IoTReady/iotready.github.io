@@ -8,7 +8,7 @@ image: images/iot_arch_.png
 layout: post
 ---
 
-![Good/Bad IoT](images/iot_arch.png)
+
 Yes, really. Let me explain why.
 
 It all arises because of the dependence of the vast majority of IoT solutions on a cloud back-end. While attractive for many reasons, using a cloud based solution for certain key parts of your infrastructure can lead to pretty dramatic loss of functionality when things go wrong.
