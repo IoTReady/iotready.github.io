@@ -32,11 +32,11 @@ One of the principles we talk about is that it’s not really the IoT (Internet 
 
 So here are the aha’s that finally allowed us to meet our goals.
 
-    Since the components are all standardized, gas flow rates can be measured on the product at the factory, and only a one time flow measurement needs to be taken. The pump provides a constant volume of gas at a nominal pressure head that is sufficient to operate the cooking stove.
-    The amount of gas used under these conditions is therefore directly related to the amount of time that the pump is operating.
-    We can measure the amount of time that the pump runs by simply connecting a low cost data logger in line with the pump to measure the cumulative operating time.
-    Since there is a field operative who visits every couple of weeks to service the waste composter and take away the slurry, we actually have a communication channel back to headquarters.
-    A simple app on the field operative’s phone that retrieves the operating time from the data logger via BLE and resets the data logger enables billing information to be collected and then aggregated back at the main service centre.
+* Since the components are all standardized, gas flow rates can be measured on the product at the factory, and only a one time flow measurement needs to be taken. The pump provides a constant volume of gas at a nominal pressure head that is sufficient to operate the cooking stove.
+* The amount of gas used under these conditions is therefore directly related to the amount of time that the pump is operating.
+* We can measure the amount of time that the pump runs by simply connecting a low cost data logger in line with the pump to measure the cumulative operating time.
+* Since there is a field operative who visits every couple of weeks to service the waste composter and take away the slurry, we actually have a communication channel back to headquarters.
+* A simple app on the field operative’s phone that retrieves the operating time from the data logger via BLE and resets the data logger enables billing information to be collected and then aggregated back at the main service centre.
 
 And this is what the final system architecture looked like..
 
