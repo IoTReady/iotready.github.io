@@ -26,7 +26,7 @@ An important part of the economic model was the ability to measure the gas consu
 
 We took a step back. The problem was not just a gas measurement that was required, but a mechanism to communicate weekly or monthly gas consumptions back to the startup for billing. Cellular infrastructure was spotty to say the least, and even when it was present the combination of GPRS hardware and communication costs would even further worsen the product budget.
 
-My colleagues and I have long talked about building practical IoT systems, and some of the design features and principles that we believe will be essential to success in building these kinds of systems, particularly in low resource applications. (Towards a Practical Architecture for Internet of Things: An India-centric View)
+My colleagues and I have long talked about building practical IoT systems, and some of the design features and principles that we believe will be essential to success in building these kinds of systems, particularly in low resource applications. [Towards a Practical Architecture for Internet of Things: An India-centric View](https://iot.ieee.org/newsletter/january-2015/towards-a-practical-architecture-for-internet-of-things-an-india-centric-view.html)
 
 One of the principles we talk about is that it’s not really the IoT (Internet of Things) but the IoPT (The Internet of People and Things). For multiple reasons - cost, resilience, business models, etc, people are fundamental components of a viable IoT system.
 
