@@ -30,7 +30,7 @@ We run across interesting solutions to problems that use weight as a proxy measu
 
 The application was for a company that made home and community composting bins. The company had developed its own clay container based composting systems for home users and had subsequently branched out with specially designed, larger, plastic composters for communities. The brand was built around the idea of the ability of the individual or community to have an impact through their direct actions. Here is a picture of the type of composter for which this kind of solution can be easily incorporated / retrofitted.
 
-![example composter](images/example_compost.jpg)
+![example composter](/images/example_compost.jpg)
 
 While there was obvious physical feedback through watching waste go through the composting process and the creation of compost that an individual could use, the idea was to look for ways to show the impact on a larger scale, especially for larger groups like homeowner associations who might have specific recycling goals.
 

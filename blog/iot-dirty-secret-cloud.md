@@ -39,7 +39,7 @@ The decision as to how to partition functionality between the various levels of 
 
 The European Union has for many years been working towards a vision for the future of industrial manufacturing called Industry 4.0. It has yielded, in my opinion one of the best architectural models for building such systems. This model is the Reference Architectural Model Industry 4.0. RAMI is a DIN standard (91345) and an IEC pre-standard (PAS 63088). Needless to say it applies squarely to IoT solutions, and I will use it in this and future articles to talk about the various critical components of an IoT solution.
 
-![RAMI](images/RAMI.png)
+![RAMI](/images/RAMI.png)
 
 The RAMI reference model is structured as a cube with three complementary axes. The first is the hierarchy level axis. It corresponds most closely with the architectural models that you are most used to seeing, and stretches from devices in the field up through enterprise systems. The second is the functional layer axis. It describes the various meta-data and information transformations as we move from a physical asset on the shop floor upto the highest level of an organization or business process. The third and most often ignored axis is the life-cycle axis which considers the evolution of a system and its components from the earliest stages of development through deployment and maintenance. It forces one to take a holistic view of the various components of a system and their evolution over time.
 

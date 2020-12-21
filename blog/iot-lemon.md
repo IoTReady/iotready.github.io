@@ -3,8 +3,8 @@ title: The Internet of Things Lemon
 excerpt: >-
   This is a picture of a simple lemon that I bought in the grocery store the other day. This particular brand of lemon is really juicy. It’s also an organic lemon which is important if you are going to use some of the rind for zest in your salad dressing recipe.
 date: '2020-10-30'
-thumb_image: images/lemon.jpg
-image: images/lemon.jpg
+thumb_image: images/lemon.png
+image: images/lemon.png
 layout: post
 ---
 
