@@ -3,8 +3,8 @@ title: IoT’s big dirty secret - It’s the cloud!
 excerpt: >-
   It all arises because of the dependence of the vast majority of IoT solutions on a cloud back-end.
 date: '2020-12-03'
-thumb_image: images/iotsecret.jpg
-image: images/iotsecret.jpg
+thumb_image: images/cloudfactory.jpg
+image: images/cloudfactory.jpg
 layout: post
 ---
 
