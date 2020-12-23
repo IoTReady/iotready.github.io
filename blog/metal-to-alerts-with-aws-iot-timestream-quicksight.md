@@ -27,6 +27,8 @@ To achieve this, we will:
 
 ## Git Repo Structure
 
+[https://github.com/IoTReady/aws_iot_demo](https://github.com/IoTReady/aws_iot_demo)
+
 - `master` = final code + AWS IoT configuration + Grafana dashboard JSON
 - `1_python_script` = Python script without AWS IoT integration (print to console)
 - `2_aws_iot` = Python script with AWS IoT integration (shadow updates)
