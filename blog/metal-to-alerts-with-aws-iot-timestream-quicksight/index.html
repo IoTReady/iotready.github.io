@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>From Metal To Alerts With AWS IoT, Timestream and QuickSight - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="AWS IoT and aligned PaaS offerings have come a long way since being launched in the early 2010s. They allow you to build robust, scalable workflows for cloud-connected IoT applications."/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink">
+  <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full">
+    <header class="post-header inner-sm">
+      <h1 class="post-title line-top">From Metal To Alerts With AWS IoT, Timestream and QuickSight</h1>
+      
+      
+      <div class="post-subtitle">
+        Using only AWS PaaS offerings for an end-to-end IoT workflow.
+      </div>
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/timestream_quicksight_dashboard.png" alt="From Metal To Alerts With AWS IoT, Timestream and QuickSight" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <h1 id="why">Why</h1>
+
+<p>We have been doing similar workflows for 5+ years now, much longer if you count fully custom tools. So have countless others. Yet, if you asked a new engineer to build this, you can wave goodbye to a few weeks of their effort as they navigate obtuse documentation and outdated StackOverflow answers. This is our attempt to document what’s possible with PaaS tools in 2020.</p>
+
+<h2 id="what-are-we-going-to-build">What are we going to build?</h2>
+
+<p>To achieve this, we will:</p>
+
+<ol>
+  <li>Write a Python script that monitors system metrics (CPU, Memory, Temperature, Fan)
+    <ol>
+      <li>You could replace this with actual hardware, perhaps run this script on an Raspberry Pi or even send FreeRTOS metrics from ESP32 but we will save that for another day.</li>
+    </ol>
+  </li>
+  <li>Create multiple <code class="highlighter-rouge">things</code> on AWS IoT Core.</li>
+  <li>Send these metrics as shadow updates to AWS IoT every 10s (configurable)</li>
+  <li>Configure AWS IoT to route shadow updates to a database</li>
+  <li>Set up a visualisation tool and create dashboards using these updates</li>
+  <li>Add a few simple alerts on our visualiation tool to send notifications if system metrics cross a threshold</li>
+</ol>
+
+<h2 id="git-repo-structure">Git Repo Structure</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">master</code> = final code + AWS IoT configuration + Grafana dashboard JSON</li>
+  <li><code class="highlighter-rouge">1_python_script</code> = Python script without AWS IoT integration (print to console)</li>
+  <li><code class="highlighter-rouge">2_aws_iot</code> = Python script with AWS IoT integration (shadow updates)</li>
+</ul>
+
+<h2 id="1---python-script-for-system-metrics">1 - Python Script For System Metrics</h2>
+
+<p>We are going to adapt this excellent <a href="https://www.pragmaticlinux.com/2020/12/monitor-cpu-and-ram-usage-in-python-with-psutil/">blog post</a> to create our system monitor script.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 -m venv venv
+source venv/bin/activate
+echo psutil==5.8.0 &gt; requirements.txt
+pip install -r requirements.txt
+touch sysmon.py
+</code></pre></div></div>
+
+<ol>
+  <li>Edit <code class="highlighter-rouge">sysmon.py</code> in your preferred text editor and add in the following functions from the blog post:
+    <ul>
+      <li><code class="highlighter-rouge">get_cpu_usage_pct</code></li>
+      <li><code class="highlighter-rouge">get_cpu_frequency</code></li>
+      <li><code class="highlighter-rouge">get_cpu_temp</code></li>
+      <li><code class="highlighter-rouge">get_ram_usage</code></li>
+      <li><code class="highlighter-rouge">get_ram_total</code></li>
+    </ul>
+  </li>
+  <li>Next, create a <code class="highlighter-rouge">main</code> function that calls each of these functions and populates a dictionary: <code class="highlighter-rouge">payload</code> and prints it.
+    <ol>
+      <li>We will also add a <code class="highlighter-rouge">timestamp</code> to the payload for use in visualisations later.</li>
+    </ol>
+  </li>
+  <li>Add a <code class="highlighter-rouge">while(1)</code> that calls this <code class="highlighter-rouge">main</code> function every 10 seconds.</li>
+  <li>Add an argument parser so we can pass the <code class="highlighter-rouge">interval</code> and a <code class="highlighter-rouge">device_id</code> as command line arguments.</li>
+  <li>Run the script with <code class="highlighter-rouge">python sysmon.py 10 my_iot_device_1</code></li>
+</ol>
+
+<p>You should see output similar to:
+<img src="/images/python_script.png" alt="sysmon.py output" /></p>
+
+<h2 id="2---aws-iot-integration">2 - AWS IoT Integration</h2>
+
+<p>Now, we will add in the ability to send our metrics to AWS IoT. But first, we need to register our devices or <code class="highlighter-rouge">things</code> as AWS calls them.</p>
+
+<h3 id="registering-the-devices">Registering the devices</h3>
+
+<p>We will register the devices individually via the AWS Console. However, if you have a large number of devices to register, you may want to script it or use <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html">Bulk Registration</a> via <code class="highlighter-rouge">aws-cli</code> or the AWS IoT Core Console.</p>
+
+<blockquote>
+  <p>We are using <code class="highlighter-rouge">us-east-1</code> aka N. Virginia for integration later with Amazon Timestream which is not yet available in all regions.</p>
+</blockquote>
+
+<ol>
+  <li>Click on <code class="highlighter-rouge">Create a single thing</code>
+    <ol>
+      <li>Give your thing a name, e.g. <code class="highlighter-rouge">my_iot_device_1</code></li>
+      <li>You can skip <code class="highlighter-rouge">Thing Type</code> and <code class="highlighter-rouge">Group</code> for this demo.</li>
+      <li>Create the thing</li>
+    </ol>
+  </li>
+  <li>Use the <code class="highlighter-rouge">One-click certificate creation (recommended)</code> option to generate the certificates.
+    <ol>
+      <li>Download the generated certificates and the root CA certificate.</li>
+      <li>Activate the certificates.</li>
+    </ol>
+  </li>
+  <li>Attach a policy and register the <code class="highlighter-rouge">Thing</code>.
+    <ol>
+      <li>Because we are cavalier and this is a demo, we are using the following <code class="highlighter-rouge">PubSubToAny</code> policy.</li>
+      <li><strong>DO NOT</strong> use this in production!</li>
+    </ol>
+  </li>
+</ol>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iot:*"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now repeat this a couple more times so we have a few things. I am setting up 3 devices with the imaginative names: <code class="highlighter-rouge">my_iot_device_1</code>, <code class="highlighter-rouge">my_iot_device_2</code>, <code class="highlighter-rouge">my_iot_device_3</code>.</p>
+
+<p>Finally, we will rename our certificates to match our thing names so that it’s easier to script together. For instance, I am using the rename utility to bulk rename my certificates:</p>
+
+<p><img src="/images/rename_certs.png" alt="Bulk renaming certs" /></p>
+
+<h3 id="adding-the-aws-iot-sdk">Adding the AWS IoT SDK</h3>
+
+<p>Because AWS IoT supports MQTT, we could use any MQTT client that supports X.509 certificates. However, to keep things simple, we will use the <a href="https://github.com/aws/aws-iot-device-sdk-python">official Python SDK</a> from AWS IoT. Specifically, we will adapt the <a href="https://github.com/aws/aws-iot-device-sdk-python/blob/master/samples/basicShadow/basicShadowUpdater.py"><code class="highlighter-rouge">basicShadowUpdater.py</code> sample</a>.</p>
+
+<ul>
+  <li>Please inspect <code class="highlighter-rouge">aws_shadow_upater.py</code> for the changes we are making. Primarily, we are wrapping the functionality into 2 functions:
+    <ul>
+      <li><code class="highlighter-rouge">init_device_shadow_handler</code> that takes AWS IoT specific config parameters and returns a <code class="highlighter-rouge">deviceShadowHandler</code> specific to our configuration and thing.</li>
+      <li><code class="highlighter-rouge">update_device_shadow</code> that takes our system metrics payload and wraps it into a <code class="highlighter-rouge">json</code> structure that AWS IoT expects for <code class="highlighter-rouge">device shadows</code>.</li>
+    </ul>
+  </li>
+  <li>We will also take this opportunity to modularise our code a bit by moving the <code class="highlighter-rouge">main</code> function from <code class="highlighter-rouge">sysmon.py</code> into its own separate file.</li>
+  <li>Within <code class="highlighter-rouge">main.py</code> we are reading our AWS configuration from a combination of environment variables and the local certificates.
+    <ul>
+      <li>We only need the following: <code class="highlighter-rouge">export AWS_IOT_HOST=YOUR_AWS_IOT_ENDPOINT.amazonaws.com</code> and <code class="highlighter-rouge">export CERTS_DIR=certs</code> assuming you are keeping your certificates in <code class="highlighter-rouge">certs/</code>.</li>
+      <li>You will probably want to create a script or <code class="highlighter-rouge">.env</code> file to set these environment variables</li>
+      <li>For good measure, we are also verifying that the certificates actually exist.</li>
+    </ul>
+  </li>
+  <li>With this done, we stitch our two modules <code class="highlighter-rouge">sysmon.py</code> and <code class="highlighter-rouge">aws_shadow_updater.py</code> together and start publishing updates. If all goes well, you should see the following in your terminal and your AWS Console (go to Thing -&gt; Shadows -&gt; Classic Shadow)</li>
+</ul>
+
+<p><img src="/images/aws_iot_terminal.png" alt="Terminal Output" /></p>
+
+<p><img src="/images/aws_iot_console.png" alt="AWS Console" /></p>
+
+<h2 id="3---simulating-multiple-devices">3 - Simulating Multiple Devices</h2>
+
+<blockquote>
+  <p>We are done with almost all of the coding needed to get this working.</p>
+</blockquote>
+
+<p>This is an easy one, open up multiple terminals/tabs and start a separate process for updating the shadow for each <code class="highlighter-rouge">device</code>. Something like this:</p>
+
+<p><img src="/images/multiple_shadow_updates.png" alt="Multiple Devices" /></p>
+
+<h2 id="4---persisting-shadow-updates">4 - Persisting Shadow Updates</h2>
+
+<p>In order to visualise, and perhaps analyse, these metrics, we need to persist them in some form of database. Thankfully, AWS IoT has a <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rules.html">Rules Engine</a> designed for just this purpose. The Rules Engine is essentially a message router with the ability to filter messages using an SQL syntax and send them to various destiations.</p>
+
+<p>Go to <code class="highlighter-rouge">AWS IoT Core -&gt; Act -&gt; Rules</code> to get started.</p>
+
+<p>There are 2 steps to enabling rules:</p>
+<ol>
+  <li>Filter: Select the messages we want to act on.</li>
+  <li>Act: Select the action(s) we want to run for each filtered message.</li>
+</ol>
+
+<h3 id="filter">Filter</h3>
+
+<p>AWS IoT uses a reduced <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html">SQL syntax</a> for filtering messages. Points to note:</p>
+
+<ul>
+  <li>The <a href="https://docs.aws.amazon.com/iot/latest/developerguide/device-shadow-mqtt.html#update-pub-sub-topic">shadow topic</a> we are interested in is <code class="highlighter-rouge">$aws/things/thingName/shadow/update</code> where we need to replace <code class="highlighter-rouge">thingName</code> with the wildcard <code class="highlighter-rouge">+</code>. Follow <a href="https://docs.aws.amazon.com/iot/latest/developerguide/topics.html">this reference</a> on topics and wildcards.</li>
+  <li>The content of each message contains the entire <code class="highlighter-rouge">state</code> with <code class="highlighter-rouge">desired</code> and <code class="highlighter-rouge">reported</code> properties as well as other metadata. We will need to unpack the <code class="highlighter-rouge">reported</code> property to get the data we need. Follow <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-select.html">this reference</a> for more details.</li>
+</ul>
+
+<p>Our SQL filter will look essentially like this:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> 
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_usage</span> <span class="k">as</span> <span class="n">cpu_usage</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_freq</span> <span class="k">as</span> <span class="n">cpu_freq</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_temp</span> <span class="k">as</span> <span class="n">cpu_temp</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">ram_usage</span> <span class="k">as</span> <span class="n">ram_usage</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">ram_total</span> <span class="k">as</span> <span class="n">ram_total</span>
+<span class="k">FROM</span> <span class="s1">'$aws/things/+/shadow/update'</span>
+</code></pre></div></div>
+
+<p>Before we can save this rule, we will also need to add an <code class="highlighter-rouge">action</code>. Actions define what to do with the filtered messages. This depends on our choice of database.</p>
+
+<h3 id="act">Act</h3>
+
+<p>AWS IoT supports a large range of actions out of the box including CloudWatch, DynamoDB, ElasticSearch, Timestream DB and custom HTTP endpoints. See the <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rule-actions.html">full list here</a>.</p>
+
+<p>To confirm that our messages are coming through and we are able to store them, we will use the shiny, new time series database from AWS - Timestream. We will also enable the <code class="highlighter-rouge">CloudWatch</code> action in case of errors.</p>
+
+<h4 id="timestream-db">Timestream DB</h4>
+
+<p>As of this writing Timestream is only available in 4 regions.</p>
+
+<p><img src="/images/aws_timestream_regions.png" alt="Timestream Regions" /></p>
+
+<p>It’s <strong>essential</strong> to create the DB in the same region as your AWS IoT endpoint as the Rules Engine does not, yet, support multiple regions for the built-in actions. _You could use a Lambda function to do this for you but that’s more management and cost.</p>
+
+<p>We will create a <code class="highlighter-rouge">Standard</code> (empty) DB with the name <code class="highlighter-rouge">aws_iot_demo</code>:</p>
+
+<p><img src="/images/create_timestream_db.png" alt="Create Timestream DB" /></p>
+
+<p>We will also need a <code class="highlighter-rouge">table</code> to store our data, so let’s do that too:</p>
+
+<p><img src="/images/create_timestream_table.png" alt="Create Timestream Table" /></p>
+
+<p>Once this is done, we can return to the rule we started creating earlier and add a new Action.</p>
+
+<p><img src="/images/aws_iot_action_timestream.png" alt="AWS IoT Action - Timestream" /></p>
+
+<p>Notes:</p>
+<ul>
+  <li>The AWS IoT Rule Action for Timestream needs at least one <a href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html"><code class="highlighter-rouge">dimension</code></a> to be specified. Dimensions can be used for grouping and filtering incoming data.</li>
+  <li>I used the following <code class="highlighter-rouge">key</code>:<code class="highlighter-rouge">value</code> pair using a substitution template - <code class="highlighter-rouge">device_id</code>: <code class="highlighter-rouge">${clientId()}</code></li>
+  <li>We are sending the device timestamp as part of the shadow update. If we include it as part of the <code class="highlighter-rouge">SELECT</code> query in the rule, Timestream will assume that <code class="highlighter-rouge">timestamp</code> is a measurement metric too.
+    <ul>
+      <li>Instead, we will ignore the device <code class="highlighter-rouge">timestamp</code> and use <code class="highlighter-rouge">${timestamp()}</code> as the time parameter within the Rule Action. This generates a server timestamp.</li>
+    </ul>
+  </li>
+  <li>You will also need to create or select an appropriate IAM role that lets AWS IoT to write to Timestream.</li>
+  <li>Timestream creates separate rows for each metric so each shadow update creates 5 rows.</li>
+</ul>
+
+<h4 id="cloudwatch">CloudWatch</h4>
+<p>This action is triggered if/when there is an error while processing our rule. Again, follow the guided wizard to create a new <code class="highlighter-rouge">Log Group</code> and assign permissions.</p>
+
+<p>At the end, your rule should look something like this:</p>
+
+<p><img src="/images/aws_iot_action_summary.png" alt="AWS IoT Rule Summary" /></p>
+
+<h3 id="query-timestream">Query Timestream</h3>
+
+<p>Assuming we have started our simulators again, we should start to see data being stored in Timestream. Go over to AWS Console -&gt; Timestream -&gt; Tables -&gt;  <code class="highlighter-rouge">aws_iot_demo</code> -&gt; Query Table. Type in the following query:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Get the 20 most recently added data points in the past 15 minutes. You can change the time period if you're not continuously ingesting data</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="nv">"aws_iot_demo"</span><span class="p">.</span><span class="nv">"aws_iot_demo"</span> <span class="k">WHERE</span> <span class="n">time</span> <span class="k">between</span> <span class="n">ago</span><span class="p">(</span><span class="mi">15</span><span class="n">m</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">()</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">time</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">20</span>
+</code></pre></div></div>
+
+<p>You should see output similar to the one below:</p>
+
+<p><img src="/images/timestream_query_output.png" alt="Timestream Query Output" /></p>
+
+<p>You will notice the separate rows for each metric. We will need a different query in order to combine the metrics into a single view, for instance for use with visualisation or analytics tools.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">BIN</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="mi">1</span><span class="n">m</span><span class="p">)</span> <span class="k">AS</span> <span class="n">time_bin</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_usage'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">double</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_usage</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_freq'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_freq</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_temp'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">double</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_temp</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'ram_usage'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_ram_usage</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'ram_total'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_ram_total</span>
+<span class="k">FROM</span> <span class="nv">"aws_iot_demo"</span><span class="p">.</span><span class="nv">"aws_iot_demo"</span>
+<span class="k">WHERE</span> <span class="n">time</span> <span class="k">between</span> <span class="n">ago</span><span class="p">(</span><span class="mi">15</span><span class="n">m</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">()</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">BIN</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="mi">1</span><span class="n">m</span><span class="p">),</span> <span class="n">device_id</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">time_bin</span> <span class="k">desc</span>
+</code></pre></div></div>
+
+<p>Your output should look something like this -</p>
+
+<p><img src="/images/timestream_combined_output.png" alt="Timestream Combined Output" /></p>
+
+<p>If you do see similar output, you are in business and we can continue to visualisation. If you don’t,</p>
+
+<ul>
+  <li>Check the Cloudwatch Logs for errors</li>
+  <li>Verify that your SQL syntax is correct - especially the topic</li>
+  <li>Ensure your Rule action has the right table and an appropriate IAM Role</li>
+  <li>Verify that your Device Shadow is getting updated by going over to AWS IoT -&gt; Things -&gt; my_iot_device_1 -&gt; Shadow</li>
+  <li>Looking for errors if any on the terminal where you are running the script.</li>
+</ul>
+
+<h2 id="pause-for-breath">Pause For Breath</h2>
+
+<p><img src="/images/sunrise.jpg" alt="Sunrise" /></p>
+
+<p>We have covered a lot of ground. So, let’s pause and reflect. Here’s what we have done so far:</p>
+
+<ol>
+  <li>Created a Python script to monitor common system metrics.</li>
+  <li>Hooked up this script to AWS IoT using the SDK and <code class="highlighter-rouge">Thing</code> certificates.</li>
+  <li>Simulated running multiples of these devices with sending a <code class="highlighter-rouge">Shadow</code> update.</li>
+  <li>Created a rule to persist these device shadows to <code class="highlighter-rouge">Timestream</code> and errors to <code class="highlighter-rouge">CloudWatch</code>.</li>
+  <li>Verified that we are actually getting our data.</li>
+</ol>
+
+<p>Now, we only have the small matter of visualising our data and setting up alerts in case any of our metrics cross critical thresholds.</p>
+
+<p>With a fresh cup of coffee, onwards…</p>
+
+<h2 id="5---visualisation">5 - Visualisation</h2>
+
+<p>Storage and visualisation are, in fact, two separate operations that need two different software tools. However, these are often so tightly coupled that choice of one often dictates choice of the other. Here’s a handy table that illustrates this.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Storage</th>
+      <th>Visualisation</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Timestream</td>
+      <td>AWS QuickSight</td>
+      <td>See demo below</td>
+    </tr>
+    <tr>
+      <td>Timestream</td>
+      <td>Grafana</td>
+      <td>See demo below</td>
+    </tr>
+    <tr>
+      <td>DynamoDB</td>
+      <td>AWS QuickSight</td>
+      <td>Needs CSV export to S3 first</td>
+    </tr>
+    <tr>
+      <td>DynamoDB</td>
+      <td>Redash</td>
+      <td>Works but with limitations, demo in future post</td>
+    </tr>
+    <tr>
+      <td>ElasticSearch</td>
+      <td>Kibana</td>
+      <td>Works well, demo in future post</td>
+    </tr>
+    <tr>
+      <td>ElasticSearch</td>
+      <td>Grafana</td>
+      <td>Simpler to just use Kibana</td>
+    </tr>
+    <tr>
+      <td>InfluxDB</td>
+      <td>InfluxDB UI</td>
+      <td>Works well, demo in future post</td>
+    </tr>
+    <tr>
+      <td>InfluxDB</td>
+      <td>Grafana</td>
+      <td>Simpler to just use the built-in UI</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>There are, of course, numerous other ways to do this. We will focus on the first two in that table.</p>
+
+<h3 id="timestream--aws-quicksight">Timestream + AWS QuickSight</h3>
+
+<p>QuickSight is a managed BI tool from AWS. The <a href="https://docs.aws.amazon.com/timestream/latest/developerguide/QuickSight.html">official documentation</a> to integrate Timestream with QuickSight is a little dense. However, it’s pretty straightforward if you are using <code class="highlighter-rouge">us-east-1</code> as your region.</p>
+
+<ol>
+  <li>Within QuickSight, click on the user icon at the top right and then on <code class="highlighter-rouge">Manage QuickSight</code>.</li>
+  <li>Here, go to <code class="highlighter-rouge">Security &amp; Permissions</code> -&gt; <code class="highlighter-rouge">QuickSight access to AWS services</code> and enable <code class="highlighter-rouge">Timestream</code> (see image below).</li>
+  <li>Next, within QuickSight, click on <code class="highlighter-rouge">New Dataset</code> and select <code class="highlighter-rouge">Timestream</code>. Click on <code class="highlighter-rouge">Validate Connection</code> to ensure you have given the permissions and confirm.</li>
+  <li>Upon confirmation, select <code class="highlighter-rouge">aws_iot_demo</code> from the discovered databases and select <code class="highlighter-rouge">aws_iot_demo</code> from the tables.</li>
+  <li>Click on <code class="highlighter-rouge">Visualise</code></li>
+</ol>
+
+<p>So far so good. I had to struggle for a while to understand how to get QuickSight to unpack the metrics from Timestream. Turns out, this is surprisingly easy if you follow this <a href="https://www.youtube.com/watch?v=TzW4HWl-L8s">tutorial video</a> from AWS. Essentially,</p>
+
+<ul>
+  <li>Create multiple visualisations</li>
+  <li>For each visualisation, add a filter on <code class="highlighter-rouge">measure_name</code>.</li>
+  <li>Click on <code class="highlighter-rouge">time</code> to add it to the X-axis. Change period to <code class="highlighter-rouge">Aggregrate: Minute</code>.</li>
+  <li>Click on <code class="highlighter-rouge">measure_value::bigint</code> or <code class="highlighter-rouge">measure_value::double</code> depending on the metric to add it to the Y-axis. Change to <code class="highlighter-rouge">Aggregate: Average</code>.
+    <ul>
+      <li>In our case, only <code class="highlighter-rouge">cpu_usage</code> is a <code class="highlighter-rouge">double</code>.</li>
+    </ul>
+  </li>
+  <li>Click on <code class="highlighter-rouge">device_id</code> to add separate lines for each device. This is added to <code class="highlighter-rouge">Color</code> in QuickSight.</li>
+</ul>
+
+<p>That’s it! My dashboard looks like this -</p>
+
+<p><img src="/images/timestream_quicksight_dashboard.png" alt="QuickSight Timestream Dashboard" /></p>
+
+<p>QuickSight is a full-fledged business intelligence (BI) tool with the ability to integrate with multiple data sources. QuickSight also has built-in anomaly detection. This makes it an incredibly powerful tool to use for IoT visualisations and analysis. We could even bring in non-IoT data such as that from an ERP. More on this in a later post!</p>
+
+<p>However, QuickSight:</p>
+<ul>
+  <li>Does not support alerts</li>
+  <li>Does not support calculations</li>
+  <li>Has limited visualisations</li>
+  <li>Does not support dashboard embeds, e.g. in a webpage</li>
+  <li>Charges <a href="https://aws.amazon.com/quicksight/pricing/?nc=sn&amp;loc=4">per user</a></li>
+</ul>
+
+<p>Mind you, the AWS IoT rules engine can be used quite easily for alerts so you <em>don’t</em> really need alerts in a separate tool. Having said that…</p>
+
+<h3 id="timestream--grafana">Timestream + Grafana</h3>
+
+<p><a href="https://grafana.com/">Grafana</a> has long been a favourite of anyone looking to create beautiful, lightweight dashboards. Grafana integrates with a zillion data sources via input plugins and has numerous visualisations via output plugins. Grafana only does visualisations and alerts but does it really well. There are open source and enterprise editions available.</p>
+
+<p>AWS has an upcoming managed <a href="https://aws.amazon.com/grafana/">Grafana service</a>. Until then, we will use the managed service from <a href="https://grafana.com">Grafana Cloud</a>. You could also spin up Grafana locally or on a VM somewhere with the <a href="https://grafana.com/docs/grafana/latest/installation/docker/">docker image</a>.</p>
+
+<p>There’s a <a href="https://www.youtube.com/watch?v=pilkz645cs4">video tutorial</a> available but you will need to adapt a fair bit to our example. Assuming you have either signed up for Grafana Cloud or installed it locally, you should now:</p>
+
+<ul>
+  <li>Install the <a href="https://grafana.com/grafana/plugins/grafana-timestream-datasource/installation">Amazon Timestream plugin</a></li>
+  <li>Back in Grafana, add a new <code class="highlighter-rouge">Data Source</code> and search for <code class="highlighter-rouge">Timestream</code>.</li>
+  <li>For authentication, we will use Access Key and Secret for a new IAM User.
+    <ul>
+      <li>Back in AWS, create a new user with the ~<code class="highlighter-rouge">AmazonTimestreamReadOnlyAccess</code> policy attached~ <code class="highlighter-rouge">admin</code> rights. For some reason, Grafana would not connect to Timestream even with the <code class="highlighter-rouge">AmazonTimestreamFullAccess</code> policy attached.</li>
+    </ul>
+  </li>
+  <li>Once the keys are in place, click on <code class="highlighter-rouge">Save &amp; Test</code></li>
+  <li>Select <code class="highlighter-rouge">aws_iot_demo</code> in the <code class="highlighter-rouge">$_database</code> field to set up the default DB. Try as I might, I could not get the dropdown for <code class="highlighter-rouge">$_table</code> to populate.</li>
+</ul>
+
+<p><img src="/images/grafana_timestream_settings.png" alt="Grafana Timestream Settings" /></p>
+
+<p>Now, click on <code class="highlighter-rouge">+ -&gt; Dashboard</code> and <code class="highlighter-rouge">+ Add new panel</code> to get started.</p>
+
+<p>Unlike QuickSight, Grafana allows you to build queries using <strong>SQL</strong>. So, for our first panel, let’s create a CPU Usage chart with the following query:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">device_id</span><span class="p">,</span>
+    <span class="n">CREATE_TIME_SERIES</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">double</span><span class="p">)</span> <span class="k">as</span> <span class="n">avg_cpu_usage</span>
+<span class="k">FROM</span> <span class="err">$</span><span class="n">__database</span><span class="p">.</span><span class="err">$</span><span class="n">__table</span>
+<span class="k">WHERE</span> <span class="err">$</span><span class="n">__timeFilter</span>
+    <span class="k">AND</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'$__measure'</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">device_id</span>
+</code></pre></div></div>
+
+<p><img src="/images/grafana_create_panel.png" alt="Grafana Panel" /></p>
+
+<p>We are essentially doing the same as QuickSight by defining a <code class="highlighter-rouge">where</code> clause to filter by metric and creating a time series that is grouped by <code class="highlighter-rouge">device_id</code>. The one, big, difference is the Grafana allows you to add multiple such queries to a single visualisation chart (panel in Grafana speak). Duplicating this panel and making the mods necessary, we end up with a dashboard very similar to that in QuickSight.</p>
+
+<p><img src="/images/grafana_timestream_dashboard.png" alt="Grafana Timestream Dashboard" /></p>
+
+<p>Notice that we get dashboard wide time controls for free!</p>
+
+<h3 id="alerts-with-grafana">Alerts With Grafana</h3>
+
+<p>Creating alerts with Grafana is surprisingly easy. Alerts use the same query as the panel and are created in the same UI.</p>
+
+<p><img src="/images/grafana_create_alert.png" alt="Grafana Create Alert" /></p>
+
+<p>By default, the alert is triggered on the average of the metric but you can change it a different calculation.</p>
+
+<p><img src="/images/grafana_alert_calculation_options.png" alt="Grafana Alert Options" /></p>
+
+<p>If you have multiple queries on a panel, you can even use a combination of queries!</p>
+
+<p>Alerts can trigger notifications to various <code class="highlighter-rouge">channels</code> with built-in options for all the major chat apps, email and webhooks. For instance, if you wanted to trigger a notification within a mobile app, you would set up an API somewhere that will be triggered by a webhook configuration within Grafana. Your API is then responsible for notifying the mobile app.</p>
+
+<p>For more on Grafana alerts, check out <a href="https://grafana.com/docs/grafana/latest/alerting/create-alerts/">the docs</a>.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Once you get around the verbose documentation, and refine your search skills, it’s quite straightforward to create an end-to-end flow for most IoT use cases using purely platform-as-a-service offerings.</p>
+
+<p>We have been running a deployment on AWS for a customer with ~46000 devices for 2+ years now, handling 15-20M messages monthly. All this for a fraction of the cost and attention this would need if we ran the infrastructure ourselves.</p>
+
+<p>That said, I do have a few reservations and will explore those in future posts.</p>
+
+<p>Good luck!</p>
+
+<h2 id="ideas-questions-or-corrections">Ideas, questions or corrections?</h2>
+<p>Write to us at <a href="mailto:hello@iotready.co">hello@iotready.co</a></p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2020-12-23 00:00">December 23, 2020</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+    <h2 class="read-next-title line-top">Read Next</h2>
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
