@@ -15,7 +15,7 @@ layout: body
   </header><!-- .page-header -->
 
   <div class="post-feed grid{% if page.col_number == 'two' %} grid-col-2{% endif %}{% if page.col_number == 'three' %} grid-col-3{% endif %}">
-    {% assign display_posts = '/blog' | get_pages | sort: 'date' | reverse %}
+    {% assign display_posts = '/blog' | get_pages | where: "published","true" | sort: 'date' | reverse %}
     {% for post in display_posts %}
     <article class="post grid-item">
       <div class="post-inside">

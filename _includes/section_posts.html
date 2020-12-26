@@ -15,7 +15,7 @@
     {% endif %}
     <div class="block-content">
       <div class="post-feed grid{% if section.col_number == 'two' %} grid-col-2{% endif %}{% if section.col_number == 'three' %} grid-col-3{% endif %}">
-        {% assign display_posts = '/blog' | get_pages | sort: 'date' | reverse %}
+        {% assign display_posts = '/blog' | get_pages | where: "published","true" | sort: 'date' | reverse %}
         {% assign slice_length = section.posts_number | minus: 0 %}
         {% assign recent_posts = display_posts | slice: 0, slice_length %}
         {% for post in recent_posts %}
