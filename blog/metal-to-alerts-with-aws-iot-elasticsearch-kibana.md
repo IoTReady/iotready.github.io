@@ -56,7 +56,7 @@ An `index` is the highest logical level within ElasticSearch. Think of these as 
 
 Creating an index needs an HTTP `PUT` as shown below:
 
-![ElasticSearch Index Creation](../images/es_create_index_mapping.png)
+![ElasticSearch Index Creation](/images/es_create_index_mapping.png)
 
 Note that we are specifying in the mapping that our `timestamp` field should be interpreted by ElasticSearch as a `date` (really, datetime) field.
 
@@ -86,7 +86,7 @@ FROM '$aws/things/+/shadow/update'
 
 ElasticSearch is a first class citizen in the AWS IoT actions list. So, let's select that action and configure it:
 
-![AWS IoT ES Action](../images/aws_iot_action_es.png)
+![AWS IoT ES Action](/images/aws_iot_action_es.png)
 
 Note that we:
 
@@ -101,7 +101,7 @@ As before, we will enable the `CloudWatch` action in case of errors.
 
 Our rule will finally look like this:
 
-![AWS IoT ES Rule Summary](../images/aws_iot_action_es_summary.png)
+![AWS IoT ES Rule Summary](/images/aws_iot_action_es_summary.png)
 
 
 ## Querying and Visualisation Using Kibana
@@ -112,15 +112,15 @@ Before we can query the data, we need to create an [`index pattern`](https://www
 
 Click on `Create index pattern` and walk through the wizard. Since your index has been receiving some data, the columns will already be detected. Ensure that you select `timestamp` as your date field.
 
-![ES Create Index Pattern](../images/es_create_index_pattern.png)
+![ES Create Index Pattern](/images/es_create_index_pattern.png)
 
-![ES Create Index Pattern - Date Field](../images/es_create_index_pattern_datetime.png)
+![ES Create Index Pattern - Date Field](/images/es_create_index_pattern_datetime.png)
 
 ### Discover
 
 With the index pattern in place, go to `Discover` in the sidebar to see your data streaming in. 
 
-![Kibana - Discover](../images/es_discover.png)
+![Kibana - Discover](/images/es_discover.png)
 
 
 If you do see similar output, we can continue to visualisations. If you don't,
@@ -143,11 +143,11 @@ Once we start receiving data, visualisations within Kibana are easy to set up. G
 
 Click on `Update` and your chart should look similar to this:
 
-![Kibana Visualisation](../images/es_visualisation.png)
+![Kibana Visualisation](/images/es_visualisation.png)
 
 Create visualisations for the other metrics and add them to a `Dashboard` from the sidebar.  Your dashboard should look something like this:
 
-![Kibana Dashboard](../images/es_dashboard.png)
+![Kibana Dashboard](/images/es_dashboard.png)
 
 
 Unlike QuickSight, Kibana dashboards can be embedded on websites as snapshots. 
@@ -159,17 +159,17 @@ Alerts in Kibana are independent of visualisations, unlike Grafana. They are cre
 ### Monitors
 Monitors are queries that run on a schedule. Something like the one shown below. Queries can be defined using the UI/Visual Graph, via an [extraction query](https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/) or even, excitingly, anomaly detection (more on this in the next section).
 
-![Kibana Alert Monitor](../images/es_alert_monitor.png)
+![Kibana Alert Monitor](/images/es_alert_monitor.png)
 
 ### Triggers
 Triggers compare the value returned by the monitor with specific thresholds. If the threshold is crossed, triggers can notify certain endpoints. At the moment, the built-in destinations are limited to `Amazon SNS`, `Amazon Chime`, `Slack` and `Custom webhook`. We will create a trigger without a destination so we can see the alerts in the UI.
 
-![Kibana Alert Trigger](../images/es_alert_trigger.png)
+![Kibana Alert Trigger](/images/es_alert_trigger.png)
 
 
 Once an alert has been triggered, it will be activated and will show up on the Alerts Dashboard. `Active` alerts can be `Acknowledged` to let the system know that an operator is looking into the issue. Once the metric/query is no longer in breach of the threshold, the alert is `Completed`. For a detailed description, check [the docs](https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/#work-with-alerts).
 
-![Kibana Active Alert](../images/es_active_alert.png)
+![Kibana Active Alert](/images/es_active_alert.png)
 
 
 ### Anomaly Detection

@@ -209,7 +209,7 @@
 
 <p>Creating an index needs an HTTP <code class="highlighter-rouge">PUT</code> as shown below:</p>
 
-<p><img src="../images/es_create_index_mapping.png" alt="ElasticSearch Index Creation" /></p>
+<p><img src="/images/es_create_index_mapping.png" alt="ElasticSearch Index Creation" /></p>
 
 <p>Note that we are specifying in the mapping that our <code class="highlighter-rouge">timestamp</code> field should be interpreted by ElasticSearch as a <code class="highlighter-rouge">date</code> (really, datetime) field.</p>
 
@@ -238,7 +238,7 @@
 
 <p>ElasticSearch is a first class citizen in the AWS IoT actions list. So, let’s select that action and configure it:</p>
 
-<p><img src="../images/aws_iot_action_es.png" alt="AWS IoT ES Action" /></p>
+<p><img src="/images/aws_iot_action_es.png" alt="AWS IoT ES Action" /></p>
 
 <p>Note that we:</p>
 
@@ -254,7 +254,7 @@
 
 <p>Our rule will finally look like this:</p>
 
-<p><img src="../images/aws_iot_action_es_summary.png" alt="AWS IoT ES Rule Summary" /></p>
+<p><img src="/images/aws_iot_action_es_summary.png" alt="AWS IoT ES Rule Summary" /></p>
 
 <h2 id="querying-and-visualisation-using-kibana">Querying and Visualisation Using Kibana</h2>
 
@@ -264,15 +264,15 @@
 
 <p>Click on <code class="highlighter-rouge">Create index pattern</code> and walk through the wizard. Since your index has been receiving some data, the columns will already be detected. Ensure that you select <code class="highlighter-rouge">timestamp</code> as your date field.</p>
 
-<p><img src="../images/es_create_index_pattern.png" alt="ES Create Index Pattern" /></p>
+<p><img src="/images/es_create_index_pattern.png" alt="ES Create Index Pattern" /></p>
 
-<p><img src="../images/es_create_index_pattern_datetime.png" alt="ES Create Index Pattern - Date Field" /></p>
+<p><img src="/images/es_create_index_pattern_datetime.png" alt="ES Create Index Pattern - Date Field" /></p>
 
 <h3 id="discover">Discover</h3>
 
 <p>With the index pattern in place, go to <code class="highlighter-rouge">Discover</code> in the sidebar to see your data streaming in.</p>
 
-<p><img src="../images/es_discover.png" alt="Kibana - Discover" /></p>
+<p><img src="/images/es_discover.png" alt="Kibana - Discover" /></p>
 
 <p>If you do see similar output, we can continue to visualisations. If you don’t,</p>
 
@@ -301,11 +301,11 @@
 
 <p>Click on <code class="highlighter-rouge">Update</code> and your chart should look similar to this:</p>
 
-<p><img src="../images/es_visualisation.png" alt="Kibana Visualisation" /></p>
+<p><img src="/images/es_visualisation.png" alt="Kibana Visualisation" /></p>
 
 <p>Create visualisations for the other metrics and add them to a <code class="highlighter-rouge">Dashboard</code> from the sidebar.  Your dashboard should look something like this:</p>
 
-<p><img src="../images/es_dashboard.png" alt="Kibana Dashboard" /></p>
+<p><img src="/images/es_dashboard.png" alt="Kibana Dashboard" /></p>
 
 <p>Unlike QuickSight, Kibana dashboards can be embedded on websites as snapshots.</p>
 
@@ -316,16 +316,16 @@
 <h3 id="monitors">Monitors</h3>
 <p>Monitors are queries that run on a schedule. Something like the one shown below. Queries can be defined using the UI/Visual Graph, via an <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/">extraction query</a> or even, excitingly, anomaly detection (more on this in the next section).</p>
 
-<p><img src="../images/es_alert_monitor.png" alt="Kibana Alert Monitor" /></p>
+<p><img src="/images/es_alert_monitor.png" alt="Kibana Alert Monitor" /></p>
 
 <h3 id="triggers">Triggers</h3>
 <p>Triggers compare the value returned by the monitor with specific thresholds. If the threshold is crossed, triggers can notify certain endpoints. At the moment, the built-in destinations are limited to <code class="highlighter-rouge">Amazon SNS</code>, <code class="highlighter-rouge">Amazon Chime</code>, <code class="highlighter-rouge">Slack</code> and <code class="highlighter-rouge">Custom webhook</code>. We will create a trigger without a destination so we can see the alerts in the UI.</p>
 
-<p><img src="../images/es_alert_trigger.png" alt="Kibana Alert Trigger" /></p>
+<p><img src="/images/es_alert_trigger.png" alt="Kibana Alert Trigger" /></p>
 
 <p>Once an alert has been triggered, it will be activated and will show up on the Alerts Dashboard. <code class="highlighter-rouge">Active</code> alerts can be <code class="highlighter-rouge">Acknowledged</code> to let the system know that an operator is looking into the issue. Once the metric/query is no longer in breach of the threshold, the alert is <code class="highlighter-rouge">Completed</code>. For a detailed description, check <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/#work-with-alerts">the docs</a>.</p>
 
-<p><img src="../images/es_active_alert.png" alt="Kibana Active Alert" /></p>
+<p><img src="/images/es_active_alert.png" alt="Kibana Active Alert" /></p>
 
 <h3 id="anomaly-detection">Anomaly Detection</h3>
 <p>Anomaly detection is a relatively new feature in ODFE and is getting frequent updates. As of release <code class="highlighter-rouge">7.9</code> on AWS, you can set up</p>
