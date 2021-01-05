@@ -3,7 +3,7 @@ title: From Metal To Alerts With AWS IoT, ElasticSearch 7.9 and Kibana
 subtitle: Revisiting the classic stack in 2020.
 excerpt: >-
   AWS IoT and ElasticSearch with Kibana is a classic combination for quick, scalable visualisations, analytics and alerts. This stack has only gotten better in 2020. 
-date: '2020-12-23'
+date: '2021-01-05'
 thumb_image: images/es_dashboard.png
 image: images/es_dashboard.png
 layout: post
