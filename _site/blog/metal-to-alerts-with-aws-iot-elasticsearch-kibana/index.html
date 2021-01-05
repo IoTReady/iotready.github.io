@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>From Metal To Alerts With AWS IoT, ElasticSearch 7.9 and Kibana - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="AWS IoT and ElasticSearch with Kibana is a classic combination for quick, scalable visualisations, analytics and alerts. This stack has only gotten better in 2020. "/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink">
+  <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full">
+    <header class="post-header inner-sm">
+      <h1 class="post-title line-top">From Metal To Alerts With AWS IoT, ElasticSearch 7.9 and Kibana</h1>
+      
+      
+      <div class="post-subtitle">
+        Revisiting the classic stack in 2020.
+      </div>
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/es_dashboard.png" alt="From Metal To Alerts With AWS IoT, ElasticSearch 7.9 and Kibana" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <blockquote>
+  <p>This post continues from our earlier post on <a href="/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana">AWS IoT, Timestream and Quicksight</a>. We replace Timestream and Quicksight with ElasticSearch and Kibana.</p>
+</blockquote>
+
+<h2 id="why">Why</h2>
+
+<p>ElasticSearch and Kibana are, <em>probably</em>, the most commonly used stack for data analysis and visualisation. ElasticSearch is a notoriously difficult software to host and manage yourself. The managed service from AWS has long been one of the more reliable options along side the managed cloud from <a href="https://elastic.co">Elastic.co</a>, the creators of ElasticSearch.</p>
+
+<p>A lot of necessary features like authentication and alerts were only available in the enterprise edition. Until, that is, the release of Open Distro For ElasticSearch by AWS. While causing a <a href="https://news.ycombinator.com/item?id=19359602">great deal of controversy and ethical dilemma</a>, ODFE adds authentication, access control, alerts, anomaly detection and, now, notebooks to the open source version release.</p>
+
+<p>This makes ElasticSearch and Kibana:</p>
+
+<ul>
+  <li>more complete than Timestream &amp; QuickSight with alerts and notebooks in the same UI</li>
+  <li>more capable than Timestream &amp; Grafana with anomaly detection and notebooks</li>
+  <li>more extensible than using Timestream alone with the ability to ingest all kinds of data - not just timeseries.</li>
+</ul>
+
+<h2 id="what-are-we-going-to-build">What are we going to build?</h2>
+
+<p>We will:</p>
+
+<ol>
+  <li>Use everything we built up to step 3 of our <a href="/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana">previous post</a>.</li>
+  <li>Set up an AWS IoT rule to route shadow updates to ElasticSearch</li>
+  <li>Use Kibana to create visualisations and alerts</li>
+</ol>
+
+<h2 id="create-elasticsearch-instance">Create ElasticSearch Instance</h2>
+
+<p>We will use the <a href="https://aws.amazon.com/elasticsearch-service/">AWS ElasticSearch service</a> that sets up ElasticSearch and Kibana with ODFE. Since, this is just a demo we will set up a single <code class="highlighter-rouge">t2.small</code> node with <code class="highlighter-rouge">10GB</code> disk size under <code class="highlighter-rouge">Deployment type = Development and testing</code>. We will use version <code class="highlighter-rouge">7.9</code> of ElasticSearch which is the latest on the service as of this writing.</p>
+
+<blockquote>
+  <p>AWS seems to be tracking the releases much better these days. The latest release on <code class="highlighter-rouge">Elastic.co</code> is <code class="highlighter-rouge">7.10.1</code>.</p>
+</blockquote>
+
+<p><strong>CRITICAL SECURITY NOTE</strong></p>
+
+<p>Make sure you read through the notes on network configuration and fine-grained access control for ODFE (not available for <code class="highlighter-rouge">t2.small</code>). For a production system, you should use an instance larger than <code class="highlighter-rouge">t2.small</code> to support encryption at rest and, by extension, access control.</p>
+
+<p>I am using <code class="highlighter-rouge">Public access</code> here for the purposes of the demo as this instance will be live only for a couple of hours. Google ElasticSearch breaches for the ever increasing counts of exposed servers.</p>
+
+<h3 id="create-index-and-mapping">Create Index and Mapping</h3>
+
+<p>An <code class="highlighter-rouge">index</code> is the highest logical level within ElasticSearch. Think of these as similar to tables in a database.</p>
+
+<ul>
+  <li>You need an <code class="highlighter-rouge">index</code> before ingesting data.</li>
+  <li>You <em>do not</em> need data columns and types to be defined before ingestion.</li>
+  <li>You need to define <code class="highlighter-rouge">mappings</code> for specific columns that you want to transform during ingestion.</li>
+  <li>You <strong>need</strong> types and columns defined before analysis or visualisation.</li>
+</ul>
+
+<p>Creating an index needs an HTTP <code class="highlighter-rouge">PUT</code> as shown below:</p>
+
+<p><img src="../images/es_create_index_mapping.png" alt="ElasticSearch Index Creation" /></p>
+
+<p>Note that we are specifying in the mapping that our <code class="highlighter-rouge">timestamp</code> field should be interpreted by ElasticSearch as a <code class="highlighter-rouge">date</code> (really, datetime) field.</p>
+
+<p>That’s it, our ElasticSearch instance is ready to receive data.</p>
+
+<h2 id="persisting-shadow-updates">Persisting Shadow Updates</h2>
+
+<p>Go to <code class="highlighter-rouge">AWS IoT Core -&gt; Act -&gt; Rules</code> to get started. We will create a new rule <code class="highlighter-rouge">SendShadowsToElasticSearch</code>. Like before, we will add a <code class="highlighter-rouge">filter</code> and an <code class="highlighter-rouge">action</code>.</p>
+
+<h3 id="filter">Filter</h3>
+
+<p>We will need add back the <code class="highlighter-rouge">timestamp</code> field and we will also need the <code class="highlighter-rouge">device_id</code>. So, our SQL query will now look like this:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> 
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_usage</span> <span class="k">as</span> <span class="n">cpu_usage</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_freq</span> <span class="k">as</span> <span class="n">cpu_freq</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_temp</span> <span class="k">as</span> <span class="n">cpu_temp</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">ram_usage</span> <span class="k">as</span> <span class="n">ram_usage</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">ram_total</span> <span class="k">as</span> <span class="n">ram_total</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="k">timestamp</span> <span class="k">as</span> <span class="k">timestamp</span><span class="p">,</span>
+  <span class="n">clientid</span><span class="p">()</span> <span class="k">as</span> <span class="n">device_id</span>
+<span class="k">FROM</span> <span class="s1">'$aws/things/+/shadow/update'</span>
+</code></pre></div></div>
+
+<h3 id="action">Action</h3>
+
+<p>ElasticSearch is a first class citizen in the AWS IoT actions list. So, let’s select that action and configure it:</p>
+
+<p><img src="../images/aws_iot_action_es.png" alt="AWS IoT ES Action" /></p>
+
+<p>Note that we:</p>
+
+<ul>
+  <li>Selected the ElasticSearch instance we created in the previous step</li>
+  <li>Granted access to AWS IoT via an IAM rule</li>
+  <li>Added an <code class="highlighter-rouge">id</code> using the built-in <code class="highlighter-rouge">newuuid()</code> function</li>
+  <li>Specified our index</li>
+  <li>Specified a type <code class="highlighter-rouge">_doc</code> for our data which is the default built-in type for new documents</li>
+</ul>
+
+<p>As before, we will enable the <code class="highlighter-rouge">CloudWatch</code> action in case of errors.</p>
+
+<p>Our rule will finally look like this:</p>
+
+<p><img src="../images/aws_iot_action_es_summary.png" alt="AWS IoT ES Rule Summary" /></p>
+
+<h2 id="querying-and-visualisation-using-kibana">Querying and Visualisation Using Kibana</h2>
+
+<p>Let’s start our simulators again and hop over to the Kibana to start analysing our data. The Kibana URL will be visible in your AWS ElasticSearch Console and should just be <code class="highlighter-rouge">https://ES_DOMAIN/_plugin/kibana/</code>.</p>
+
+<p>Before we can query the data, we need to create an <a href="https://www.elastic.co/guide/en/kibana/current/index-patterns.html"><code class="highlighter-rouge">index pattern</code></a>. Kibana should prompt you to create an index pattern as soon as you enter. If you missed that, go to <code class="highlighter-rouge">Stack Management --&gt; Index Patterns</code> from the left sidebar.</p>
+
+<p>Click on <code class="highlighter-rouge">Create index pattern</code> and walk through the wizard. Since your index has been receiving some data, the columns will already be detected. Ensure that you select <code class="highlighter-rouge">timestamp</code> as your date field.</p>
+
+<p><img src="../images/es_create_index_pattern.png" alt="ES Create Index Pattern" /></p>
+
+<p><img src="../images/es_create_index_pattern_datetime.png" alt="ES Create Index Pattern - Date Field" /></p>
+
+<h3 id="discover">Discover</h3>
+
+<p>With the index pattern in place, go to <code class="highlighter-rouge">Discover</code> in the sidebar to see your data streaming in.</p>
+
+<p><img src="../images/es_discover.png" alt="Kibana - Discover" /></p>
+
+<p>If you do see similar output, we can continue to visualisations. If you don’t,</p>
+
+<ul>
+  <li>Check the Cloudwatch Logs for errors</li>
+  <li>Verify that your SQL syntax is correct - especially the topic</li>
+  <li>Ensure your Rule action has the right index and an appropriate IAM Role</li>
+  <li>Verify that your Device Shadow is getting updated by going over to AWS IoT -&gt; Things -&gt; my_iot_device_1 -&gt; Shadow</li>
+  <li>Look for errors if any on the terminal where you are running the script.</li>
+</ul>
+
+<h3 id="visualisations--dashboard">Visualisations &amp; Dashboard</h3>
+
+<p>Once we start receiving data, visualisations within Kibana are easy to set up. Go to <code class="highlighter-rouge">Visualisations</code> in the sidebar and create a line chart for each of our metrics. Specifically,</p>
+
+<ul>
+  <li>Select the index <code class="highlighter-rouge">aws_iot_demo</code> as data source</li>
+  <li>For the Y-axis, select <code class="highlighter-rouge">average</code> as the aggregation and the metric, e.g. <code class="highlighter-rouge">cpu_usage</code> under field. Give a custom label for the axis if you want.</li>
+  <li>To enable timeseries visualisation, add an X-axis bucket with aggregation <code class="highlighter-rouge">Date Histogram</code>, field <code class="highlighter-rouge">timestamp</code> and <code class="highlighter-rouge">Auto</code> interval.</li>
+  <li>To enable distinction by <code class="highlighter-rouge">device_id</code>, add another bucket, this time with sub-aggregation <code class="highlighter-rouge">Terms</code>, field <code class="highlighter-rouge">device_id.keyword</code> and the default Order By options.
+    <ul>
+      <li><code class="highlighter-rouge">device_id.keyword</code> indicates that ElasticSearch is indexing the strings stored in the <code class="highlighter-rouge">device_id</code> column.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Click on <code class="highlighter-rouge">Update</code> and your chart should look similar to this:</p>
+
+<p><img src="../images/es_visualisation.png" alt="Kibana Visualisation" /></p>
+
+<p>Create visualisations for the other metrics and add them to a <code class="highlighter-rouge">Dashboard</code> from the sidebar.  Your dashboard should look something like this:</p>
+
+<p><img src="../images/es_dashboard.png" alt="Kibana Dashboard" /></p>
+
+<p>Unlike QuickSight, Kibana dashboards can be embedded on websites as snapshots.</p>
+
+<h3 id="alerts">Alerts</h3>
+
+<p>Alerts in Kibana are independent of visualisations, unlike Grafana. They are created in two stages: <strong>monitors</strong> and <strong>triggers</strong>.</p>
+
+<h3 id="monitors">Monitors</h3>
+<p>Monitors are queries that run on a schedule. Something like the one shown below. Queries can be defined using the UI/Visual Graph, via an <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/">extraction query</a> or even, excitingly, anomaly detection (more on this in the next section).</p>
+
+<p><img src="../images/es_alert_monitor.png" alt="Kibana Alert Monitor" /></p>
+
+<h3 id="triggers">Triggers</h3>
+<p>Triggers compare the value returned by the monitor with specific thresholds. If the threshold is crossed, triggers can notify certain endpoints. At the moment, the built-in destinations are limited to <code class="highlighter-rouge">Amazon SNS</code>, <code class="highlighter-rouge">Amazon Chime</code>, <code class="highlighter-rouge">Slack</code> and <code class="highlighter-rouge">Custom webhook</code>. We will create a trigger without a destination so we can see the alerts in the UI.</p>
+
+<p><img src="../images/es_alert_trigger.png" alt="Kibana Alert Trigger" /></p>
+
+<p>Once an alert has been triggered, it will be activated and will show up on the Alerts Dashboard. <code class="highlighter-rouge">Active</code> alerts can be <code class="highlighter-rouge">Acknowledged</code> to let the system know that an operator is looking into the issue. Once the metric/query is no longer in breach of the threshold, the alert is <code class="highlighter-rouge">Completed</code>. For a detailed description, check <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/#work-with-alerts">the docs</a>.</p>
+
+<p><img src="../images/es_active_alert.png" alt="Kibana Active Alert" /></p>
+
+<h3 id="anomaly-detection">Anomaly Detection</h3>
+<p>Anomaly detection is a relatively new feature in ODFE and is getting frequent updates. As of release <code class="highlighter-rouge">7.9</code> on AWS, you can set up</p>
+
+<ul>
+  <li><code class="highlighter-rouge">detectors</code> that query all or some portion of your data at regular intervals, and</li>
+  <li><code class="highlighter-rouge">models</code> that monitor specific fields or custom queries for anomalies.</li>
+</ul>
+
+<p>We will explore this feature in detail in a future post. For now, see <a href="https://opendistro.github.io/for-elasticsearch/blog/odfe-updates/2019/11/real-time-anomaly-detection-in-open-distro-for-elasticsearch/">this post</a> and <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/ad/">the docs</a> for more on anomaly detection.</p>
+
+<h3 id="notebooks">Notebooks</h3>
+
+<p><a href="https://opendistro.github.io/for-elasticsearch-docs/docs/kibana/notebooks/">Kibana notebooks</a> are an experimental feature that let you build Jupyter-like notebooks with visualisations and descriptive text. It must be stressed that these are <em>nowhere</em> close to the functionality of Jupyter, which of course include the power of a complete programming langauge like Python. However, they are a start and we are excited to see how they progress.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>ElasticSearch and Kibana are large, commendable feats of engineering that power everything from our search engines to our on-demand taxi services. The stack’s versatility is clear from its suitability for time-series data too.</p>
+
+<p>When comparing QuickSight, Grafana and ElasticSearch+Kibana, we would recommend:</p>
+
+<p><strong>Timestream + QuickSight</strong> if you</p>
+<ul>
+  <li>prefer costs that more linearly scale with use</li>
+  <li>prefer using AWS in-house offerings</li>
+  <li>have data in multiple data sources that you need to analyse without duplication</li>
+  <li>don’t need to visualise geospatial data</li>
+</ul>
+
+<p><strong>Timestream + Grafana</strong> if you</p>
+<ul>
+  <li>need timeseries charts and alerts</li>
+  <li>need gorgeous dashboards with easy (time) filtering</li>
+  <li>don’t need to create complex BI style analyses across multiple data sources</li>
+  <li>don’t need anomaly detection</li>
+</ul>
+
+<p><strong>ElasticSearch + Kibana</strong> if you</p>
+<ul>
+  <li>need flexibility in the type of charts and analyses</li>
+  <li>need anomaly detection</li>
+  <li>need to index and search text data too</li>
+  <li>don’t mind duplicating your data into ElasticSearch</li>
+  <li>don’t mind paying fixed monthly costs for your instance</li>
+  <li>have the ability to secure and monitor your ES instance</li>
+</ul>
+
+<h2 id="ideas-questions-or-corrections">Ideas, questions or corrections?</h2>
+<p>Write to us at <a href="mailto:hello@iotready.co">hello@iotready.co</a></p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2020-12-23 00:00">December 23, 2020</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+    <h2 class="read-next-title line-top">Read Next</h2>
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>

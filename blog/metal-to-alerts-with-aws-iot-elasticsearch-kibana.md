@@ -7,7 +7,6 @@ date: '2020-12-23'
 thumb_image: images/es_dashboard.png
 image: images/es_dashboard.png
 layout: post
-published: false
 ---
 
 > This post continues from our earlier post on [AWS IoT, Timestream and Quicksight](/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana). We replace Timestream and Quicksight with ElasticSearch and Kibana.
@@ -179,21 +178,7 @@ Anomaly detection is a relatively new feature in ODFE and is getting frequent up
 - `detectors` that query all or some portion of your data at regular intervals, and
 - `models` that monitor specific fields or custom queries for anomalies.
 
-See an example below with no data filter on the detector and a model monitoring each of our important fields.
-
-![Kibana Anomaly Detection Data Source](../images/es_anomaly_detection_data_source.png)
-
-![Kibana Anomaly Detection Model COnfiguration](../images/es_anomaly_detection_model_config.png)
-
-Once you save these settings and start the detector, ElasticSearch will initiliase the model by creating a baseline and then will automatically monitor these fields for anomalous values. Notice that we did not manually specify any thresholds for any of our metrics.
-
-Once the model is initialised, we will create high CPU load on our simulator using [this script](https://danielflannery.ie/simulate-cpu-load-with-python/).
-
-
-![Anomaly Detection Output]()
-
-
-See [this post](https://opendistro.github.io/for-elasticsearch/blog/odfe-updates/2019/11/real-time-anomaly-detection-in-open-distro-for-elasticsearch/) and [the docs](https://opendistro.github.io/for-elasticsearch-docs/docs/ad/) for more on anomaly detection.
+We will explore this feature in detail in a future post. For now, see [this post](https://opendistro.github.io/for-elasticsearch/blog/odfe-updates/2019/11/real-time-anomaly-detection-in-open-distro-for-elasticsearch/) and [the docs](https://opendistro.github.io/for-elasticsearch-docs/docs/ad/) for more on anomaly detection.
 
 ### Notebooks
 
