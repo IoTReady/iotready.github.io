@@ -172,6 +172,12 @@ We faced some clipping of the legend text but that was easy to fix with this CSS
 
 Here's the SVG in all its glory :-)
 
+<style>
+.exc-legend {
+    font-size: small;
+}
+</style>
+
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" viewBox="0 0 600 300" role="img"><style type="text/css">
   text {fill: black}
   line {stroke: black}
