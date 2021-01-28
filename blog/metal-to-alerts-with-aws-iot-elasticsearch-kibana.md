@@ -9,7 +9,7 @@ image: images/es_dashboard.png
 layout: post
 ---
 
-> This post continues from our earlier post on [AWS IoT, Timestream and Quicksight](/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana). We replace Timestream and Quicksight with ElasticSearch and Kibana.
+> This post continues from our earlier post on [AWS IoT, Timestream and Quicksight](/blog/metal-to-alerts-with-aws-iot-timestream-quicksight). We replace Timestream and Quicksight with ElasticSearch and Kibana.
 
 ## Why
 
@@ -28,7 +28,7 @@ This makes ElasticSearch and Kibana:
 
 We will:
 
-1. Use everything we built up to step 3 of our [previous post](/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana).
+1. Use everything we built up to step 3 of our [previous post](/blog/metal-to-alerts-with-aws-iot-timestream-quicksight).
 2. Set up an AWS IoT rule to route shadow updates to ElasticSearch
 3. Use Kibana to create visualisations and alerts
 
