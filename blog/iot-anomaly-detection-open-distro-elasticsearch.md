@@ -10,7 +10,7 @@ layout: post
 published: false
 ---
 
-> This post is the third in series on using the AWS ecosystem for IoT applications. See the [first](/blog/metal-to-alerts-with-aws-iot-timestream-quicksight) and [second](/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana) posts for background.
+> This post is the third in series on using the AWS ecosystem for IoT applications. Previously, we integrated AWS IoT with [Timestream /Quicksight](/blog/metal-to-alerts-with-aws-iot-timestream-quicksight) and [ElasticSearch/Kibana](/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana).
 
 ## Why
 
@@ -29,7 +29,7 @@ We will:
 
 ### Simulated Smart Grid Sensor
 
-We will simulate a sensor suitable for use with the medium voltage (MV) transmission grid with the following hypothetical specifications:
+We will simulate a sensor suitable for use with the medium voltage (MV) transmission grid with the following nominal specifications:
 
 - Voltage between 23kV and 25kV
 - Current between 0A and 600A
@@ -56,7 +56,7 @@ Assuming you followed the previous post, you will already have an ElasticSearch 
 
 ## Building Our First Anomaly Detector
 
-Like before, we will start our simulator to inject sensor data into ElasticSearch. I simulated 21 sensors with about 20000 data points spread across 6 months and then started a script to inject data every 10s. 
+Like before, we will start our simulator to inject sensor data into ElasticSearch. I started a script to simulate 21 sensors sending data every 10s. 
 
 ```python
 current = random.uniform(0.0,600.0)
@@ -72,21 +72,29 @@ The injected data looks a bit like this:
 
 ### Initialisation / Training
 
-With historical data in place and fresh data coming in regularly, I configured a detector to track the `max()` of our four metrics using [this guide](https://opendistro.github.io/for-elasticsearch-docs/docs/ad/#get-started-with-anomaly-detection) from the documentation.
+The ODFE documentation has an [excellent guide](https://opendistro.github.io/for-elasticsearch-docs/docs/ad/#get-started-with-anomaly-detection) for setting up a detector. Following that we end up with a configuration that looks like this:
 
 ![Anomaly Detector Configuration](/images/es_anomaly_detector_configuration.png)
 
+Note that:
 
-- I picked `Detector Interval = 5 minutes` and `Window Delay = 1 minute` 
+- I picked `Detector Interval = 5 minutes` and `Window Delay = 2 minutes` 
   - The documentation suggests smaller intervals make the system more real-time but consume more CPU, which sounds about right.
-- You are allowed to add up to 5 features per detector - this seems to be an ODFE limitation rather than that of  the RCF algorithm itself.
-- Once configured, the detector took about 15 minutes to initialise and go live.
-- I made the mistake of trying to enable the detector on a `t2.small` instance and kept running into an `unknown error`. Should have RTFM first :-). 
+- You are allowed to add up to 5 features per detector - this seems to be an ODFE limitation rather than that of the RCF algorithm itself.
+- I have chosen to track the `max()` value for each metric. You can use any of the standard ElasticSearch aggregations.
+- Once configured, the detector took between 30-60 minutes to initialise and go live.
+- I made the mistake of trying to enable the detector on a `t2.small` instance and kept running into an `unknown error`. This disappeared once I changed the instance size to `t2.medium`. 
 
 
-### Simulating Anomalies
+## Simulating Anomalies
+Before we go any further, let's define an anamoly. One definition, from Merriam Webster, fits our use case well:
 
-Now for the fun bit, I simulated anomalies in about 60% of the data points using the following snippet:
+> deviation from the common rule
+
+For us, any value outside the nominal specifications stated above is an anamolous value and should trigger the detector. 
+
+### Scenario 1 - Frequent Anamolies
+I simulated anomalies in about 60% of the data points using the following snippet. Note that we are randomly introducing anamolies into one or all of the four metrics.
 
 
 ```python
@@ -122,7 +130,6 @@ elif r == 6:
     temperature = random.uniform(30,100)
     humidity = 150
 else:
-    error = False
     current = random.uniform(0.0,600.0)
     voltage = random.uniform(23000.0,25000.0)
     temperature = random.uniform(30,100)
@@ -134,11 +141,52 @@ The resulting timeseries charts, in their glorious randomness, look like this:
 ![Anomalous Metrics Timeseries Charts](/images/es_cvs_timeseries_bad.png)
 
 
-### Detecting Anomalies
+#### Anamoly Detector Performance
 
-With our anomalous data streaming in, the detector catches the anomalies within 1 time interval
+As expected, the detector is triggered in one time interval and gives a grade to the anamoly. 
 
-### Integrating Alerts
+![Anamoly Detector Live Results - Scenario 1](/images/anomaly_detection_scenario1_live.png)
+
+There's a handy table view too to see recent anamolies. 
+
+![Anamoly Detector Occurences - Scenario 1](/images/anomaly_detection_scenario1_occurences.png)
+
+
+The specific anamolies we just triggered are the ones dated 02/04/21. You can see that there are two of them, 5 minutes apart. There are two other metrics: `Data confidence` and `Anamoly grade`. Take a note, we will return to these a little later.
+
+This is great - with little knowledge of machine learning and zero code, we set up an anamoly detector!
+
+### Scenario 2 - Sporadic Anamolies
+
+What if our anamolies are infrequent and only affect one of our metrics? Perhaps our current sensor or the electric load is misbehaving. To simulate this scenario in about 3% of the data points, I am using the following snippet:
+
+
+```python
+r = random.randint(1,100)
+if r % 33 == 0:
+    current = 1000
+    voltage = random.uniform(23000.0,25000.0)
+    temperature = random.uniform(30,100)
+    humidity = random.uniform(20.0,80.0)
+else:
+    current = random.uniform(0.0,600.0)
+    voltage = random.uniform(23000.0,25000.0)
+    temperature = random.uniform(30,100)
+    humidity = random.uniform(20.0,80.0)
+```
+
+Since we are sending data every 10 seconds, our detector analyses 30 data points before making an assessment. At a 3% error rate, we are expecting to inject one anamolous point in one metric (current) in every time interval.
+
+The timeseries for current now looks like this:
+
+![3% Anamolies - Current](../images/anamoly_detection_scenario2_timeseries.png)
+
+#### Anamoly Detector Performance
+
+Uh, oh. Our detector seems blissfully unaware of anamolies despite detecting the changed elevated levels (because we are tracking `max()`).
+
+![3% Anamolies - Live](../images/anamoly_detection_scenario2_live.png)
+
 
 
 ### Caveats
