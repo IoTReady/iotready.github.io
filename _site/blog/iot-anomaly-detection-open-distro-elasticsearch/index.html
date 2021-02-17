@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Anomaly Detection For IoT Using Open Distro For ElasticSearch - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="Real time anomaly detection is now part of ODFE and allows applications such as predictive maintenance."/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink">
+  <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full">
+    <header class="post-header inner-sm">
+      <h1 class="post-title line-top">Anomaly Detection For IoT Using Open Distro For ElasticSearch</h1>
+      
+      
+      <div class="post-subtitle">
+        Real-time anomaly detection with minimal setup.
+      </div>
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/anomaly_detection_results.png" alt="Anomaly Detection For IoT Using Open Distro For ElasticSearch" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <blockquote>
+  <p>This post is the third in series on using the AWS ecosystem for IoT applications. Previously, we integrated AWS IoT with <a href="/blog/metal-to-alerts-with-aws-iot-timestream-quicksight">Timestream /Quicksight</a> and <a href="/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana">ElasticSearch/Kibana</a>.</p>
+</blockquote>
+
+<h2 id="why">Why</h2>
+
+<p>Anomaly detection is the foundation for applications such as Predictive Maintenance, which in turn is the driving force behind most industrial IoT deployments. Now that the <em>essentials</em> of sensors, communication, storage and visualisation have largely been solved, attention has turned to machine learning based analytics. Cue the <a href="https://aws.amazon.com/iot-analytics/">new features from AWS IoT</a> and Open Distro For ElasticSearch - the latter is the focus of this article.</p>
+
+<h2 id="what-are-we-going-to-build">What are we going to build?</h2>
+
+<p>We will:</p>
+
+<ol>
+  <li>Simulate a smart grid sensor capable of measuring current, voltage, tempterature and humidity</li>
+  <li>Train an anomaly detector in ODFE on each of these metrics or <code class="highlighter-rouge">features</code> as ODFE calls them.</li>
+  <li>Simulate various grades of anomalies and verify that detector is working fine</li>
+  <li>Integrate the anomaly detector with Kibana’s alerts (<a href="/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana">previously discussed here</a>)</li>
+</ol>
+
+<h3 id="simulated-smart-grid-sensor">Simulated Smart Grid Sensor</h3>
+
+<p>Our simulated sensor helps monitor and predict failures in the medium voltage (MV) transmission grid. The sensor has the following nominal specifications:</p>
+
+<ul>
+  <li>Voltage between 23kV and 25kV</li>
+  <li>Current between 0A and 600A</li>
+  <li>Temperature between 30C and 100C</li>
+  <li>Humidity between 20% and 80%</li>
+</ul>
+
+<blockquote>
+  <p>Values in these ranges are considered <strong>good</strong>. Anything outside is an <strong>anomaly</strong>.</p>
+</blockquote>
+
+<h3 id="anomaly-detection-in-odfe">Anomaly Detection in ODFE</h3>
+
+<p>ODFE uses the Random Cut Forest (RCF) algorithm for anomaly detection. RCF is an unsupervised algorithm which analyses the data and identifies patterns. Data points that do not fit into these patterns are classified as anomalies and can include, amongst others,:</p>
+
+<ul>
+  <li>Spikes</li>
+  <li>Changes in periodicity</li>
+  <li>Unclassifiable data points</li>
+</ul>
+
+<p>Each anomaly is given a score - low scores correspond to <em>normal</em> and high scores to <em>anomalous</em> data points. Read more about RCF in these references:</p>
+
+<ul>
+  <li><a href="https://opendistro.github.io/for-elasticsearch/blog/odfe-updates/2019/11/real-time-anomaly-detection-in-open-distro-for-elasticsearch/">Real-time anomaly detection in ODFE</a></li>
+  <li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/randomcutforest.html">RCF with AWS Sagemaker</a></li>
+  <li><a href="https://freecontent.manning.com/the-randomcutforest-algorithm/">RCF Algorithm on Manning</a></li>
+</ul>
+
+<h4 id="elasticsearch-instance">ElasticSearch Instance</h4>
+
+<p>Assuming you followed the previous post, you will already have an ElasticSearch instance running. However, we need at least 2 CPU cores to use anomaly detection. I am using a <code class="highlighter-rouge">t2.medium</code> instance for this post.</p>
+
+<h2 id="building-our-first-anomaly-detector">Building Our First Anomaly Detector</h2>
+
+<p>Like before, we will start our simulator to inject sensor data into ElasticSearch. I started a script to simulate 21 sensors sending data every 10s.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+<span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The injected data looks a bit like this:</p>
+
+<p><img src="/images/es_cvs_timeseries_good.png" alt="Nominal Current Timeseries Chart" /></p>
+
+<h3 id="initialisation--training">Initialisation / Training</h3>
+
+<p>The ODFE documentation has an <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/ad/#get-started-with-anomaly-detection">excellent guide</a> for setting up a detector. Following that we end up with a configuration that looks like this:</p>
+
+<p><img src="/images/es_anomaly_detector_configuration.png" alt="Anomaly Detector Configuration" /></p>
+
+<p>Note that:</p>
+
+<ul>
+  <li>I picked <code class="highlighter-rouge">Detector Interval = 5 minutes</code> and <code class="highlighter-rouge">Window Delay = 2 minutes</code>
+    <ul>
+      <li>The documentation suggests smaller intervals make the system more real-time but consume more CPU, which sounds about right.</li>
+    </ul>
+  </li>
+  <li>You are allowed to add up to 5 features per detector - this seems to be an ODFE limitation rather than that of the RCF algorithm itself.</li>
+  <li>I have chosen to track the <code class="highlighter-rouge">max()</code> value for each metric. You can use any of the standard ElasticSearch aggregations.</li>
+  <li>Once configured, the detector took between 30-60 minutes to initialise and go live.</li>
+  <li>I made the mistake of trying to enable the detector on a <code class="highlighter-rouge">t2.small</code> instance and kept running into an <code class="highlighter-rouge">unknown error</code>. This disappeared once I changed the instance size to <code class="highlighter-rouge">t2.medium</code>.</li>
+</ul>
+
+<h3 id="anomaly-generation">Anomaly Generation</h3>
+
+<p>Once the detector was <strong>Live</strong>, I started generating anomalies in about 60% of the data points using the following snippet. Note that I am randomly introducing anomalies into one or all of the four metrics.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="mi">100000</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="mi">100000</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The resulting timeseries charts, in their glorious randomness, look like this:</p>
+
+<p><img src="/images/es_cvs_timeseries_bad.png" alt="Anomalous Metrics Timeseries Charts" /></p>
+
+<h3 id="anomaly-detection">Anomaly Detection</h3>
+
+<p>And just like that, the detector is triggered within the first time interval. This is great - with little knowledge of machine learning and zero code, we set up a self-taught anomaly detector!</p>
+
+<p><img src="/images/anomaly_detection_results.png" alt="Anomaly Detector Results" /></p>
+
+<h3 id="hang-on">Hang On…</h3>
+
+<p>If you examine the anomaly grades, you will notice that the grade reduces in each time interval until the detector no longer considers the signals to be anomalous. This reminds me of an old joke,</p>
+
+<blockquote>
+  <p>Said the guru to his disciple, “Next year is going to be really difficult for you. You will not meet your family or friends for a long time and you will witness a lot of suffering. In fact you won’t be able to step outside your own house!”. “And the year after?”, asked the disciple. The guru replied, “You will get used to it”.</p>
+</blockquote>
+
+<p>Jokes aside, <strong>why</strong> is this happening?</p>
+
+<p>The anomaly detector, as mentioned above, is self-taught. And it keeps learning - even as anomalous data streams in. As the kind folk at ODFE explained to me, if 5% of your data is anomalous, is it really anomalous or, in fact, the <em>new normal</em>? The anomaly detector, naturally, adapts to this new normal and gives these signals a decreasing grade until they are fully <em>normalised</em>.</p>
+
+<p>This makes sense, it’s just not what I expected.</p>
+
+<h3 id="how-do-you-solve-this">How do you solve this?</h3>
+
+<p>Freezing the anomaly detection data model by stopping the learning phase should solve this problem. I have opened a <a href="https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388">feature request</a> for this very use case.</p>
+
+<p>A good suggestion from the ODFE team was to use a combination of rule based detection algorithms and ML based anomaly detection. This makes sense, especially since there are a few other issues with this domain-agnostic approach:</p>
+
+<ul>
+  <li>All signals, across all devices, in a time interval are given a single anomaly grade. We may need to classify these anomalies for priorities and, more importantly, identify the specific devices which are reporting anomalous data.</li>
+  <li>We may need different anomaly detection for each SKU. E.g. 300A current is anomalous for a sensor rated at 200A but normal for a 500A sensor. With ODFE, we would need to send data from each SKU to a different index and set up separate detectors for each.</li>
+</ul>
+
+<h2 id="conclusions-and-next-steps">Conclusions and Next Steps</h2>
+
+<p>Anomaly detection is a relatively new feature in ODFE and is already really good at actually detecting the anomalies. If the <a href="https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388">feature request</a> is accepted and built, we are in job done territory for simple use cases.</p>
+
+<p>For sensitive applications like smart grids and perhaps industrial monitoring, we are exploring solutions that combine intelligence on the cloud and at the edge. Over the coming weeks and months, we will write about our work with:</p>
+
+<ul>
+  <li>Rule based calibration and detection at the edge</li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S0888613X96001168">Fuzzy logic</a> based fault diagnosis at the edge</li>
+  <li>ML at the edge using projects such as <a href="https://www.tinyml.org/">TinyML</a></li>
+</ul>
+
+<h2 id="ideas-questions-or-corrections">Ideas, questions or corrections?</h2>
+
+<p>Write to us at <a href="mailto:hello@iotready.co">hello@iotready.co</a></p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-02-17 00:00">February 17, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+    <h2 class="read-next-title line-top">Read Next</h2>
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>

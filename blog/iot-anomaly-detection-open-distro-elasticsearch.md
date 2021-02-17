@@ -3,11 +3,10 @@ title: Anomaly Detection For IoT Using Open Distro For ElasticSearch
 subtitle: Real-time anomaly detection with minimal setup.
 excerpt: >-
   Real time anomaly detection is now part of ODFE and allows applications such as predictive maintenance.
-date: '2021-01-20'
-thumb_image: images/es_dashboard.png
-image: images/es_dashboard.png
+date: '2021-02-17'
+thumb_image: images/anomaly_detection_results.png
+image: images/anomaly_detection_results.png
 layout: post
-published: false
 ---
 
 > This post is the third in series on using the AWS ecosystem for IoT applications. Previously, we integrated AWS IoT with [Timestream /Quicksight](/blog/metal-to-alerts-with-aws-iot-timestream-quicksight) and [ElasticSearch/Kibana](/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana).
@@ -29,12 +28,15 @@ We will:
 
 ### Simulated Smart Grid Sensor
 
-We will simulate a sensor suitable for use with the medium voltage (MV) transmission grid with the following nominal specifications:
+Our simulated sensor helps monitor and predict failures in the medium voltage (MV) transmission grid. The sensor has the following nominal specifications:
 
 - Voltage between 23kV and 25kV
 - Current between 0A and 600A
 - Temperature between 30C and 100C
 - Humidity between 20% and 80%
+
+> Values in these ranges are considered **good**. Anything outside is an **anomaly**.
+
 
 ### Anomaly Detection in ODFE
 
@@ -86,16 +88,9 @@ Note that:
 - I made the mistake of trying to enable the detector on a `t2.small` instance and kept running into an `unknown error`. This disappeared once I changed the instance size to `t2.medium`. 
 
 
-## Simulating Anomalies
-Before we go any further, let's define an anamoly. One definition, from Merriam Webster, fits our use case well:
+### Anomaly Generation
 
-> deviation from the common rule
-
-For us, any value outside the nominal specifications stated above is an anamolous value and should trigger the detector. 
-
-### Scenario 1 - Frequent Anamolies
-I simulated anomalies in about 60% of the data points using the following snippet. Note that we are randomly introducing anamolies into one or all of the four metrics.
-
+Once the detector was **Live**, I started generating anomalies in about 60% of the data points using the following snippet. Note that I am randomly introducing anomalies into one or all of the four metrics.
 
 ```python
 r = random.randint(1,10)
@@ -141,128 +136,46 @@ The resulting timeseries charts, in their glorious randomness, look like this:
 ![Anomalous Metrics Timeseries Charts](/images/es_cvs_timeseries_bad.png)
 
 
-#### Anamoly Detector Performance
+### Anomaly Detection
 
-As expected, the detector is triggered in one time interval and gives a grade to the anamoly. 
-
-![Anamoly Detector Live Results - Scenario 1](/images/anomaly_detection_scenario1_live.png)
-
-There's a handy table view too to see recent anamolies. 
-
-![Anamoly Detector Occurences - Scenario 1](/images/anomaly_detection_scenario1_occurences.png)
+And just like that, the detector is triggered within the first time interval. This is great - with little knowledge of machine learning and zero code, we set up a self-taught anomaly detector!
 
 
-The specific anamolies we just triggered are the ones dated 02/04/21. You can see that there are two of them, 5 minutes apart. There are two other metrics: `Data confidence` and `Anamoly grade`. Take a note, we will return to these a little later.
+![Anomaly Detector Results](/images/anomaly_detection_results.png)
 
-This is great - with little knowledge of machine learning and zero code, we set up an anamoly detector!
+### Hang On...
 
-### Scenario 2 - Sporadic Anamolies
-
-What if our anamolies are infrequent and only affect one of our metrics? Perhaps our current sensor or the electric load is misbehaving. To simulate this scenario in about 3% of the data points, I am using the following snippet:
+If you examine the anomaly grades, you will notice that the grade reduces in each time interval until the detector no longer considers the signals to be anomalous. This reminds me of an old joke,
 
 
-```python
-r = random.randint(1,100)
-if r % 33 == 0:
-    current = 1000
-    voltage = random.uniform(23000.0,25000.0)
-    temperature = random.uniform(30,100)
-    humidity = random.uniform(20.0,80.0)
-else:
-    current = random.uniform(0.0,600.0)
-    voltage = random.uniform(23000.0,25000.0)
-    temperature = random.uniform(30,100)
-    humidity = random.uniform(20.0,80.0)
-```
+> Said the guru to his disciple, "Next year is going to be really difficult for you. You will not meet your family or friends for a long time and you will witness a lot of suffering. In fact you won't be able to step outside your own house!". "And the year after?", asked the disciple. The guru replied, "You will get used to it".
 
-Since we are sending data every 10 seconds, our detector analyses 30 data points before making an assessment. At a 3% error rate, we are expecting to inject one anamolous point in one metric (current) in every time interval.
+Jokes aside, **why** is this happening? 
 
-The timeseries for current now looks like this:
+The anomaly detector, as mentioned above, is self-taught. And it keeps learning - even as anomalous data streams in. As the kind folk at ODFE explained to me, if 5% of your data is anomalous, is it really anomalous or, in fact, the *new normal*? The anomaly detector, naturally, adapts to this new normal and gives these signals a decreasing grade until they are fully *normalised*.
 
-![3% Anamolies - Current](../images/anamoly_detection_scenario2_timeseries.png)
+This makes sense, it's just not what I expected. 
 
-#### Anamoly Detector Performance
+### How do you solve this?
 
-Uh, oh. Our detector seems blissfully unaware of anamolies despite detecting the changed elevated levels (because we are tracking `max()`).
+Freezing the anomaly detection data model by stopping the learning phase should solve this problem. I have opened a [feature request](https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388) for this very use case.
 
-![3% Anamolies - Live](../images/anamoly_detection_scenario2_live.png)
+A good suggestion from the ODFE team was to use a combination of rule based detection algorithms and ML based anomaly detection. This makes sense, especially since there are a few other issues with this domain-agnostic approach:
+
+- All signals, across all devices, in a time interval are given a single anomaly grade. We may need to classify these anomalies for priorities and, more importantly, identify the specific devices which are reporting anomalous data.
+- We may need different anomaly detection for each SKU. E.g. 300A current is anomalous for a sensor rated at 200A but normal for a 500A sensor. With ODFE, we would need to send data from each SKU to a different index and set up separate detectors for each.
 
 
+## Conclusions and Next Steps
 
-### Caveats
+Anomaly detection is a relatively new feature in ODFE and is already really good at actually detecting the anomalies. If the [feature request](https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388) is accepted and built, we are in job done territory for simple use cases. 
 
-In my first attempt at building the detector, I used the `avg()` function on the features instead of `max()`. Post initialisation, I injected two kinds of anomalous data with very different results.
+For sensitive applications like smart grids and perhaps industrial monitoring, we are exploring solutions that combine intelligence on the cloud and at the edge. Over the coming weeks and months, we will write about our work with:
 
-#### Consistently Out of Band Values 
-
-```python
-current = 1000
-voltage = 100000
-temperature = 300
-humidity = 150
-```
-
-With these values, the anomaly detector worked perfectly and caught all the anomalies as seen below.
-
-![Anomaly Detection History](/images/es_anomaly_history_bad.png)
-
-#### Sporadically Out of Band Values
-
-```python
-r = random.randint(1,5)
-if r == 1:
-    current = 0
-    voltage = 0
-    temperature = 0
-    humidity = 0
-elif r == 2:
-    current = 1000
-    voltage = 100000
-    temperature = 300
-    humidity = 150
-else:
-    current = random.uniform(0.0,600.0)
-    voltage = random.uniform(23000.0,25000.0)
-    temperature = random.uniform(30,100)
-    humidity = random.uniform(20.0,80.0)
-```
-
-Making about 40% of the data anomalous seemed to trip up the detector. As the screenshot below shows, even though the average current value is well above the _normal_ levels, the detector does not consider this to be an anomaly. I am digging into this further to understand where this stems from - the algorithm or the `interval` configuration. For now, using `max()` instead of `avg()` for the features in `Detector Configuration` seems to result in our expected behaviour. 
-
-![Anomaly Detection History](/images/es_anomaly_history_random.png)
-
-This reminds me of the old joke,
-
-> Things will not be easy at first, but over time you will get used to it. 
-
-## Conclusions
-
-ElasticSearch and Kibana are large, commendable feats of engineering that power everything from our search engines to our on-demand taxi services. The stack's versatility is clear from its suitability for time-series data too. 
-
-When comparing QuickSight, Grafana and ElasticSearch+Kibana, we would recommend:
-
-**Timestream + QuickSight** if you
-  - prefer costs that more linearly scale with use
-  - prefer using AWS in-house offerings
-  - have data in multiple data sources that you need to analyse without duplication
-  - don't need to visualise geospatial data
-
-**Timestream + Grafana** if you
-  - need timeseries charts and alerts
-  - need gorgeous dashboards with easy (time) filtering
-  - don't need to create complex BI style analyses across multiple data sources
-  - don't need anomaly detection
-
-**ElasticSearch + Kibana** if you
-  - need flexibility in the type of charts and analyses
-  - need anomaly detection
-  - need to index and search text data too
-  - don't mind duplicating your data into ElasticSearch
-  - don't mind paying fixed monthly costs for your instance
-  - have the ability to secure and monitor your ES instance
+- Rule based calibration and detection at the edge
+- [Fuzzy logic](https://www.sciencedirect.com/science/article/pii/S0888613X96001168) based fault diagnosis at the edge
+- ML at the edge using projects such as [TinyML](https://www.tinyml.org/)
 
 ## Ideas, questions or corrections?
-
-_We design & manufacture self-powered current/temperature/humidity sensors suitable for industrial and grid applications. Contact us for details._
 
 Write to us at [hello@iotready.co](mailto:hello@iotready.co)
