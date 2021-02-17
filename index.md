@@ -14,23 +14,21 @@ sections:
   - section_id: latest-projects
     type: section_portfolio
     layout_style: mosaic
-    title: Recent Work
+    title: Powered Solutions
     # subtitle: An optional subtitle of the section
     projects_number: 6
     view_all_label: View All
     view_all_url: portfolio
   - section_id: services
     type: section_grid
-    title: What We Do
+    title: What We Offer
     # subtitle: An optional subtitle of the section
     col_number: two
     is_numbered: true
     grid_items:
-      - title: Open Source Firmware
+      - title: Open Source
         content: >-
-          Our firmware base for the ESP32 and ESP8266 allows the same ease 
-          of use as Arduino without compromising on performance, 
-          customisability or licensing.
+          We have contributed a number of plugins to simplify IoT app development and are in the process of open sourcing firmware frameworks for the ESP32 (BLE/WiFi) and A9 (GSM) chips.
         url: /open-source/
       - title: Licensed IP
         content: >-
@@ -38,15 +36,12 @@ sections:
           use our battle-tested, customisable code kits for mobile and voice 
           apps to make great IoT apps.
         url: /ip/
-      - title: Realtime Dashboard
+      - title: Custom Development
         content: >-
-          Our web based dashboard integrates with your existing 
-          IoT and authentication backend while enabling best-in-class OTA, device management,
-          visualisation, realtime alerts and analytics.
-      - title: Team Mentoring
+          If you are developing a high value IoT enabled product, our team can help you deliver secure, scalable solutions across hardware, firmware, cloud and data visualisation.
+      - title: Expert Consultation
         content: >-
-          We help teams ship great IoT products through code reviews, technical 
-          discussions, architectural advice and training. Check out our docs (coming soon) to get started for free.
+          Take your product, processes and team to the next level through direct consultation with our highly experienced founders. Typical engagements cover product architecture, team mentorship and code reviews.
   # - section_id: testimonials
     # type: section_testimonials
     # title: Testimonials
