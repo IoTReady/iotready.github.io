@@ -168,6 +168,12 @@ A good suggestion from the ODFE team was to use a combination of rule based dete
 - We may need different anomaly detection for each SKU. E.g. 300A current is anomalous for a sensor rated at 200A but normal for a 500A sensor. With ODFE, we would need to send data from each SKU to a different index and set up separate detectors for each.
 
 
+## Integrating Alerts
+
+Once an anomaly detector has been set up, it can be used as a source in the existing Alerts plugin for ODFE. We have previously discussed this - all that changes is that we define our monitor using our new anomaly detector. Yes, that's all!
+
+![Alerts using Anomaly Detector](/images/anomaly_detection_alert_monitor.png)
+
 ## Conclusions and Next Steps
 
 Anomaly detection is a relatively new feature in ODFE and is already really good at actually detecting anomalies and does not get tripped unless the anomalies are frequent or persistent. If the [feature request](https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388) is accepted and built, we are in job done territory for simple use cases. 
