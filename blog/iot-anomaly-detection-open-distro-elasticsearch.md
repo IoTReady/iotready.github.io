@@ -158,6 +158,8 @@ This makes sense, it's just not what I expected.
 
 ### How do you solve this?
 
+> If your data has infrequent anomalies, there's nothing to fix. The existing plugin already works well!
+
 Freezing the anomaly detection data model by stopping the learning phase should solve this problem. I have opened a [feature request](https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388) for this very use case.
 
 A good suggestion from the ODFE team was to use a combination of rule based detection algorithms and ML based anomaly detection. This makes sense, especially since there are a few other issues with this domain-agnostic approach:
@@ -168,7 +170,7 @@ A good suggestion from the ODFE team was to use a combination of rule based dete
 
 ## Conclusions and Next Steps
 
-Anomaly detection is a relatively new feature in ODFE and is already really good at actually detecting the anomalies. If the [feature request](https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388) is accepted and built, we are in job done territory for simple use cases. 
+Anomaly detection is a relatively new feature in ODFE and is already really good at actually detecting anomalies and does not get tripped unless the anomalies are frequent or persistent. If the [feature request](https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388) is accepted and built, we are in job done territory for simple use cases. 
 
 For sensitive applications like smart grids and perhaps industrial monitoring, we are exploring solutions that combine intelligence on the cloud and at the edge. Over the coming weeks and months, we will write about our work with:
 
