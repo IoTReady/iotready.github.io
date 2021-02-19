@@ -8,6 +8,9 @@ thumb_image: images/ota.jpg
 image: images/ota.jpg
 layout: post
 ---
+
+Photo by Sora Shimazaki from Pexels
+
 By Karan Raj Pradhan and Jay Warrior.
 
 Among the more critical building blocks of an IoT solution, and one which should be thought about sooner than later is the concept of over-the-air (OTA) updates to your deployed fleet of devices. This is particularly useful if that deployed fleet is more than a few hundred devices. There is nothing like a device recall to make that a painful lesson that most of us have gone through, at least once during our careers.
@@ -40,18 +43,19 @@ We had partially implemented this kind of strategy, where a local device coordin
 
 This time round we were able to take advantage of an updated software development kit, the ESP Mesh Development Framework (ESP-MDF) that almost completely maps to our proposed strategy. Using the MDF we now:
 
-Supply a configuration and update application that is hosted on the users phone or tablet and that communicates with the devices that constitute the system over the local network, and also to our code repositories in the cloud.
-First ensure that the user is registered and logged into the app.
-Ensure that the devices you are going to be communicating with are valid devices that have been registered with the device repository on the cloud.
-When a firmware or application upgrade is necessary, the user uses the application to set the devices in a safe state.
-ESP-MDF supplies Application Programming Interfaces (APIs) that enable us to interact with the Mesh Upgrade functionality implemented in the software. The upgrade model uses an elected node in the mesh network, called the root node that the application on the phone talks to in order to carry out the updates.
-After having pulled down the upgrades from the web server & checking them for validity, the phone app talks to the root node to determine the nodes on the network and to identify the list of devices to upgrade.
-The phone app sends the firmware together with the list of devices to the root node which checks it for validity and against size constraints.
-The root node compresses segments and checksums the firmware and uses multicast and mesh transmissions and retransmissions to distribute the firmware to the target nodes and to validate the successful transfer of the firmware based on statuses reported back from the target nodes.
-Target nodes upon successful receipt and flashing of the new firmware mark the partition holding the new firmware as the boot partition.
-The root node sends the reboot command to the target nodes and verifies the current software version in the nodes.
-When this is complete, the root node reports success or failure back to the phone app.
-Failed nodes revert to their last known good configuration through the use of a watchdog timer or a hardware reset.
+1. Supply a configuration and update application that is hosted on the users phone or tablet and that communicates with the devices that constitute the system over the local network, and also to our code repositories in the cloud.
+2. First ensure that the user is registered and logged into the app.
+3. Ensure that the devices you are going to be communicating with are valid devices that have been registered with the device repository on the cloud.
+4. When a firmware or application upgrade is necessary, the user uses the application to set the devices in a safe state.
+5. ESP-MDF supplies Application Programming Interfaces (APIs) that enable us to interact with the Mesh Upgrade functionality implemented in the software. The upgrade model uses an elected node in the mesh network, called the root node that the application on the phone talks to in order to carry out the updates.
+6. After having pulled down the upgrades from the web server & checking them for validity, the phone app talks to the root node to determine the nodes on the network and to identify the list of devices to upgrade.
+7. The phone app sends the firmware together with the list of devices to the root node which checks it for validity and against size constraints.
+8. The root node compresses segments and checksums the firmware and uses multicast and mesh transmissions and retransmissions to distribute the firmware to the target nodes and to validate the successful transfer of the firmware based on statuses reported back from the target nodes.
+9. Target nodes upon successful receipt and flashing of the new firmware mark the partition holding the new firmware as the boot partition.
+10. The root node sends the reboot command to the target nodes and verifies the current software version in the nodes.
+11. When this is complete, the root node reports success or failure back to the phone app.
+12. Failed nodes revert to their last known good configuration through the use of a watchdog timer or a hardware reset.
+
 We are able to watch and control the state of the application and the update process from the field. We have clear visibility into the state of each device and how we are progressing through the update cycle. We are able to increase the reliability and speed of updates by using locally cached images We can ensure that our updates have succeeded or roll them back before bringing the system back online.
 
 So looking back at historical use-cases, re-discovering the instrumentation/control technician as a key role, you can uncover clues to implement an OTA update strategy that is going to keep your customers happy and you successful. It really is an internet of People and Things.
