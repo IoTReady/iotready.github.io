@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Over-the-air (OTA) updating your IoT system ? Plenty to think about before you sign up. - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="Among the more critical building blocks of an IoT solution, and one which should be thought about sooner than  later is the concept of over-the-air (OTA) updates to your deployed fleet of devices."/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink">
+  <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full">
+    <header class="post-header inner-sm">
+      <h1 class="post-title line-top">Over-the-air (OTA) updating your IoT system ? Plenty to think about before you sign up.</h1>
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/ota.jpg" alt="Over-the-air (OTA) updating your IoT system ? Plenty to think about before you sign up." />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>Photo by Sora Shimazaki from Pexels</p>
+
+<p>By Karan Raj Pradhan and Jay Warrior.</p>
+
+<p>Among the more critical building blocks of an IoT solution, and one which should be thought about sooner than later is the concept of over-the-air (OTA) updates to your deployed fleet of devices. This is particularly useful if that deployed fleet is more than a few hundred devices. There is nothing like a device recall to make that a painful lesson that most of us have gone through, at least once during our careers.</p>
+
+<p>Device updates might be restricted to applications on the device, or more critically to updates to the base firmware itself.</p>
+
+<p>Having this capability gives you all kinds of nice-to-have features such as (relatively) inexpensive bug fixes and product feature upgrades. Certainly everyone of us has experienced multiple over the air updates which are continuously being delivered over the air to our phones. We tend to think of these as a normal part of owning a phone, occasionally something goes wrong and another patch has to be rolled out, sometimes we have to go back to an older version of an app.</p>
+
+<p>Firmware updates (AKA new OS updates) are a lot trickier of course, and most of us, like our customers often do, view these with suspicion and delay implementing them for as long as possible. We use the principle that if it is working, don’t touch it.</p>
+
+<p>However going from updating what is essentially an independent device such as a phone or a smart light bulb to updating a working system is another story.</p>
+
+<p>We are not going to dig into the details of OTA technology in this article, but the workflow to actually get updates successfully delivered is quite interesting, so a few technical details are necessary.</p>
+
+<p>We have a customer who has our code running on some 40,000+ devices. The base platform has a custom designed OTA strategy implemented, since at the stage that we developed the device software stack, no good stable solution existed. Karan Raj Pradhan, the engineer who is working on the re-engineering of the strategy sat down with me and as we went over the design, it struck me that there’s a lot of what we had to consider that might be useful to those of you who are thinking about making this feature a core part of your product offering.</p>
+
+<p>Funnily enough, it’s not the OTA that is the major problem when implementing a practical update strategy. Setting up the context and ensuring that your IoT devices are in a good state to accept an update is both more critical and very application dependent. In a majority of real world applications, your IoT devices do not operate stand-alone but as part of an overall system.</p>
+
+<p>Overall system operation requires the operator to be both aware of the state of the individual IoT devices and also to put the system into a safe mode where you can update the devices.</p>
+
+<p>Another common issue that crops up when updating a system is that typically you update all the components of a system, so for a system as we have described you may have anywhere from a handful to several tens of devices whose updates have to be coordinated together. It does not make sense to carry out these updates individually, downloading and applying updates from the cloud for each one. It makes more sense to download the necessary images once and distribute them locally.</p>
+
+<p>Additionally, you are now faced with the need to make these updates atomically across the set of devices that constitute the system so that you can ensure a coordinated system update.</p>
+
+<p>One soon realizes that it helps to be up and personal with the device, rather than trying to do everything from the cloud. So here is the big problem. Most IoT devices have little if any by way of a local interface. They are literally almost black boxes. So how do you get up close and personal with these devices in the field ?</p>
+
+<p>Well, taking a little look back in history to classical industrial control systems applications, we discover the existence of the handheld or device communicator. These are devices that can be taken out into the field and connected up to networks there. They enable the commissioning and validation of devices, the synchronization of configurations, and a range of provisioning and diagnostic apps/plug-ins. They have a long history of fitting the use cases that appeared when using smart devices in the field. Not so common yet for IoT applications.</p>
+
+<p>We had partially implemented this kind of strategy, where a local device coordinates system upgrades using custom apps and firmware on our devices (they use ESP32 modules as their core compute/communication module).</p>
+
+<p>This time round we were able to take advantage of an updated software development kit, the ESP Mesh Development Framework (ESP-MDF) that almost completely maps to our proposed strategy. Using the MDF we now:</p>
+
+<ol>
+  <li>Supply a configuration and update application that is hosted on the users phone or tablet and that communicates with the devices that constitute the system over the local network, and also to our code repositories in the cloud.</li>
+  <li>First ensure that the user is registered and logged into the app.</li>
+  <li>Ensure that the devices you are going to be communicating with are valid devices that have been registered with the device repository on the cloud.</li>
+  <li>When a firmware or application upgrade is necessary, the user uses the application to set the devices in a safe state.</li>
+  <li>ESP-MDF supplies Application Programming Interfaces (APIs) that enable us to interact with the Mesh Upgrade functionality implemented in the software. The upgrade model uses an elected node in the mesh network, called the root node that the application on the phone talks to in order to carry out the updates.</li>
+  <li>After having pulled down the upgrades from the web server &amp; checking them for validity, the phone app talks to the root node to determine the nodes on the network and to identify the list of devices to upgrade.</li>
+  <li>The phone app sends the firmware together with the list of devices to the root node which checks it for validity and against size constraints.</li>
+  <li>The root node compresses segments and checksums the firmware and uses multicast and mesh transmissions and retransmissions to distribute the firmware to the target nodes and to validate the successful transfer of the firmware based on statuses reported back from the target nodes.</li>
+  <li>Target nodes upon successful receipt and flashing of the new firmware mark the partition holding the new firmware as the boot partition.</li>
+  <li>The root node sends the reboot command to the target nodes and verifies the current software version in the nodes.</li>
+  <li>When this is complete, the root node reports success or failure back to the phone app.</li>
+  <li>Failed nodes revert to their last known good configuration through the use of a watchdog timer or a hardware reset.</li>
+</ol>
+
+<p>We are able to watch and control the state of the application and the update process from the field. We have clear visibility into the state of each device and how we are progressing through the update cycle. We are able to increase the reliability and speed of updates by using locally cached images We can ensure that our updates have succeeded or roll them back before bringing the system back online.</p>
+
+<p>So looking back at historical use-cases, re-discovering the instrumentation/control technician as a key role, you can uncover clues to implement an OTA update strategy that is going to keep your customers happy and you successful. It really is an internet of People and Things.</p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-02-18 00:00">February 18, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+    <h2 class="read-next-title line-top">Read Next</h2>
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
