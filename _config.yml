@@ -61,6 +61,7 @@ sass:
   precision: 10
 plugins:
   - jekyll-menus
+  - jekyll-sitemap
 exclude:
   - Gemfile
   - Gemfile.lock
