@@ -1,5 +1,5 @@
 ---
-title: Over-the-air (OTA) updating your IoT system ? Plenty to think about before you sign up.
+title: Over-the-air (OTA) updating your IoT system? Plenty to think about before you sign up.
 excerpt: >-
   Among the more critical building blocks of an IoT solution, and one which should be thought about sooner than 
   later is the concept of over-the-air (OTA) updates to your deployed fleet of devices.
@@ -35,7 +35,7 @@ Another common issue that crops up when updating a system is that typically you 
 
 Additionally, you are now faced with the need to make these updates atomically across the set of devices that constitute the system so that you can ensure a coordinated system update.
 
-One soon realizes that it helps to be up and personal with the device, rather than trying to do everything from the cloud. So here is the big problem. Most IoT devices have little if any by way of a local interface. They are literally almost black boxes. So how do you get up close and personal with these devices in the field ?
+One soon realizes that it helps to be up and personal with the device, rather than trying to do everything from the cloud. So here is the big problem. Most IoT devices have little if any by way of a local interface. They are literally almost black boxes. So how do you get up close and personal with these devices in the field?
 
 Well, taking a little look back in history to classical industrial control systems applications, we discover the existence of the handheld or device communicator. These are devices that can be taken out into the field and connected up to networks there. They enable the commissioning and validation of devices, the synchronization of configurations, and a range of provisioning and diagnostic apps/plug-ins. They have a long history of fitting the use cases that appeared when using smart devices in the field. Not so common yet for IoT applications.
 
