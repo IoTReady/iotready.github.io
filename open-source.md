@@ -23,7 +23,7 @@ We wouldn't have made it very far without the open source community and are work
 
 
 ## TODO
-*We will release these as time permits. However, if you have an urgent need for any of these or are willing to poke around slightly raw tools, please do reach out!*
+*We will release these as time permits. However, if you have an urgent need for any of these or are willing to mess around with slightly undercooked tools, please do reach out!*
 
 - CAD files for most of our antenna library
 - Calculation tools for antenna range and size modeling
