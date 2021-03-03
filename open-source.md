@@ -9,7 +9,8 @@ We wouldn't have made it very far without the open source community and are work
 
 | Component                 | Last Release | Comment        |
 | ---                       | ---          | ---            |
-| ESP32 Firmware            | 01/2021 | Code Review      |
+| ESP32 Firmware            | 04/2021 | Code Review      |
+| [A9/A9G GSM/GPS Firmware](https://github.com/IoTReady/a9_libraries)            | 03/2021 |       |
 | [RX-BLE Plugin For Flutter](https://pub.dev/packages/rx_ble) | 04/2020 |       |
 | [WiFi Config Plugin For Flutter](https://pub.dev/packages/wifi_configuration) | 11/2019 |       |
 | [Plugin Scaffold For Flutter](https://pub.dev/packages/plugin_scaffold) | 04/2020 |       |

@@ -28,7 +28,7 @@ sections:
     grid_items:
       - title: Open Source
         content: >-
-          We have contributed a number of plugins to simplify IoT app development and are in the process of open sourcing firmware frameworks for the ESP32 (BLE/WiFi) and A9 (GSM) chips.
+          We have open sourced a number of plugins to simplify IoT app development, libraries for working with the A9/A9G GSM/GPS chip and are in the process of open sourcing our firmware framework for the ESP32 (BLE/WiFi) chip.
         url: /open-source/
       - title: Licensed IP
         content: >-
