@@ -7,7 +7,7 @@ layout: page
 ## Firmware
 
 ### A9/A9G GSM/GPS Chip
-The A9/A9G are a pair of low-cost GPRS SoC modules from [AI Thinker]. The A9G variant includes an on-chip GPS. The firmware uses a custom RTOS and we have created a set of libraries to simplify custom product development. 
+The A9/A9G are a pair of low-cost GPRS SoC modules from [AI Thinker](http://en.ai-thinker.com/). The A9G variant includes an on-chip GPS. The firmware uses a custom RTOS and we have created a set of libraries to simplify custom product development. 
 
 - [Github Repo](https://github.com/IoTReady/a9_gsm_gps_library)
 - [Documentation](https://iotready.co/a9_gsm_gps_library/)
