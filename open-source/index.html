@@ -2,7 +2,7 @@
 <html lang="en">
     <head>    
 
-        <title>Open Source Foundations - IoTReady</title>
+        <title>Open Source At IoTReady - IoTReady</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="google" content="notranslate" />
@@ -139,95 +139,108 @@
 
   <article class="post post-full">
     <header class="post-header inner-sm">
-      <h1 class="post-title line-top">Open Source Foundations</h1>
+      <h1 class="post-title line-top">Open Source At IoTReady</h1>
       
       
     </header>
     
     
     <div class="post-content inner-sm">
-      <p>We wouldn’t have made it very far without the open source community and are working hard on contributing back. The table aims to maintain a comprehensive list of our existing contributions with links.</p>
+      <h2 id="firmware">Firmware</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>Component</th>
-      <th>Last Release</th>
-      <th>Comment</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ESP32 Firmware</td>
-      <td>04/2021</td>
-      <td>Code Review</td>
-    </tr>
-    <tr>
-      <td><a href="https://github.com/IoTReady/a9_libraries">A9/A9G GSM/GPS Firmware</a></td>
-      <td>03/2021</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/rx_ble">RX-BLE Plugin For Flutter</a></td>
-      <td>04/2020</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/wifi_configuration">WiFi Config Plugin For Flutter</a></td>
-      <td>11/2019</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/plugin_scaffold">Plugin Scaffold For Flutter</a></td>
-      <td>04/2020</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/aws_iot">AWS IoT For Flutter</a></td>
-      <td>12/2019</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/flutter_cognito_plugin">AWS Cognito For Flutter</a></td>
-      <td>06/2020</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/aws_appsync">AWS AppSync For Flutter</a></td>
-      <td>04/2020</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/flutter_pdf_viewer">PDF Viewer For Flutter</a></td>
-      <td>04/2020</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/network_file">Network File Sync For Flutter</a></td>
-      <td>09/2019</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/super_logging">Super Logger For Flutter</a></td>
-      <td>10/2020</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><a href="https://pub.dev/packages/keyboard">Keyboard Events For Flutter</a></td>
-      <td>12/2019</td>
-      <td> </td>
-    </tr>
-  </tbody>
-</table>
+<h3 id="a9a9g-gsmgps-chip">A9/A9G GSM/GPS Chip</h3>
+<p>The A9/A9G are a pair of low-cost GPRS SoC modules from [AI Thinker]. The A9G variant includes an on-chip GPS. The firmware uses a custom RTOS and we have created a set of libraries to simplify custom product development.</p>
+
+<ul>
+  <li><a href="https://github.com/IoTReady/a9_gsm_gps_library">Github Repo</a></li>
+  <li><a href="https://iotready.co/a9_gsm_gps_library/">Documentation</a></li>
+</ul>
+
+<h3 id="esp32-blewifi-chip">ESP32 BLE/WiFi Chip</h3>
+<p>The ESP32 needs no introduction as the most popular WiFi module around. We are working on releasing our code framework built on top of the ESP IDF (IoT Development Framework). Our goal is to make the library as user friendly as the Arduino code base without compromising on size or speed.</p>
+
+<h2 id="mobile-app">Mobile App</h2>
+<p>We build our mobile apps using Flutter due to its cross-platform capabilities and excellent performance. The Flutter ecosystem is still nascent and we have sponsored and released a number of open-source plugins to assist with common IoT use cases.</p>
+
+<h3 id="aws-iot">AWS IoT</h3>
+
+<ul>
+  <li><a href="https://github.com/IoTReady/flutter-aws-iot">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/aws_iot">Documentation</a></li>
+</ul>
+
+<h3 id="aws-cognito">AWS Cognito</h3>
+
+<ul>
+  <li><a href="https://github.com/scientifichackers/flutter_cognito_plugin">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/flutter_cognito_plugin">Documentation</a></li>
+</ul>
+
+<h3 id="aws-appsync">AWS AppSync</h3>
+
+<ul>
+  <li><a href="https://github.com/IoTReady/flutter-aws-appsync">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/aws_appsync">Documentation</a></li>
+</ul>
+
+<h3 id="rx-ble">RX-BLE</h3>
+
+<ul>
+  <li><a href="https://github.com/scientifichackers/flutter-rx-ble">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/rx_ble">Documentation</a></li>
+</ul>
+
+<h3 id="wifi-configuration">WiFi Configuration</h3>
+
+<ul>
+  <li><a href="https://github.com/RohitKumarMishra/wifi_configuration">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/wifi_configuration">Documentation</a></li>
+</ul>
+
+<h3 id="p2p-network-file-sync">P2P Network File Sync</h3>
+
+<ul>
+  <li><a href="https://github.com/scientifichackers/flutter_cognito_plugin">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/network_file">Documentation</a></li>
+</ul>
+
+<h3 id="plugin-scaffold">Plugin Scaffold</h3>
+
+<ul>
+  <li><a href="https://github.com/scientifichackers/flutter-plugin-scaffold">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/plugin_scaffold">Documentation</a></li>
+</ul>
+
+<h3 id="super-logging">Super Logging</h3>
+
+<ul>
+  <li><a href="https://github.com/scientifichackers/super_logging">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/super_logging">Documentation</a></li>
+</ul>
+
+<h3 id="keyboard-events">Keyboard Events</h3>
+
+<ul>
+  <li><a href="https://github.com/scientifichackers/flutter-keyboard-plugin">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/keyboard">Documentation</a></li>
+</ul>
+
+<h3 id="plugin-scaffold-1">Plugin Scaffold</h3>
+
+<ul>
+  <li><a href="https://github.com/scientifichackers/flutter_pdf_viewer">Github Repo</a></li>
+  <li><a href="https://pub.dev/packages/flutter_pdf_viewer">Documentation</a></li>
+</ul>
 
 <h2 id="todo">TODO</h2>
 <p><em>We will release these as time permits. However, if you have an urgent need for any of these or are willing to mess around with slightly undercooked tools, please do reach out!</em></p>
 
 <ul>
+  <li>nRF52 BLE Data logger</li>
+  <li>Alexa Smart Home Skill with CloudFormation template</li>
   <li>CAD files for most of our antenna library</li>
   <li>Calculation tools for antenna range and size modeling</li>
   <li>Sustain OS - collection of mods to Alpine Linux + flashing tools suitable for Raspberry Pi 3 and other Armv7 boards</li>
-  <li>Some more Flutter plugins as we abstract common patterns into plugins.</li>
 </ul>
 
     </div>
