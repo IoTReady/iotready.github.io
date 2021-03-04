@@ -73,7 +73,7 @@ We build our mobile apps using Flutter due to its cross-platform capabilities an
 - [Documentation](https://pub.dev/packages/keyboard)
 
 
-### Plugin Scaffold
+### PDF Viewer
 
 - [Github Repo](https://github.com/scientifichackers/flutter_pdf_viewer)
 - [Documentation](https://pub.dev/packages/flutter_pdf_viewer)
