@@ -1,7 +1,7 @@
 ---
 title: Perfect building blocks for mobile IoT devices
 excerpt: >-
-  It all arises because of the dependence of the vast majority of IoT solutions on a cloud back-end.
+  Among the numerous applications that IoT technology has been applied to, there is a large class of applications that need some unique capabilities from their underlying hardware platform in order to enable their construction.
 date: '2020-12-03'
 thumb_image: images/Smart_City-IoT.jpg
 image: images/Smart_City-IoT.jpg
