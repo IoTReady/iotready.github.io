@@ -29,8 +29,6 @@ Ammar is a polyglot comfortable building high-performance native apps as well as
 ### [Shekar YM](https://www.linkedin.com/in/shekar-ym-20273716/) - Operations Lead
 Shekar keeps us ticking over month-on-month and makes all our administrative and logistics challenges disappear.
 
-### [Ruhan A](https://www.linkedin.com/in/ruhan-ruhan-a-b93b73177/) - Hardware Intern
-Ruhan is finishing his diploma in Electrical & Electronics Engineering. He brings expertise in assembly, testing and football to the team.
+### [Ruhan A](https://www.linkedin.com/in/ruhan-ruhan-a-b93b73177/) - Junior Electronics Engineer
+Ruhan holds a diploma in Electrical & Electronics Engineering. Having interned with us since late 2017, Ruhan leads our layout, assembly and testing processes.
 
-### [Yuvraj K](https://www.linkedin.com/in/yuvraj-k-762b6b177/) - Design Intern
-Yuvraj is our go-to for all things that need mockups, animation and CAD. Adept with numerous software tools, Yuvraj is an aspiring game developer.
