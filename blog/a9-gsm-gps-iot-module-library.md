@@ -2,7 +2,7 @@
 title: Easy to use GSM and GPS building blocks for mobile IoT devices
 excerpt: >-
   Among the numerous applications that IoT technology has been applied to, there is a large class of applications that need some unique capabilities from their underlying hardware platform in order to enable their construction.
-date: '2020-12-03'
+date: '2021-03-09'
 thumb_image: images/Smart_City-IoT.jpg
 image: images/Smart_City-IoT.jpg
 layout: post
