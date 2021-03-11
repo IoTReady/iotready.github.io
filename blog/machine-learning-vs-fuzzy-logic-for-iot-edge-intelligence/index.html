@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Excited by Machine Learning for intelligence at the edge? Make sure it's the right tool for your job. - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="IoT devices can generate a lot of data, and of course there is a natural interest to apply machine learning techniques to look for trends and patterns. Of course, we have plenty of tools up in the cloud, and it is certainly possible to build a solution this way for some use cases."/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink">
+  <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full">
+    <header class="post-header inner-sm">
+      <h1 class="post-title line-top">Excited by Machine Learning for intelligence at the edge? Make sure it's the right tool for your job.</h1>
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/BlockDiagram.png" alt="Excited by Machine Learning for intelligence at the edge? Make sure it's the right tool for your job." />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>IoT devices can generate a lot of data, and of course there is a natural interest to apply machine learning techniques to look for trends and patterns. Of course, we have plenty of tools up in the cloud, and it is certainly possible to build a solution this way for some use cases.</p>
+
+<p>The next obvious thought is to wonder if some of this machine learning can’t be sent down to the IoT device. The benefits are clear, cut down on the amount of information that has to be transmitted up into the cloud and improve the processing latency.</p>
+
+<p>This has led to attempts to compute models in the cloud, but execute them on the IoT device, to use reduced resolution and other ideas to shrink the model and so on. The paper <a href="https://arxiv.org/abs/1908.00080">Machine Learning at the Network Edge: A Survey</a> provides a survey of current efforts at implementing machine learning at the network edge.</p>
+
+<p>A lot of this effort is driven by the success of ML in areas such as image and video processing, pattern classification etc.</p>
+
+<p>The question is, are these useful capabilities for your application ? Is ML the best way to solve typical industrial IoT problems ?</p>
+
+<p>In more than one previous article, I have touched on the importance of the ability for a degree of local control and visibility at the edge for many IoT systems, particularly those in industrial automation. The ability for local computation enables the generation of semantically more powerful information (eg a signal’s slope rather than a stream of raw data) and the ability to act on and communicate conditions and actions through local display.</p>
+
+<p>I believe that there are large classes of problems in the industrial automation space, where not only is machine learning not the best answer, but in some instances, lacks the capability to meet the needs of the problem.</p>
+
+<p>Let’s take a popular application space in industrial control - diagnostics. Some simple observations about the characteristics of such problems that can make it difficult to apply ML and to suggest why alternate approaches may provide better results.</p>
+
+<p>1) Most problems at this level have a basis in a physical process which require stateful model(s) for the diagnostic process so you are often looking at a problem of feature extraction coupled with managing model state rather than a problem of merely looking for correlation/inference.</p>
+
+<p>3) Pure ML isn’t built to handle state information, state transitions, or to provide for easy tuning of correlation or inference logic with 
+customer friendly Domain Specific Language (DSL) interfaces etc.</p>
+
+<p>4) Diagnostic logic is often rule based, a natural outcome of how human’s diagnose systems and is often tweaked and updated. There is no easy way to provide a user friendly domain specific language to express rules in with ML.</p>
+
+<p>5) Practical diagnostic rules are often expressed with “soft logic” (eg somewhat, mostly etc). Capturing this with ML is not really possible.</p>
+
+<p>6) A typical problem breaks down into understanding the underlying physical models, tapping into or creating the sensors to detect deviations in system operation from “nominal” behavior, (these are often simple statistical signal processing blocks) and then providing a rule based or fuzzy logic / Bayesian estimation engine that can use these signals to confirm a hypothesis that there has been a failure in some part of the system.</p>
+
+<p>7) Finite State Machines’s and path tracing are a often the best way to model and capture failure modes such as degradation etc.</p>
+
+<p>To help illustrate these points, we are going to look at a well known problem in an environment with limited communication to the IoT device and limited compute capability. The application we are going to look at is the diagnosis of plugged impulse lines for a pressure transmitter.</p>
+
+<p><a href="https://www.emerson.com/resource/image/1272634/portrait_ratio3x4/768/1024/5b5bdf8916ba63cce3030491d3e84dd6/Gm/prod-rmt-p3051s.jpg">Pressure transmitters such as this example</a> are used across a broad range of measurement problems. In most cases, the transmitter is usually somewhat remote from the point at which the pressure to be measured is tapped. The pressure signal is conveyed to the transmitter through thin piping, called an impulse line. Impulse lines can for example, freeze in cold weather, become obstructed by deposits etc thus masking the real pressure on the process side from the transmitter that is trying to measure them. Sometimes this discrepancy is only noticed when a control action that should change the value occurs and the transmitter reports no change. The ability to detect plugging at the transmitter is clearly desirable.</p>
+
+<p>So how do we approach this problem ? The first step is to review the physics of the problem. For example, a constricted pipe effectively functions like a resistor in an electronic circuit and attenuates the pressure signal. Similarly clogging in a long impulse pipe can act as a fluid inertia device ie the equivalent of an inductance.By experimental observation one can characterize signal waveforms into five classes. This classification could be a candidate for ML, but the problem is simple enough that one can address it with simple statistics.</p>
+
+<p>We can now use these signal classifications as input into a simple set of rules that can be used to infer the probably underlying cause for the characteristics occurring in the signal. The figure below shows you examples of these signal types.</p>
+
+<p><img src="/images/SignalTypes.png" alt="Signal types" /></p>
+<p style="text-align: center;font-size:90%"><i>(from US6017143) </i></p>
+
+<p>The transmitter doesn’t function in a stand-alone environment. While it receives process signals via its pressure sensor, it also receives process events generated by the signal characteristic analysis described above as well as potentially control signals due to changes in the process being monitored. Managing the interplay between these varied information sources it turns out is best handled by sets of rules developed through an engineering analysis. It turns out that fuzzy logic is a good candidate to handle the “soft logic” that is the usual outcome of the engineering analysis.</p>
+
+<p>A block diagram of the architecture is shown below. The only additional feature to point out is the handling of the configuration that is necessary to permit the transmitter algorithms to self adjust to the process it is installed in. When first installed, or for example, when a set-point change occurs in a system, the transmitter must adjust itself to the new “normal” process signal features. The requires a short learning period to establish baseline parameters for the signal classification.</p>
+
+<p><img src="/images/BlockDiagram.png" alt="Block diagram" /></p>
+<p style="text-align: center;font-size:90%"><i>(from US6017143) </i></p>
+
+<p>The result is a compact solution to a real process automation problem, that runs in a highly power and compute constrained device for which a pure ML based solution would not be an option. If you want to know more details, you can look here <a href="http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO1&amp;Sect2=HITOFF&amp;d=PALL&amp;p=1&amp;u=%2Fnetahtml%2FPTO%2Fsrchnum.htm&amp;r=1&amp;f=G&amp;l=50&amp;s1=6017143.PN.&amp;OS=PN/6017143&amp;RS=PN/6017143">US6017143</a>.</p>
+
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-03-10 00:00">March 10, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+    <h2 class="read-next-title line-top">Read Next</h2>
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
