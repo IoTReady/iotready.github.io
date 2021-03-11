@@ -48,7 +48,7 @@ The [Ai-thinker A9/A9G](http://www.ai-thinker.com/pro_view-28.html) is one platf
 
  > To know more about the A9/A9G modules, you can find the datasheets and schematics [here](https://github.com/IoTReady/a9_gsm_gps_library/tree/main/doc).
 
-A lot of you reading this article might only know of the A9 family as a AT-command controlled peripheral IoT enabler, oblivious to the fact that the A9/A9G is capable of customized firmware! The Ai-Thiker platorm includes an [SDK](https://ai-thinker-open.github.io/GPRS_C_SDK_DOC/en/) that allows you to  use the module not just as a peripheral that your microcontroller talks to, but a stand-alone device. 
+A lot of you reading this article might only know of the A9 family as a AT-command controlled peripheral IoT enabler, oblivious to the fact that the A9/A9G is capable of customized firmware! The Ai-Thinker platorm includes an [SDK](https://ai-thinker-open.github.io/GPRS_C_SDK_DOC/en/) that allows you to  use the module not just as a peripheral that your microcontroller talks to, but a stand-alone device. 
 
 Taking advantage of this access gives you a chance to create a design without needing a separate board and external controller for your application.
 
