@@ -38,7 +38,7 @@ So, when should you choose which RFID technology?
 
 Across these technologies, tags are available with batteries (active) or without (passive). 
 
-> [Passive Bluetooth tags](https://www.wiliot.com/) are new but are excited to see where they go. 
+> [Passive Bluetooth tags](https://www.wiliot.com/) are new but we are excited to see where they go. 
 
 
 ### How do passive RF tags work?
@@ -93,7 +93,7 @@ UHF also allows the antennas to be smaller - reducing cost and increasing the ch
 
 UHF tags do feature more memory than LF tags and can transmit more data. However, it is relatively uncommon to use the tag for storing anything more than an ID. 
 
-> Our customer, [Datamars](https://datamars.com), is one of the world's largest manufacturer of UHF tags for laundry and livestock applications. 
+> Our customer, [Datamars](https://datamars.com), is one of the world's largest manufacturers of UHF tags for laundry and livestock applications. 
 
 
 ### Indoor Traceability
