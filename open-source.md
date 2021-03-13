@@ -4,6 +4,12 @@ title: Open Source At IoTReady
 layout: page
 ---
 
+## Quick Links
+
+- [Firmware](#firmware)
+- [Mobile App Plugins](#mobile-app-plugins)
+- [Tools](#tools)
+
 ## Firmware
 
 ### A9/A9G GSM/GPS Chip
@@ -17,7 +23,7 @@ The A9/A9G are a pair of low-cost GPRS SoC modules from [AI Thinker](http://en.a
 The ESP32 needs no introduction as the most popular WiFi module around. We are working on releasing our code framework built on top of the ESP IDF (IoT Development Framework). Our goal is to make the library as user friendly as the Arduino code base without compromising on size or speed. 
 
 
-## Mobile App
+## Mobile App Plugins
 We build our mobile apps using Flutter due to its cross-platform capabilities and excellent performance. The Flutter ecosystem is still nascent and we have sponsored and released a number of open-source plugins to assist with common IoT use cases.
 
 
@@ -77,6 +83,13 @@ We build our mobile apps using Flutter due to its cross-platform capabilities an
 
 - [Github Repo](https://github.com/scientifichackers/flutter_pdf_viewer)
 - [Documentation](https://pub.dev/packages/flutter_pdf_viewer)
+
+
+## Tools
+
+### Passive RFID Range Calculator
+
+- [Google Sheet](https://docs.google.com/spreadsheets/d/124WRX1RLtgQmTiCcVzDqyR3EXLtFXJdcX3I9vgUl89w/edit?usp=sharing)
 
 
 ## TODO

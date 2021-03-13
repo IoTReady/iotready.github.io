@@ -38,7 +38,7 @@ So, when should you choose which RFID technology?
 
 Across these technologies, tags are available with batteries (active) or without (passive). 
 
-> [Passive Bluetooth tags](https://www.wiliot.com/) are new but are excited to see where they go. 
+> [Passive Bluetooth tags](https://www.wiliot.com/) are new but we are excited to see where they go. 
 
 
 ### How do passive RF tags work?
