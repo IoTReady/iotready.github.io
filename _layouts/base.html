@@ -17,7 +17,7 @@
     </head>
     <body>
         
-        {{ content }}
+        {% include anchor_headings.html html=content anchorBody="#" %}
         <!-- Scripts -->
         <script src="{{ 'assets/js/plugins.js' | relative_url }}"></script>
         <script src="{{ 'assets/js/main.js' | relative_url }}"></script>
