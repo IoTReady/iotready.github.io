@@ -17,8 +17,7 @@
     </head>
     <body>
         
-        <div id="page" class="site palette-light accent-pink">
-  <header id="masthead" class="site-header outer">
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
   <div class="inner">
     <div class="site-header-inside">
       <div class="site-branding">
@@ -137,9 +136,15 @@
   <main id="content" class="site-content">
     <div class="inner outer">
 
-  <article class="post post-full">
-    <header class="post-header inner-sm">
-      <h1 class="post-title line-top">Anomaly Detection For IoT Using Open Distro For ElasticSearch</h1>
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          Anomaly Detection For IoT Using Open Distro For ElasticSearch
+        
+        
+      </h1>
+    
       
       
       <div class="post-subtitle">
@@ -157,12 +162,24 @@
       <blockquote>
   <p>This post is the third in series on using the AWS ecosystem for IoT applications. Previously, we integrated AWS IoT with <a href="/blog/metal-to-alerts-with-aws-iot-timestream-quicksight">Timestream /Quicksight</a> and <a href="/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana">ElasticSearch/Kibana</a>.</p>
 </blockquote>
-
-<h2 id="why">Why</h2>
+      <h2 id="why">
+        
+        
+          Why <a href="#why">#</a>
+        
+        
+      </h2>
+    
 
 <p>Anomaly detection is the foundation for applications such as Predictive Maintenance, which in turn is the driving force behind most industrial IoT deployments. Now that the <em>essentials</em> of sensors, communication, storage and visualisation have largely been solved, attention has turned to machine learning based analytics. Cue the <a href="https://aws.amazon.com/iot-analytics/">new features from AWS IoT</a> and Open Distro For ElasticSearch - the latter is the focus of this article.</p>
-
-<h2 id="what-are-we-going-to-build">What are we going to build?</h2>
+      <h2 id="what-are-we-going-to-build">
+        
+        
+          What are we going to build? <a href="#what-are-we-going-to-build">#</a>
+        
+        
+      </h2>
+    
 
 <p>We will:</p>
 
@@ -172,8 +189,14 @@
   <li>Simulate various grades of anomalies and verify that detector is working fine</li>
   <li>Integrate the anomaly detector with Kibana’s alerts (<a href="/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana">previously discussed here</a>)</li>
 </ol>
-
-<h3 id="simulated-smart-grid-sensor">Simulated Smart Grid Sensor</h3>
+      <h3 id="simulated-smart-grid-sensor">
+        
+        
+          Simulated Smart Grid Sensor <a href="#simulated-smart-grid-sensor">#</a>
+        
+        
+      </h3>
+    
 
 <p>Our simulated sensor helps monitor and predict failures in the medium voltage (MV) transmission grid. The sensor has the following nominal specifications:</p>
 
@@ -187,8 +210,14 @@
 <blockquote>
   <p>Values in these ranges are considered <strong>good</strong>. Anything outside is an <strong>anomaly</strong>.</p>
 </blockquote>
-
-<h3 id="anomaly-detection-in-odfe">Anomaly Detection in ODFE</h3>
+      <h3 id="anomaly-detection-in-odfe">
+        
+        
+          Anomaly Detection in ODFE <a href="#anomaly-detection-in-odfe">#</a>
+        
+        
+      </h3>
+    
 
 <p>ODFE uses the Random Cut Forest (RCF) algorithm for anomaly detection. RCF is an unsupervised algorithm which analyses the data and identifies patterns. Data points that do not fit into these patterns are classified as anomalies and can include, amongst others,:</p>
 
@@ -205,12 +234,24 @@
   <li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/randomcutforest.html">RCF with AWS Sagemaker</a></li>
   <li><a href="https://freecontent.manning.com/the-randomcutforest-algorithm/">RCF Algorithm on Manning</a></li>
 </ul>
-
-<h4 id="elasticsearch-instance">ElasticSearch Instance</h4>
+      <h4 id="elasticsearch-instance">
+        
+        
+          ElasticSearch Instance <a href="#elasticsearch-instance">#</a>
+        
+        
+      </h4>
+    
 
 <p>Assuming you followed the previous post, you will already have an ElasticSearch instance running. However, we need at least 2 CPU cores to use anomaly detection. I am using a <code class="highlighter-rouge">t2.medium</code> instance for this post.</p>
-
-<h2 id="building-our-first-anomaly-detector">Building Our First Anomaly Detector</h2>
+      <h2 id="building-our-first-anomaly-detector">
+        
+        
+          Building Our First Anomaly Detector <a href="#building-our-first-anomaly-detector">#</a>
+        
+        
+      </h2>
+    
 
 <p>Like before, we will start our simulator to inject sensor data into ElasticSearch. I started a script to simulate 21 sensors sending data every 10s.</p>
 
@@ -223,8 +264,14 @@
 <p>The injected data looks a bit like this:</p>
 
 <p><img src="/images/es_cvs_timeseries_good.png" alt="Nominal Current Timeseries Chart" /></p>
-
-<h3 id="initialisation--training">Initialisation / Training</h3>
+      <h3 id="initialisation--training">
+        
+        
+          Initialisation / Training <a href="#initialisation--training">#</a>
+        
+        
+      </h3>
+    
 
 <p>The ODFE documentation has an <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/ad/#get-started-with-anomaly-detection">excellent guide</a> for setting up a detector. Following that we end up with a configuration that looks like this:</p>
 
@@ -243,8 +290,14 @@
   <li>Once configured, the detector took between 30-60 minutes to initialise and go live.</li>
   <li>I made the mistake of trying to enable the detector on a <code class="highlighter-rouge">t2.small</code> instance and kept running into an <code class="highlighter-rouge">unknown error</code>. This disappeared once I changed the instance size to <code class="highlighter-rouge">t2.medium</code>.</li>
 </ul>
-
-<h3 id="anomaly-generation">Anomaly Generation</h3>
+      <h3 id="anomaly-generation">
+        
+        
+          Anomaly Generation <a href="#anomaly-generation">#</a>
+        
+        
+      </h3>
+    
 
 <p>Once the detector was <strong>Live</strong>, I started generating anomalies in about 60% of the data points using the following snippet. Note that I am randomly introducing anomalies into one or all of the four metrics.</p>
 
@@ -289,14 +342,26 @@
 <p>The resulting timeseries charts, in their glorious randomness, look like this:</p>
 
 <p><img src="/images/es_cvs_timeseries_bad.png" alt="Anomalous Metrics Timeseries Charts" /></p>
-
-<h3 id="anomaly-detection">Anomaly Detection</h3>
+      <h3 id="anomaly-detection">
+        
+        
+          Anomaly Detection <a href="#anomaly-detection">#</a>
+        
+        
+      </h3>
+    
 
 <p>And just like that, the detector is triggered within the first time interval. This is great - with little knowledge of machine learning and zero code, we set up a self-taught anomaly detector!</p>
 
 <p><img src="/images/anomaly_detection_results.png" alt="Anomaly Detector Results" /></p>
-
-<h3 id="hang-on">Hang On…</h3>
+      <h3 id="hang-on">
+        
+        
+          Hang On… <a href="#hang-on">#</a>
+        
+        
+      </h3>
+    
 
 <p>If you examine the anomaly grades, you will notice that the grade reduces in each time interval until the detector no longer considers the signals to be anomalous. This reminds me of an old joke,</p>
 
@@ -309,8 +374,14 @@
 <p>The anomaly detector, as mentioned above, is self-taught. And it keeps learning - even as anomalous data streams in. As the kind folk at ODFE explained to me, if 5% of your data is anomalous, is it really anomalous or, in fact, the <em>new normal</em>? The anomaly detector, naturally, adapts to this new normal and gives these signals a decreasing grade until they are fully <em>normalised</em>.</p>
 
 <p>This makes sense, it’s just not what I expected.</p>
-
-<h3 id="how-do-you-solve-this">How do you solve this?</h3>
+      <h3 id="how-do-you-solve-this">
+        
+        
+          How do you solve this? <a href="#how-do-you-solve-this">#</a>
+        
+        
+      </h3>
+    
 
 <blockquote>
   <p>If your data has infrequent anomalies, there’s nothing to fix. The existing plugin already works well!</p>
@@ -324,14 +395,26 @@
   <li>All signals, across all devices, in a time interval are given a single anomaly grade. We may need to classify these anomalies for priorities and, more importantly, identify the specific devices which are reporting anomalous data.</li>
   <li>We may need different anomaly detection for each SKU. E.g. 300A current is anomalous for a sensor rated at 200A but normal for a 500A sensor. With ODFE, we would need to send data from each SKU to a different index and set up separate detectors for each.</li>
 </ul>
-
-<h2 id="integrating-alerts">Integrating Alerts</h2>
+      <h2 id="integrating-alerts">
+        
+        
+          Integrating Alerts <a href="#integrating-alerts">#</a>
+        
+        
+      </h2>
+    
 
 <p>Once an anomaly detector has been set up, it can be used as a source in the existing Alerts plugin for ODFE. We have previously discussed this - all that changes is that we define our monitor using our new anomaly detector. Yes, that’s all!</p>
 
 <p><img src="/images/anomaly_detection_alert_monitor.png" alt="Alerts using Anomaly Detector" /></p>
-
-<h2 id="conclusions-and-next-steps">Conclusions and Next Steps</h2>
+      <h2 id="conclusions-and-next-steps">
+        
+        
+          Conclusions and Next Steps <a href="#conclusions-and-next-steps">#</a>
+        
+        
+      </h2>
+    
 
 <p>Anomaly detection is a relatively new feature in ODFE and is already really good at actually detecting anomalies and does not get tripped unless the anomalies are frequent or persistent. If the <a href="https://github.com/opendistro-for-elasticsearch/anomaly-detection/issues/388">feature request</a> is accepted and built, we are in job done territory for simple use cases.</p>
 
@@ -342,8 +425,14 @@
   <li><a href="https://www.sciencedirect.com/science/article/pii/S0888613X96001168">Fuzzy logic</a> based fault diagnosis at the edge</li>
   <li>ML at the edge using projects such as <a href="https://www.tinyml.org/">TinyML</a></li>
 </ul>
-
-<h2 id="ideas-questions-or-corrections">Ideas, questions or corrections?</h2>
+      <h2 id="ideas-questions-or-corrections">
+        
+        
+          Ideas, questions or corrections? <a href="#ideas-questions-or-corrections">#</a>
+        
+        
+      </h2>
+    
 
 <p>Write to us at <a href="mailto:hello@iotready.co">hello@iotready.co</a></p>
 
@@ -356,13 +445,26 @@
   <!-- Next/previous post navigation TBD -->
   <!--
   <nav class="read-next inner-sm">
-    <h2 class="read-next-title line-top">Read Next</h2>
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
     <div class="post-feed grid grid-col-2">
       <article class="post grid-item">
         <div class="post-inside">
-          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
-          <header class="post-header">
-            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
             <div class="post-meta">
               <time class="published" datetime="">Previous post date</time>
             </div>
@@ -371,9 +473,15 @@
       </article>
       <article class="post grid-item">
         <div class="post-inside">
-          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
-          <header class="post-header">
-            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
             <div class="post-meta">
               <time class="published" datetime="">Next post date</time>
             </div>

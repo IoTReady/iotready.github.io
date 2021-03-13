@@ -17,8 +17,7 @@
     </head>
     <body>
         
-        <div id="page" class="site palette-light accent-pink">
-  <header id="masthead" class="site-header outer">
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
   <div class="inner">
     <div class="site-header-inside">
       <div class="site-branding">
@@ -137,9 +136,15 @@
   <main id="content" class="site-content">
     <div class="inner outer">
 
-  <article class="post post-full">
-    <header class="post-header inner-sm">
-      <h1 class="post-title line-top">From Metal To Alerts With AWS IoT, Timestream and QuickSight</h1>
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          From Metal To Alerts With AWS IoT, Timestream and QuickSight
+        
+        
+      </h1>
+    
       
       
       <div class="post-subtitle">
@@ -154,11 +159,24 @@
     </div>
     
     <div class="post-content inner-sm">
-      <h1 id="why">Why</h1>
+      <h1 id="why">
+        
+        
+          Why <a href="#why">#</a>
+        
+        
+      </h1>
+    
 
 <p>We have been doing similar workflows for 5+ years now, much longer if you count fully custom tools. So have countless others. Yet, if you asked a new engineer to build this, you can wave goodbye to a few weeks of their effort as they navigate obtuse documentation and outdated StackOverflow answers. This is our attempt to document what’s possible with PaaS tools in 2020.</p>
-
-<h2 id="what-are-we-going-to-build">What are we going to build?</h2>
+      <h2 id="what-are-we-going-to-build">
+        
+        
+          What are we going to build? <a href="#what-are-we-going-to-build">#</a>
+        
+        
+      </h2>
+    
 
 <p>To achieve this, we will:</p>
 
@@ -174,8 +192,14 @@
   <li>Set up a visualisation tool and create dashboards using these updates</li>
   <li>Add a few simple alerts on our visualiation tool to send notifications if system metrics cross a threshold</li>
 </ol>
-
-<h2 id="git-repo-structure">Git Repo Structure</h2>
+      <h2 id="git-repo-structure">
+        
+        
+          Git Repo Structure <a href="#git-repo-structure">#</a>
+        
+        
+      </h2>
+    
 
 <p><a href="https://github.com/IoTReady/aws_iot_demo">https://github.com/IoTReady/aws_iot_demo</a></p>
 
@@ -184,8 +208,14 @@
   <li><code class="highlighter-rouge">1_python_script</code> = Python script without AWS IoT integration (print to console)</li>
   <li><code class="highlighter-rouge">2_aws_iot</code> = Python script with AWS IoT integration (shadow updates)</li>
 </ul>
-
-<h2 id="1---python-script-for-system-metrics">1 - Python Script For System Metrics</h2>
+      <h2 id="1---python-script-for-system-metrics">
+        
+        
+          1 - Python Script For System Metrics <a href="#1---python-script-for-system-metrics">#</a>
+        
+        
+      </h2>
+    
 
 <p>We are going to adapt this excellent <a href="https://www.pragmaticlinux.com/2020/12/monitor-cpu-and-ram-usage-in-python-with-psutil/">blog post</a> to create our system monitor script.</p>
 
@@ -218,12 +248,24 @@ touch sysmon.py
 
 <p>You should see output similar to:
 <img src="/images/python_script.png" alt="sysmon.py output" /></p>
-
-<h2 id="2---aws-iot-integration">2 - AWS IoT Integration</h2>
+      <h2 id="2---aws-iot-integration">
+        
+        
+          2 - AWS IoT Integration <a href="#2---aws-iot-integration">#</a>
+        
+        
+      </h2>
+    
 
 <p>Now, we will add in the ability to send our metrics to AWS IoT. But first, we need to register our devices or <code class="highlighter-rouge">things</code> as AWS calls them.</p>
-
-<h3 id="registering-the-devices">Registering the devices</h3>
+      <h3 id="registering-the-devices">
+        
+        
+          Registering the devices <a href="#registering-the-devices">#</a>
+        
+        
+      </h3>
+    
 
 <p>We will register the devices individually via the AWS Console. However, if you have a large number of devices to register, you may want to script it or use <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html">Bulk Registration</a> via <code class="highlighter-rouge">aws-cli</code> or the AWS IoT Core Console.</p>
 
@@ -270,8 +312,14 @@ touch sysmon.py
 <p>Finally, we will rename our certificates to match our thing names so that it’s easier to script together. For instance, I am using the rename utility to bulk rename my certificates:</p>
 
 <p><img src="/images/rename_certs.png" alt="Bulk renaming certs" /></p>
-
-<h3 id="adding-the-aws-iot-sdk">Adding the AWS IoT SDK</h3>
+      <h3 id="adding-the-aws-iot-sdk">
+        
+        
+          Adding the AWS IoT SDK <a href="#adding-the-aws-iot-sdk">#</a>
+        
+        
+      </h3>
+    
 
 <p>Because AWS IoT supports MQTT, we could use any MQTT client that supports X.509 certificates. However, to keep things simple, we will use the <a href="https://github.com/aws/aws-iot-device-sdk-python">official Python SDK</a> from AWS IoT. Specifically, we will adapt the <a href="https://github.com/aws/aws-iot-device-sdk-python/blob/master/samples/basicShadow/basicShadowUpdater.py"><code class="highlighter-rouge">basicShadowUpdater.py</code> sample</a>.</p>
 
@@ -296,8 +344,14 @@ touch sysmon.py
 <p><img src="/images/aws_iot_terminal.png" alt="Terminal Output" /></p>
 
 <p><img src="/images/aws_iot_console.png" alt="AWS Console" /></p>
-
-<h2 id="3---simulating-multiple-devices">3 - Simulating Multiple Devices</h2>
+      <h2 id="3---simulating-multiple-devices">
+        
+        
+          3 - Simulating Multiple Devices <a href="#3---simulating-multiple-devices">#</a>
+        
+        
+      </h2>
+    
 
 <blockquote>
   <p>We are done with almost all of the coding needed to get this working.</p>
@@ -306,8 +360,14 @@ touch sysmon.py
 <p>This is an easy one, open up multiple terminals/tabs and start a separate process for updating the shadow for each <code class="highlighter-rouge">device</code>. Something like this:</p>
 
 <p><img src="/images/multiple_shadow_updates.png" alt="Multiple Devices" /></p>
-
-<h2 id="4---persisting-shadow-updates">4 - Persisting Shadow Updates</h2>
+      <h2 id="4---persisting-shadow-updates">
+        
+        
+          4 - Persisting Shadow Updates <a href="#4---persisting-shadow-updates">#</a>
+        
+        
+      </h2>
+    
 
 <p>In order to visualise, and perhaps analyse, these metrics, we need to persist them in some form of database. Thankfully, AWS IoT has a <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rules.html">Rules Engine</a> designed for just this purpose. The Rules Engine is essentially a message router with the ability to filter messages using an SQL syntax and send them to various destinations.</p>
 
@@ -318,8 +378,14 @@ touch sysmon.py
   <li>Filter: Select the messages we want to act on.</li>
   <li>Act: Select the action(s) we want to run for each filtered message.</li>
 </ol>
-
-<h3 id="filter">Filter</h3>
+      <h3 id="filter">
+        
+        
+          Filter <a href="#filter">#</a>
+        
+        
+      </h3>
+    
 
 <p>AWS IoT uses a reduced <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html">SQL syntax</a> for filtering messages. Points to note:</p>
 
@@ -340,14 +406,26 @@ touch sysmon.py
 </code></pre></div></div>
 
 <p>Before we can save this rule, we will also need to add an <code class="highlighter-rouge">action</code>. Actions define what to do with the filtered messages. This depends on our choice of database.</p>
-
-<h3 id="act">Act</h3>
+      <h3 id="act">
+        
+        
+          Act <a href="#act">#</a>
+        
+        
+      </h3>
+    
 
 <p>AWS IoT supports a large range of actions out of the box including CloudWatch, DynamoDB, ElasticSearch, Timestream DB and custom HTTP endpoints. See the <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rule-actions.html">full list here</a>.</p>
 
 <p>To confirm that our messages are coming through and we are able to store them, we will use the shiny, new time series database from AWS - Timestream. We will also enable the <code class="highlighter-rouge">CloudWatch</code> action in case of errors.</p>
-
-<h4 id="timestream-db">Timestream DB</h4>
+      <h4 id="timestream-db">
+        
+        
+          Timestream DB <a href="#timestream-db">#</a>
+        
+        
+      </h4>
+    
 
 <p>As of this writing Timestream is only available in 4 regions.</p>
 
@@ -379,15 +457,27 @@ touch sysmon.py
   <li>You will also need to create or select an appropriate IAM role that lets AWS IoT to write to Timestream.</li>
   <li>Timestream creates separate rows for each metric so each shadow update creates 5 rows.</li>
 </ul>
-
-<h4 id="cloudwatch">CloudWatch</h4>
+      <h4 id="cloudwatch">
+        
+        
+          CloudWatch <a href="#cloudwatch">#</a>
+        
+        
+      </h4>
+    
 <p>This action is triggered if/when there is an error while processing our rule. Again, follow the guided wizard to create a new <code class="highlighter-rouge">Log Group</code> and assign permissions.</p>
 
 <p>At the end, your rule should look something like this:</p>
 
 <p><img src="/images/aws_iot_action_summary.png" alt="AWS IoT Rule Summary" /></p>
-
-<h3 id="query-timestream">Query Timestream</h3>
+      <h3 id="query-timestream">
+        
+        
+          Query Timestream <a href="#query-timestream">#</a>
+        
+        
+      </h3>
+    
 
 <p>Assuming we have started our simulators again, we should start to see data being stored in Timestream. Go over to AWS Console -&gt; Timestream -&gt; Tables -&gt;  <code class="highlighter-rouge">aws_iot_demo</code> -&gt; Query Table. Type in the following query:</p>
 
@@ -426,8 +516,14 @@ touch sysmon.py
   <li>Verify that your Device Shadow is getting updated by going over to AWS IoT -&gt; Things -&gt; my_iot_device_1 -&gt; Shadow</li>
   <li>Looking for errors if any on the terminal where you are running the script.</li>
 </ul>
-
-<h2 id="pause-for-breath">Pause For Breath</h2>
+      <h2 id="pause-for-breath">
+        
+        
+          Pause For Breath <a href="#pause-for-breath">#</a>
+        
+        
+      </h2>
+    
 
 <p><img src="/images/sunrise.jpg" alt="Sunrise" /></p>
 
@@ -444,8 +540,14 @@ touch sysmon.py
 <p>Now, we only have the small matter of visualising our data and setting up alerts in case any of our metrics cross critical thresholds.</p>
 
 <p>With a fresh cup of coffee, onwards…</p>
-
-<h2 id="5---visualisation">5 - Visualisation</h2>
+      <h2 id="5---visualisation">
+        
+        
+          5 - Visualisation <a href="#5---visualisation">#</a>
+        
+        
+      </h2>
+    
 
 <p>Storage and visualisation are, in fact, two separate operations that need two different software tools. However, these are often so tightly coupled that choice of one often dictates choice of the other. Here’s a handy table that illustrates this.</p>
 
@@ -502,8 +604,14 @@ touch sysmon.py
 </table>
 
 <p>There are, of course, numerous other ways to do this. We will focus on the first two in that table.</p>
-
-<h3 id="timestream--aws-quicksight">Timestream + AWS QuickSight</h3>
+      <h3 id="timestream--aws-quicksight">
+        
+        
+          Timestream + AWS QuickSight <a href="#timestream--aws-quicksight">#</a>
+        
+        
+      </h3>
+    
 
 <p>QuickSight is a managed BI tool from AWS. The <a href="https://docs.aws.amazon.com/timestream/latest/developerguide/QuickSight.html">official documentation</a> to integrate Timestream with QuickSight is a little dense. However, it’s pretty straightforward if you are using <code class="highlighter-rouge">us-east-1</code> as your region.</p>
 
@@ -545,8 +653,14 @@ touch sysmon.py
 </ul>
 
 <p>Mind you, the AWS IoT rules engine can be used quite easily for alerts so you <em>don’t</em> really need alerts in a separate tool. Having said that…</p>
-
-<h3 id="timestream--grafana">Timestream + Grafana</h3>
+      <h3 id="timestream--grafana">
+        
+        
+          Timestream + Grafana <a href="#timestream--grafana">#</a>
+        
+        
+      </h3>
+    
 
 <p><a href="https://grafana.com/">Grafana</a> has long been a favourite of anyone looking to create beautiful, lightweight dashboards. Grafana integrates with a zillion data sources via input plugins and has numerous visualisations via output plugins. Grafana only does visualisations and alerts but does it really well. There are open source and enterprise editions available.</p>
 
@@ -587,8 +701,14 @@ touch sysmon.py
 <p><img src="/images/grafana_timestream_dashboard.png" alt="Grafana Timestream Dashboard" /></p>
 
 <p>Notice that we get dashboard wide time controls for free!</p>
-
-<h3 id="alerts-with-grafana">Alerts With Grafana</h3>
+      <h3 id="alerts-with-grafana">
+        
+        
+          Alerts With Grafana <a href="#alerts-with-grafana">#</a>
+        
+        
+      </h3>
+    
 
 <p>Creating alerts with Grafana is surprisingly easy. Alerts use the same query as the panel and are created in the same UI.</p>
 
@@ -603,8 +723,14 @@ touch sysmon.py
 <p>Alerts can trigger notifications to various <code class="highlighter-rouge">channels</code> with built-in options for all the major chat apps, email and webhooks. For instance, if you wanted to trigger a notification within a mobile app, you would set up an API somewhere that will be triggered by a webhook configuration within Grafana. Your API is then responsible for notifying the mobile app.</p>
 
 <p>For more on Grafana alerts, check out <a href="https://grafana.com/docs/grafana/latest/alerting/create-alerts/">the docs</a>.</p>
-
-<h2 id="conclusions">Conclusions</h2>
+      <h2 id="conclusions">
+        
+        
+          Conclusions <a href="#conclusions">#</a>
+        
+        
+      </h2>
+    
 
 <p>Once you get around the verbose documentation, and refine your search skills, it’s quite straightforward to create an end-to-end flow for most IoT use cases using purely platform-as-a-service offerings.</p>
 
@@ -613,8 +739,14 @@ touch sysmon.py
 <p>That said, I do have a few reservations and will explore those in future posts.</p>
 
 <p>Good luck!</p>
-
-<h2 id="ideas-questions-or-corrections">Ideas, questions or corrections?</h2>
+      <h2 id="ideas-questions-or-corrections">
+        
+        
+          Ideas, questions or corrections? <a href="#ideas-questions-or-corrections">#</a>
+        
+        
+      </h2>
+    
 <p>Write to us at <a href="mailto:hello@iotready.co">hello@iotready.co</a></p>
 
     </div>
@@ -626,13 +758,26 @@ touch sysmon.py
   <!-- Next/previous post navigation TBD -->
   <!--
   <nav class="read-next inner-sm">
-    <h2 class="read-next-title line-top">Read Next</h2>
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
     <div class="post-feed grid grid-col-2">
       <article class="post grid-item">
         <div class="post-inside">
-          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
-          <header class="post-header">
-            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
             <div class="post-meta">
               <time class="published" datetime="">Previous post date</time>
             </div>
@@ -641,9 +786,15 @@ touch sysmon.py
       </article>
       <article class="post grid-item">
         <div class="post-inside">
-          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
-          <header class="post-header">
-            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
             <div class="post-meta">
               <time class="published" datetime="">Next post date</time>
             </div>
