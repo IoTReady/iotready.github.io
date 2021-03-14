@@ -120,7 +120,7 @@ date; websocat wss://stream.binance.com:9443/ws/bnbbtc@depth; date
 - Build and flash the [Websocket Echo Server example](https://github.com/espressif/esp-idf/tree/master/examples/protocols/http_server/ws_echo_server) from ESP-IDF on the ESP32
   - You will need to configure your WiFi settings with `idf.py menuconfig`
   - Once booted, the ESP32 will print its `ip_address`. You will need this.
-- Using websocat, connect to `http://ip_address/ws/`
+- Using websocat, connect to `ws://ip_address/ws`
 - Once connected, type and send any string message, e.g. `hello`
 - Open a new terminal and repeat the websocat messaging. 
   - What do you notice across the two clients?
