@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Hands On With AWS IoT, Timestream and Grafana - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="We integrate AWS IoT with the brand new AWS managed Grafana, compare it with ODFE and make a recommendation. "/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          Hands On With AWS IoT, Timestream and Grafana
+        
+        
+      </h1>
+    
+      
+      
+      <div class="post-subtitle">
+        Integrating and securing AWS managed services for cloud IoT.
+      </div>
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/grafana_demo.png" alt="Hands On With AWS IoT, Timestream and Grafana" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>Grafana has long been a favourite of ours for creating stunning visualisations. It’s lightweight, easy to get started with and, over time, has added a lot of new features without losing simplicity.</p>
+
+<p>Yet, we have shied from recommending Grafana to our IoT customers over, say, the <a href="https://www.influxdata.com/">TICK stack from Influx</a> or <a href="https://opendistro.github.io/for-elasticsearch/">ODFE/Kibana</a>.</p>
+
+<p>A typical IoT workflow has three main blocks on the cloud and a lot of product builders are thrown off by the complexity of integrating these while maintaining data security and access control.</p>
+
+<div class="mermaid">
+graph LR
+    subgraph "Identity &amp; Access Management"
+        A["IoT Broker"] --&gt; B["Data Persistence"]
+        B["Data Persistence"] --&gt; C["Time Series Visualisation"]
+    end
+</div>
+
+<p>Of these, Grafana only does visualisation and is spectacularly good at it. You need to find your own solutions for data ingress and storage. Sure, Grafana has plugins for most data sources you have heard of and many more you haven’t. Yet, most of these require you to set up your own servers.</p>
+
+<p><img src="/images/grafana_data_sources.png" alt="Grafana Data Sources" /></p>
+
+<p>We previously explored integrating <a href="https://iotready.co/blog/metal-to-alerts-with-aws-iot-timestream-quicksight/#timestream--grafana">AWS Timestream with Grafana</a>. Back then, we used the managed service from Grafana.com. With AWS now offering managed services for <a href="https://aws.amazon.com/iot/">IoT ingress</a>, <a href="https://aws.amazon.com/timestream/">time series data storage</a> and <a href="https://aws.amazon.com/grafana/">Grafana</a>, the integration and security challenges should largely be solved, right? Let’s find out.</p>
+      <h3 id="setting-up-grafana-instance">
+        
+        
+          Setting up Grafana Instance <a href="#setting-up-grafana-instance">#</a>
+        
+        
+      </h3>
+    
+
+<p>Like the best managed offerings from AWS, setting up and configuring Grafana is a breeze. There’s a wizard led flow once you click on “Create Workspace”.</p>
+
+<p><img src="/images/aws_managed_grafana.png" alt="AWS Managed Grafana" /></p>
+
+<p><img src="/images/aws_grafana_wizard.png" alt="AWS Grafana Wizard" /></p>
+
+<p>AWS uses SSO for access control - this is powered by <a href="https://aws.amazon.com/organizations/">AWS Organizations</a> behind the scenes. More about this in a bit.</p>
+
+<p><img src="/images/aws_grafana_auth.png" alt="AWS Grafana Auth" /></p>
+
+<p>IAM policies can be enabled with a click or you can configure these yourself.</p>
+
+<p><img src="/images/aws_grafana_iam.png" alt="AWS Grafana IAM" /></p>
+
+<p>Once we are done with the wizard, we enable the newly created user for access. In a couple of minutes our brand new Grafana instance is ready for use. We are brought to this friendly and useful summary.</p>
+
+<p><img src="/images/aws_grafana_summary.png" alt="AWS Grafana Summary" /></p>
+      <h3 id="accessing--configuring-grafana">
+        
+        
+          Accessing &amp; Configuring Grafana <a href="#accessing--configuring-grafana">#</a>
+        
+        
+      </h3>
+    
+
+<p>While we were busy clicking Next a few times, AWS created a new Organisation, sent a confirmation email to the logged in IAM user and another invitation email to the SSO user we created.</p>
+
+<p><img src="/images/aws_grafana_email.png" alt="AWS Grafana SSO Email" /></p>
+
+<p>Accepting the invitation allows us to set up a password for this user which we will need when accessing the Grafana instance.</p>
+
+<p><img src="/images/aws_grafana_signon.png" alt="Grafana AWS SSO" /></p>
+
+<p>Once we login, the interface is an AWS white-labeled version of the standard Grafana UI with a section for AWS specific data sources.</p>
+
+<p><img src="/images/aws_grafana_datasources.png" alt="AWS Grafana Data Sources" /></p>
+
+<p>As one would expect, finding and setting up our Timestream DB as the default data source is also a matter of a few clicks.</p>
+
+<p><img src="/images/aws_grafana_timestream_datasource.png" alt="AWS Grafana Timestream" /></p>
+      <h3 id="setting-up-dashboards--alerts">
+        
+        
+          Setting up Dashboards &amp; Alerts <a href="#setting-up-dashboards--alerts">#</a>
+        
+        
+      </h3>
+    
+
+<p>We have <a href="https://iotready.co/blog/metal-to-alerts-with-aws-iot-timestream-quicksight/#timestream-db">previously described</a> how to send data to AWS IoT and from there into Timestream. Once that is configured, we send data using our trusty Python script.</p>
+
+<p><img src="/images/tmux_aws_iot_demo.png" alt="Sending IoT Data" /></p>
+
+<p>Setting up a dashboard and panel is also exactly the same as in the previous article and we end up with, surprise, a similar panel.</p>
+
+<p><img src="/images/aws_grafana_cpu_usage.png" alt="Grafana CPU Usage Panel" /></p>
+
+<p>The alerts workflow is the same as usual - with the exception that AWS SNS is the first option in notification channels. Once the alerts are configured, we see them on the Alerts dashboard within Grafana.</p>
+
+<p><img src="/images/aws_grafana_alerts.png" alt="Grafana Alerts Dashboard" /></p>
+
+<p>SNS is really easy to configure from within the <a href="https://console.aws.amazon.com/grafana/">AWS Grafana Console</a> (where we saw the summary earlier). We will explore this integration in a future post.</p>
+      <h2 id="reflections">
+        
+        
+          Reflections <a href="#reflections">#</a>
+        
+        
+      </h2>
+    
+
+<p>The advent of managed services from AWS (and others) has enabled cloud infrastructure to be configured rather than developed. For most IoT applications, a product builder can probably just pick one of the following configurations.</p>
+
+<div class="mermaid">
+graph LR
+    subgraph "Cognito Powered AAA"
+        A["AWS IoT"] --&gt; B["Open Distro For ElasticSearch"]
+        B["ODFE"] --&gt; C["Kibana"]
+        C["Kibana"] --&gt; D["Simple Notification Service"]
+    end
+</div>
+
+<div class="mermaid">
+graph LR
+    subgraph "AWS Organisation Powered AAA"
+        A["AWS IoT"] --&gt; B["Timestream"]
+        B["Timestream"] --&gt; C["Grafana"]
+        C["Grafana"] --&gt; D["Simple Notification Service"]
+    end
+</div>
+
+<p>There are differences to consider, of course.</p>
+      <h3 id="features">
+        
+        
+          Features <a href="#features">#</a>
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>ODFE has <a href="https://iotready.co/blog/iot-anomaly-detection-open-distro-elasticsearch/">anomaly detection built-in</a></li>
+  <li>ODFE’s authentication system supports multi-tenancy and granular data source level access controls out of the box.
+    <ul>
+      <li>Grafana has viewer and editor roles and it’s not obvious how to implement data source level access control.</li>
+    </ul>
+  </li>
+  <li>Grafana allows you to ingest and visualise data from multiple data sources.</li>
+  <li>Grafana has a lot of visualisation plugins with a well documented flow for building new plugins.</li>
+</ul>
+      <h3 id="pricing">
+        
+        
+          Pricing <a href="#pricing">#</a>
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>ODFE does not have a pay-as-you-go model - you pay for the hosted ElasticSearch instance(s). Expect to pay $40-$80 per month for &lt;100,000 devices. There are no limits to the number of users you can add to the system.</li>
+  <li>AWS Managed Grafana <a href="https://aws.amazon.com/grafana/pricing/">costs $9/editor</a> and $5/viewer per month. The prices are similar to that for QuickSight.</li>
+</ul>
+      <h3 id="ecosystem">
+        
+        
+          Ecosystem <a href="#ecosystem">#</a>
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>Timestream is relatively new and the data model takes a little getting used to. Moreover, you have to use official AWS SDKs to access data for custom applications.</li>
+  <li>ElasticSearch/ODFE, being a lot more mature, have numerous SDKs to access data and build custom interfaces.</li>
+</ul>
+
+<p>For these reasons, and to avoid vendor lock-in with Timestream, we will continue to recommend ODFE over Grafana.</p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-03-14 00:00">March 14, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
