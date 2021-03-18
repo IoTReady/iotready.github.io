@@ -1,7 +1,7 @@
 ---
-title: Easy EPS32 applications with building blocks - Network configuration.
+title: Easy To Use Building Blocks For EPS32 Applications - Network configuration.
 excerpt: >-
-  We have built enough ESP32 applications that we have identifed some common use-cases that are used more often than others.
+  Having shipped over 50000 ESP32 powered IoT devices, we have distilled our learnings into easy to use open source building blocks.
 date: '2021-03-17'
 thumb_image: images/esp32-image.jpg
 image: images/esp32-image.jpg
