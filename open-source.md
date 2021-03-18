@@ -20,7 +20,10 @@ The A9/A9G are a pair of low-cost GPRS SoC modules from [AI Thinker](http://en.a
 
 
 ### ESP32 BLE/WiFi Chip
-The ESP32 needs no introduction as the most popular WiFi module around. We are working on releasing our code framework built on top of the ESP IDF (IoT Development Framework). Our goal is to make the library as user friendly as the Arduino code base without compromising on size or speed. 
+The ESP32 needs no introduction as the most popular WiFi module around. Our building blocks make the core ESP-IDF as user friendly as the Arduino code base without compromising on size or speed. 
+
+- [Github Repo](https://github.com/IoTReady/esp32_firmware_base)
+- [Documentation](https://iotready.co/esp32_firmware_base/)
 
 
 ## Mobile App Plugins
