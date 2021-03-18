@@ -6,7 +6,8 @@ date: '2021-03-17'
 thumb_image: images/esp32-image.jpg
 image: images/esp32-image.jpg
 layout: post
----# Easy EPS32 applications with building blocks - Network configuration.
+---
+
 With its lucrative price and power-packed performance, Espressif's ESP32 has taken large portions of the IoT space in today's world of "connected things".
 
 One of the cheapest and most popular hybrid Bluetooth + WiFi chips available in the market even today, four and a half years after its initial release supercedeing its predecessor the ESP8266, the ESP32 has definitely made its mark in the world.
