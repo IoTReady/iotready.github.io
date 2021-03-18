@@ -29,7 +29,7 @@ We have built enough ESP32 applications that we have identifed some common use-c
 This article and the corresponding open source code made available on Github, show you the first of these blocks. More will come as we upgrade the repository going forward.
 
 
-### IoTReady ESP32 Framework
+### [IoTReady ESP32 Framework](https://github.com/IoTReady/esp32_firmware_base)
 - The framework consists of libraries that provide ready-to-use APIs that are built on top of the functions provided by the ESP-IDF and FreeRTOS.
 - The maximum focus is on exposing easier-to-use and ready-to-deploy API wrappers over the ESP-IDF that allows programmers to write the least amount of code and care less about lower level implementations like building complex structures or handling error messages.
 - The goal is not only to save the programmer's time in writing code, but also to encourage easier maintenance of homogeneity in code writing and structuring.
