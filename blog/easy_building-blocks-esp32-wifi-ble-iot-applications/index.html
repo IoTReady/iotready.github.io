@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Easy To Use Building Blocks For EPS32 Applications - Network configuration. - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="Having shipped over 50000 ESP32 powered IoT devices, we have distilled our learnings into easy to use open source building blocks."/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          Easy To Use Building Blocks For EPS32 Applications - Network configuration.
+        
+        
+      </h1>
+    
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/esp32-image.jpg" alt="Easy To Use Building Blocks For EPS32 Applications - Network configuration." />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>With its lucrative price and power-packed performance, Espressif’s ESP32 has taken large portions of the IoT space in today’s world of “connected things”.</p>
+
+<p>One of the cheapest and most popular hybrid Bluetooth + WiFi chips available in the market even today, four and a half years after its initial release supercedeing its predecessor the ESP8266, the ESP32 has definitely made its mark in the world.</p>
+
+<p>I will not dig too deep into the features of ESP32 since there are only already thousands of other articles including plenty by Espressif themselves that highlight its capabilities.</p>
+
+<p>All I’m willing to say is, if you haven’t already looked into the ESP32, YOU’RE MISSING OUT BIG TIME!</p>
+
+<p>The ESP-IDF is a great framework with constant development and active forum discussions. These together with nice documentation mean that ESP-IDF framework draws in hobbyists and professionals bees to a beautiful flower.</p>
+      <h3 id="this-brings-me-to-why-im-writing-this-article">
+        
+        
+          This brings me to why I’m writing this article: <a href="#this-brings-me-to-why-im-writing-this-article">#</a>
+        
+        
+      </h3>
+    
+
+<p>While most hobbyists and professionals take complete advantage of the ESP32’s Arduino IDE compatibility(as they should), some handful( maybe more :) )like myself will strongly argue that to squeeze out the best features of its capabilities, the best way has been and most likely will stay for quite some time to program it directly in C.</p>
+
+<p>Despite the great framework and support on the IDF, one could argue that help and data are less easily available to the interested public on IDF when compared to ESP32 on the Arduino framework.</p>
+
+<p>We have built enough ESP32 applications that we have identifed some common use-cases that are used more often than others. They are not unique to our applications but are use cases that almost any implementer will end up needing to consider. In order to make it easier for others to use the ESP32, and to make more rapid progress, we have decided to share some of these common use case building blocks with the community.</p>
+
+<p>This article and the corresponding open source code made available on Github, show you the first of these blocks. More will come as we upgrade the repository going forward.</p>
+      <h3 id="iotready-esp32-framework">
+        
+        
+          <a href="https://github.com/IoTReady/esp32_firmware_base">IoTReady ESP32 Framework</a> <a href="#iotready-esp32-framework">#</a>
+        
+        
+      </h3>
+    
+<ul>
+  <li>The framework consists of libraries that provide ready-to-use APIs that are built on top of the functions provided by the ESP-IDF and FreeRTOS.</li>
+  <li>The maximum focus is on exposing easier-to-use and ready-to-deploy API wrappers over the ESP-IDF that allows programmers to write the least amount of code and care less about lower level implementations like building complex structures or handling error messages.</li>
+  <li>The goal is not only to save the programmer’s time in writing code, but also to encourage easier maintenance of homogeneity in code writing and structuring.</li>
+  <li>Implement most frequently used IoT use-cases into ready-to-build examples using APIs from this library.</li>
+</ul>
+
+<p>Whenever you start building am ESP32 product that uses WiFi for communications, you are faced with the problem of how to get the device to connect and link to your WiFi network. While developing code, its easy enough to set these over the serial port, but that is not something you can expect your customer to do in real life. You need a minimal overhead, easy to use process that doesn’t require a custom application or tools in order to configure WiFi for the customers network.</p>
+
+<p>The simplest workflow to achieve this goal is as follows:</p>
+
+<ol>
+  <li>Have the node wake up and establish a WiFi hot spot that can easily be recognized by the user and connected to from their phone or computer. In our case, the hotspot is created with a common base “IoTReady” followed by the last bytes of the nodes MAC address and a standard password.</li>
+  <li>
+    <p>The user connects to the hotspot.  Since the framework has initialized the network address space and assigned the address for the node, it is easy for the user to simply type a short http REST request into their browser to set the SSID and password.</p>
+  </li>
+  <li>On succesfull setting of the SSID and password, the node reboots and transitions to station mode and connects to the user’s desired network. THere are a few other RESt API’s that are supported in the hotspot mode so that a user can get get details of the node and check node status in case of problems with the process</li>
+</ol>
+
+<p>The <a href="https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/wifi_config_rest">wifi_config_rest</a> example incorporates the <a href="https://github.com/IoTReady/esp32_firmware_base/tree/master/lib/wifi_softap">wifi_softap</a> and <a href="https://github.com/IoTReady/esp32_firmware_base/tree/master/lib/wifi_station">wifi_station</a> libraries to implements the necessary REST API server over HTTP that allows for easy WiFi station configuration without any need to access the console.</p>
+
+<p>Remote device configuration is a very specific but common use-case that IoT enablers should think about. For more information on this use-case, see the example specific <a href="https://github.com/IoTReady/esp32_firmware_base/blob/master/examples/wifi_config_rest/README.md">README</a></p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-03-17 00:00">March 17, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
