@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>WiFi configuration on the ESP32 over Bluetooth - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="A simple pre-thought out plan to include this feature could save you huge hassles of re-deployment of your ESP32-enabled WiFi connected devices in the long run."/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/" >
+  
+  Home
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/ip/" >
+  
+  IP
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          WiFi configuration on the ESP32 over Bluetooth
+        
+        
+      </h1>
+    
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/esp32_Espressif_ESP-WROOM-32_Shielded.jpg" alt="WiFi configuration on the ESP32 over Bluetooth" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>IoT devices dont always have an accessible local user interface, resulting in almost zero capability for interaction with them after deployment if they are not connected to the cloud infrastructure that supports them. Unfortunately there are more than a few chances of an unforeseen circumstance occuring where the device needs to be reconfigured.</p>
+
+<p>Let’s talk about a simple example. Your ESP32 devices are functioning in station mode and are connected to your company sub-network. Your company changes your subnet SSID and as a result credentials have to be updated across your set of nodes. If you hadn’t foreseen this use-case, you have to go through a laborious task of bringing these devices down one-by-one and re-configuring them before they are deployed again. Wouldn’t it be helpful if you had some kind of local access that didn’t depend on the main infrastructure being up and running ?</p>
+
+<p>While we are talking in this simple example about WiFi credentials, this capability can also be useful when some features of the system need configuring once in a while. In these type of problems, even a simple pre-thought out plan can save a lot of time and effort. Since our devices support BLE, it makes obvious that a solution to this is to expose critical parameters behind BLE accessible points (called characteristics in BLE jargon).</p>
+
+<p>Hence we are adding an example to the ESP32 framework we released last week. This example implements a BLE server and exposes a service that allows users to configure the WiFi configuration for the device to become a station and connect to that network. Obviously, you can add other variables / commands to the example to handle your specific use cases.</p>
+
+<blockquote>
+  <p><a href="https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/wifi_config_over_ble">Get a closer look into the example here.</a></p>
+</blockquote>
+
+<ul>
+  <li>Project Root: https://github.com/IoTReady/esp32_firmware_base</li>
+  <li>Doc: https://iotready.co/esp32_firmware_base/</li>
+</ul>
+      <h3 id="bluetooth-characteristic-table-for-the-example">
+        
+        
+          Bluetooth Characteristic Table for the example <a href="#bluetooth-characteristic-table-for-the-example">#</a>
+        
+        
+      </h3>
+    
+<p>| Service UUID | Characteristic UUID | Description | 
+| ———— | ——————- | —————– |
+| <code class="highlighter-rouge">0x00EE</code>     | <code class="highlighter-rouge">0xEE00</code>            |   WiFi SSID       |
+| <code class="highlighter-rouge">0x00EE</code>     | <code class="highlighter-rouge">0xEE01</code>            |   WiFi Password   |
+| <code class="highlighter-rouge">0x00EE</code>     | <code class="highlighter-rouge">0xEE02</code>            |   WiFi Connect    |</p>
+      <h3 id="hardware-required">
+        
+        
+          Hardware Required <a href="#hardware-required">#</a>
+        
+        
+      </h3>
+    
+
+<p>To run this example, you need:</p>
+<ul>
+  <li>An ESP32 dev board (e.g. ESP32-WROVER Kit, ESP32-Ethernet-Kit) or ESP32 core board (e.g. ESP32-DevKitC).</li>
+  <li>Bench DC power supply.</li>
+  <li>Computer with ESP-IDF installed and configured.</li>
+</ul>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-03-26 00:00">March 26, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
