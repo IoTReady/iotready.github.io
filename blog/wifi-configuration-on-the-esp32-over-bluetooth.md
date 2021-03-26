@@ -3,8 +3,8 @@ title: WiFi configuration on the ESP32 over Bluetooth
 excerpt: >-
   A simple pre-thought out plan to include this feature could save you huge hassles of re-deployment of your ESP32-enabled WiFi connected devices in the long run.
 date: '2021-03-26'
-thumb_image: images/esp32_Espressif_ESP-WROOM-32_Shielded.jpg
-image: images/esp32_Espressif_ESP-WROOM-32_Shielded.jpg
+thumb_image: images/esp32-image.jpg
+image: images/esp32-image.jpg
 layout: post
 ---
 
@@ -22,6 +22,7 @@ Hence we are adding an example to the ESP32 framework we released last week. Thi
 - Doc: https://iotready.co/esp32_firmware_base/
 
 ### Bluetooth Characteristic Table for the example 
+
 | Service UUID | Characteristic UUID | Description | 
 | ------------ | ------------------- | ----------------- |
 | `0x00EE`     | `0xEE00`            |   WiFi SSID       |
