@@ -1,16 +1,16 @@
 ---
 title: Preparing an ESP32 product for the IoT World
 excerpt: >-
-  Designing a 'smart' product should also include the vision of fast firmware uploading and automation to meet demands and keep important data pouring seamlessly into the cloud.
+  Designing a 'smart' product should also include the vision of fast firmware uploading, configuring device with the cloud securely and automation to meet demands and keep important data pouring seamlessly into the cloud.
 date: '2021-05-17'
 thumb_image: images/bodh_working.png
 image: images/bodh_working.png
 layout: post
 ---
 
-# Automating your product manufacturing and monitoring for the IoT world
+# Automating your firmware upload, device-cloud configuration and monitoring for the IoT world
 
-### Designing a 'smart' product should also include the vision of fast manufacturing and automation to meet demands and keep important data pouring seamlessly into the cloud. Here's how you can do it.<br>
+### Designing a 'smart' product should also include the vision of fast firmware uploading, configuring device with the cloud securely and automation to meet demands and keep important data pouring seamlessly into the cloud. Here's how you can do it.<br>
 <br>
 
 We have learned through multiple iterative development cycles, that one of the most important qualities for a product is scalability and as for a designer, envisioning the product a couple of months or years down the road depending on their predicted growth is of paramount importance. To be confident in your product, you will surely have to think about building it towards the impact you want it to create, and do so right from the start. Failure to do this could impact sales, quality and in many cases, failure of a product that was otherwise splendid!
