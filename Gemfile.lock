@@ -32,6 +32,8 @@ GEM
     jekyll-paginate (1.1.0)
     jekyll-paginate-v2 (1.9.4)
       jekyll (~> 3.0)
+    jekyll-redirect-from (0.16.0)
+      jekyll (>= 3.3, < 5.0)
     jekyll-sass-converter (1.5.2)
       sass (~> 3.4)
     jekyll-sitemap (1.4.0)
@@ -69,7 +71,8 @@ DEPENDENCIES
   jekyll-menus (~> 0.6.0)
   jekyll-paginate (~> 1.1)
   jekyll-paginate-v2 (~> 1.9)
+  jekyll-redirect-from
   jekyll-sitemap (~> 1.4.0)
 
 BUNDLED WITH
-   2.2.1
+   2.2.17

@@ -13,6 +13,9 @@
 <loc>https://iotready.co/portfolio/biogas-consumption/</loc>
 </url>
 <url>
+<loc>https://iotready.co/building-blocks/</loc>
+</url>
+<url>
 <loc>https://iotready.co/contact/</loc>
 </url>
 <url>
@@ -41,9 +44,6 @@
 </url>
 <url>
 <loc>https://iotready.co/blog/iot-lemon/</loc>
-</url>
-<url>
-<loc>https://iotready.co/ip/</loc>
 </url>
 <url>
 <loc>https://iotready.co/portfolio/light-therapy/</loc>
@@ -85,6 +85,9 @@
 <loc>https://iotready.co/portfolio/smarter-light-therapy/</loc>
 </url>
 <url>
+<loc>https://iotready.co/solutions/</loc>
+</url>
+<url>
 <loc>https://iotready.co/thank-you/</loc>
 </url>
 <url>
@@ -104,5 +107,13 @@
 </url>
 <url>
 <loc>https://iotready.co/blog/wifi-configuration-on-the-esp32-over-bluetooth/</loc>
+</url>
+<url>
+<loc>https://iotready.co/assets/files/smart_grid_monitor.pdf</loc>
+<lastmod>2021-04-07T17:09:59+05:30</lastmod>
+</url>
+<url>
+<loc>https://iotready.co/assets/files/smart_weighing_scale.pdf</loc>
+<lastmod>2021-04-05T10:57:05+05:30</lastmod>
 </url>
 </urlset>

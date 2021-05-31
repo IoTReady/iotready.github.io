@@ -4,93 +4,103 @@ title: Open Source At IoTReady
 layout: page
 ---
 
+## Solutions
+
+### Low Power BLE Enabled Weighing Scale
+
+<img src="/images/OSHW_mark_IN000027.png" alt="OSHWA Certificate" width="160"/>
+
+- [Github Repo](https://github.com/IoTReady/low-power-nrf52-weighing-scale)
+- [Documentation](https://iotready.co/low-power-nrf52-weighing-scale/)
+- [OSHWA Certification](https://certification.oshwa.org/in000027.html)
+
 ## Quick Links
 
 - [Firmware](#firmware)
 - [Mobile App Plugins](#mobile-app-plugins)
 - [Tools](#tools)
 
-## Firmware
+### Firmware
 
-### A9/A9G GSM/GPS Chip
+#### A9/A9G GSM/GPS Chip
 The A9/A9G are a pair of low-cost GPRS SoC modules from [AI Thinker](http://en.ai-thinker.com/). The A9G variant includes an on-chip GPS. The firmware uses a custom RTOS and we have created a set of libraries to simplify custom product development. 
 
 - [Github Repo](https://github.com/IoTReady/a9_gsm_gps_library)
 - [Documentation](https://iotready.co/a9_gsm_gps_library/)
 
 
-### ESP32 BLE/WiFi Chip
+#### ESP32 BLE/WiFi Chip
 The ESP32 needs no introduction as the most popular WiFi module around. Our building blocks make the core ESP-IDF as user friendly as the Arduino code base without compromising on size or speed. 
 
 - [Github Repo](https://github.com/IoTReady/esp32_firmware_base)
 - [Documentation](https://iotready.co/esp32_firmware_base/)
 
 
-## Mobile App Plugins
+### Mobile App Plugins
 We build our mobile apps using Flutter due to its cross-platform capabilities and excellent performance. The Flutter ecosystem is still nascent and we have sponsored and released a number of open-source plugins to assist with common IoT use cases.
 
 
-### AWS IoT
+#### AWS IoT
 
 - [Github Repo](https://github.com/IoTReady/flutter-aws-iot)
 - [Documentation](https://pub.dev/packages/aws_iot)
 
-### AWS Cognito
+#### AWS Cognito
 
 - [Github Repo](https://github.com/scientifichackers/flutter_cognito_plugin)
 - [Documentation](https://pub.dev/packages/flutter_cognito_plugin)
 
 
-### AWS AppSync
+#### AWS AppSync
 
 - [Github Repo](https://github.com/IoTReady/flutter-aws-appsync)
 - [Documentation](https://pub.dev/packages/aws_appsync)
 
 
-### RX-BLE
+#### RX-BLE
 
 - [Github Repo](https://github.com/scientifichackers/flutter-rx-ble)
 - [Documentation](https://pub.dev/packages/rx_ble)
 
-### WiFi Configuration
+#### WiFi Configuration
 
 - [Github Repo](https://github.com/RohitKumarMishra/wifi_configuration)
 - [Documentation](https://pub.dev/packages/wifi_configuration)
 
 
-### P2P Network File Sync
+#### P2P Network File Sync
 
 - [Github Repo](https://github.com/scientifichackers/flutter_cognito_plugin)
 - [Documentation](https://pub.dev/packages/network_file)
 
 
-### Plugin Scaffold
+#### Plugin Scaffold
 
 - [Github Repo](https://github.com/scientifichackers/flutter-plugin-scaffold)
 - [Documentation](https://pub.dev/packages/plugin_scaffold)
 
 
-### Super Logging
+#### Super Logging
 
 - [Github Repo](https://github.com/scientifichackers/super_logging)
 - [Documentation](https://pub.dev/packages/super_logging)
 
 
-### Keyboard Events
+#### Keyboard Events
 
 - [Github Repo](https://github.com/scientifichackers/flutter-keyboard-plugin)
 - [Documentation](https://pub.dev/packages/keyboard)
 
 
-### PDF Viewer
+#### PDF Viewer
 
 - [Github Repo](https://github.com/scientifichackers/flutter_pdf_viewer)
 - [Documentation](https://pub.dev/packages/flutter_pdf_viewer)
 
 
-## Tools
+### Tools
 
-### Passive RFID Range Calculator
+#### Passive RFID Range Calculator
 
 - [Google Sheet](https://docs.google.com/spreadsheets/d/124WRX1RLtgQmTiCcVzDqyR3EXLtFXJdcX3I9vgUl89w/edit?usp=sharing)
 

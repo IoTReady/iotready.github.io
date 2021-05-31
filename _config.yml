@@ -12,8 +12,15 @@ header:
   title: IoTReady
   has_nav: true
   nav_links:
-    - label: Home
-      url: /
+    - label: Bodh
+      url: https://bodh.iotready.co/
+      style: link
+      new_window: true
+    - label: Solutions
+      url: /solutions/
+      style: link
+    - label: Building Blocks
+      url: /building-blocks/
       style: link
     - label: Portfolio
       url: /portfolio/
@@ -21,16 +28,9 @@ header:
     - label: Open Source
       url: /open-source/
       style: link
-    - label: IP
-      url: /ip/
-      style: link
     - label: Blog
       url: /blog/
       style: link
-    # - label: Docs
-      # url: https://iotready.github.io/docs/
-      # style: link
-      # new_window: true
     - label: About
       url: /about/
       style: link

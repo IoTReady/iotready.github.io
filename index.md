@@ -6,7 +6,7 @@ sections:
     type: section_hero
     title: 'Simplifying IoT.'
     content: >-
-      Our metal-to-cloud building blocks have helped teams across the world ship 50000+ IoT devices. What are you working on?
+      Our full stack IoT solutions and metal-to-cloud building blocks save months of effort and generate millions in revenue for customers worldwide. What are you working on?
     actions:
       - label: Let's talk
         url: /contact
@@ -28,20 +28,22 @@ sections:
     grid_items:
       - title: Open Source
         content: >-
-          We have open sourced a number of plugins to simplify IoT app development, libraries for working with the A9/A9G GSM/GPS chip and are in the process of open sourcing our firmware framework for the ESP32 (BLE/WiFi) chip.
+          All our core firmware libraries, mobile app plugins and a number of our hardware designs are in the open domain. Our firmware and software blocks are MIT licensed and hardware designs are OSHWA certified. 
         url: /open-source/
-      - title: Licensed IP
+      - title: Building Blocks
         content: >-
           Build your next product with our specialist hardware designs or 
           use our battle-tested, customisable code kits for mobile and voice 
           apps to make great IoT apps.
-        url: /ip/
+        url: /building-blocks/
+      - title: Full Stack Solutions
+        content: >-
+          Adopt our ready-to-deploy solutions for monitoring Smart Grids and agricultural irrigation pumps or to implement RFID based traceability.
+        url: /solutions/
       - title: Custom Development
         content: >-
           If you are developing a high value IoT enabled product, our team can help you deliver secure, scalable solutions across hardware, firmware, cloud and data visualisation.
-      - title: Expert Consultation
-        content: >-
-          Take your product, processes and team to the next level through direct consultation with our highly experienced founders. Typical engagements cover product architecture, team mentorship and code reviews.
+        url: /contact/
   # - section_id: testimonials
     # type: section_testimonials
     # title: Testimonials
