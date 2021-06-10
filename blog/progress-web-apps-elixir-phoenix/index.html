@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Progressive Web Apps & Elixir Phoenix - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="Elixir Phoenix is one of the best choices out there for building server side web applications. So, how does one build progresive web apps on it?"/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="https://bodh.iotready.co/" target="_blank" rel="noopener">
+  
+  Bodh
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/solutions/" >
+  
+  Solutions
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/building-blocks/" >
+  
+  Building Blocks
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          Progressive Web Apps & Elixir Phoenix
+        
+        
+      </h1>
+    
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/pwa.png" alt="Progressive Web Apps & Elixir Phoenix" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>Progress Web Apps are great for the right use cases. They can replace mobile apps and provide great offline user experience at a fraction of the development and maintenance cost.</p>
+
+<p>So, how do they fit into the IoT world? We will explore this theme in a series of blogs. First up in the series, a tutorial on how to use Phoenix to host one for you.</p>
+      <h3 id="mvpwa-aka-minimum-viable-progress-web-app">
+        
+        
+          MVPWA, aka Minimum Viable Progress Web App <a href="#mvpwa-aka-minimum-viable-progress-web-app">#</a>
+        
+        
+      </h3>
+    
+
+<p>If you, like me, thought that it takes one of those nifty frontend frameworks to build a PWA, here’s a quick tour of the sausage factory.</p>
+
+<p>The absolute barebones PWA only needs 3 files:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">serviceworker.js</code> - tells the browser to cache the app offline</li>
+  <li><code class="highlighter-rouge">manifest.json</code> - gives the browser metadata on the app</li>
+  <li><code class="highlighter-rouge">index.html</code> - HTML, CSS and any custom JS you need. Pulls in <code class="highlighter-rouge">manifest.json</code> and <code class="highlighter-rouge">serviceworker.js</code>.</li>
+</ul>
+
+<p>This <a href="https://www.geeksforgeeks.org/making-a-simple-pwa-under-5-minutes/">great tutorial</a> will help you get started with exploring these files and bulding your first PWA.</p>
+      <h3 id="hosting-a-pwa-with-phoenix">
+        
+        
+          Hosting a PWA with Phoenix <a href="#hosting-a-pwa-with-phoenix">#</a>
+        
+        
+      </h3>
+    
+
+<p>You wouldn’t be completely wrong in believing that Elixir Phoenix and PWAs occupy opposite ends of the web development spectrum. They sort of do, especially with LiveView making JS code largely redundant.</p>
+
+<p>However, it’s very easy to convert some routes in your Phoenix app to a PWA. We did this recently for our <a href="https://bodh.iotready.co/websockets">Websockets client</a> and what follows is a quick summary.</p>
+      <h4 id="app--routing">
+        
+        
+          App &amp; Routing <a href="#app--routing">#</a>
+        
+        
+      </h4>
+    
+
+<p>Our app consists of a simple <code class="highlighter-rouge">HTML</code> page rendered by Phoenix - note that this is not a <code class="highlighter-rouge">LiveView</code>. You can check out the code for the app above by viewing source. Because, we are rendering with Phoenix, the source is quite readable and not a mess of <code class="highlighter-rouge">div</code>s.</p>
+
+<p>To make serving such static pages easier, we use a single <code class="highlighter-rouge">StaticPagesController</code> module. For every new page, we add in a new method with an accompanying new route in <code class="highlighter-rouge">router.ex</code>.</p>
+
+<p>Here’s the method serving <code class="highlighter-rouge">/websockets</code>:</p>
+
+<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">websockets</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">meta_attrs</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">og:title"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">Websockets PWA"</span><span class="p">},</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">og:image"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">/images/websockets_512.png"</span><span class="p">},</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">og:description"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">Bodh Websockets Client PWA"</span><span class="p">},</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">description"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">Bodh Websockets Client PWA"</span><span class="p">}</span>
+    <span class="p">]</span>
+
+    <span class="n">conn</span> <span class="o">=</span>
+      <span class="n">conn</span>
+      <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:meta_attrs</span><span class="p">,</span> <span class="n">meta_attrs</span><span class="p">)</span>
+      <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:page_title</span><span class="p">,</span> <span class="sd">"</span><span class="s2">Bodh Websockets Client"</span><span class="p">)</span>
+      <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:manifest</span><span class="p">,</span> <span class="sd">"</span><span class="s2">manifests/websockets.json"</span><span class="p">)</span>
+
+    <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="sd">"</span><span class="s2">websockets.html"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+      <h4 id="adding-the-manifest-and-seo-tags">
+        
+        
+          Adding the Manifest and SEO Tags <a href="#adding-the-manifest-and-seo-tags">#</a>
+        
+        
+      </h4>
+    
+
+<p>You may have noticed <code class="highlighter-rouge">assign(:manifest, "manifests/websockets.json")</code> above. This is the line which makes adding the manifest possible. And the <code class="highlighter-rouge">meta_attrs</code> improve SEO while allows social media sites render a nice card view of your app when shared.</p>
+
+<p>The <code class="highlighter-rouge">manifest</code> needs to be added to the head of the served HTML. Phoenix does not have built-ins to be able to do this. Instead, we add a new plug in <code class="highlighter-rouge">router.ex</code> and call in the <code class="highlighter-rouge">browser</code> pipeline.</p>
+
+<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">default_assigns</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_opts</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:meta_attrs</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:manifest</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
+    <span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="p">[</span><span class="sd">"</span><span class="s2">html"</span><span class="p">]</span>
+    <span class="n">plug</span> <span class="ss">:fetch_session</span>
+    <span class="o">...</span>
+    <span class="n">plug</span> <span class="ss">:default_assigns</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Then, inside the <code class="highlighter-rouge">root.html.ex</code> layout, we use these assigns in the HTML <code class="highlighter-rouge">head</code>.</p>
+
+<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+<span class="o">...</span>
+<span class="o">&lt;%=</span> <span class="k">if</span> <span class="nv">@meta_attrs</span><span class="p">,</span> <span class="k">do</span><span class="p">:</span> <span class="n">meta_tags</span><span class="p">(</span><span class="nv">@meta_attrs</span><span class="p">)</span> <span class="p">%</span><span class="o">&gt;</span>
+<span class="o">&lt;%=</span> <span class="k">if</span> <span class="nv">@manifest</span> <span class="k">do</span> <span class="p">%</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="sd">"</span><span class="s2">manifest"</span> <span class="n">href</span><span class="o">=</span><span class="sd">"</span><span class="s2">&lt;%= @manifest %&gt;"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="p">%</span> <span class="k">end</span> <span class="p">%</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">meta_tags/1</code> is defined in <code class="highlighter-rouge">views/layout_view.ex</code>:</p>
+
+<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">defmodule</span> <span class="no">BodhWeb</span><span class="o">.</span><span class="no">LayoutView</span> <span class="k">do</span>
+  <span class="kn">use</span> <span class="no">BodhWeb</span><span class="p">,</span> <span class="ss">:view</span>
+
+  <span class="k">def</span> <span class="n">meta_tags</span><span class="p">(</span><span class="n">attrs_list</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">Enum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">attrs_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">meta_tag</span><span class="o">/</span><span class="m">1</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="n">meta_tag</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">tag</span><span class="p">(</span><span class="ss">:meta</span><span class="p">,</span> <span class="no">Enum</span><span class="o">.</span><span class="n">into</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="p">[]))</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>The manifest file itself can be called whatever you want. We call it <code class="highlighter-rouge">websockets.json</code> and store it in <code class="highlighter-rouge">assets/static/manifests/</code>. In order to ensure this is copied over to the generated assets inside <code class="highlighter-rouge">priv</code>, we need to modify the static <code class="highlighter-rouge">plug</code> inside <code class="highlighter-rouge">endpoint.ex</code>:</p>
+
+<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plug</span> <span class="no">Plug</span><span class="o">.</span><span class="no">Static</span><span class="p">,</span>
+    <span class="ss">at:</span> <span class="sd">"</span><span class="s2">/"</span><span class="p">,</span>
+    <span class="ss">from:</span> <span class="ss">:bodh</span><span class="p">,</span>
+    <span class="ss">gzip:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="ss">only:</span> <span class="sx">~w(css fonts images js favicon.ico manifests websockets.js robots.txt)</span>
+</code></pre></div></div>
+
+<p>Notice <code class="highlighter-rouge">manifests</code> in the assets list. We also add some icons to <code class="highlighter-rouge">assets/static/images</code> for use in the manifest. Our final manifest file looks like this:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+	</span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets Client"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"short_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"start_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/websockets"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"standalone"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"background_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#5900b3"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"theme_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/websockets"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets Client PWA"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"icons"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+			</span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/images/websockets_192.png"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192x192"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w">
+		</span><span class="p">},</span><span class="w">
+		</span><span class="p">{</span><span class="w">
+			</span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/images/websockets_512.png"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"512x512"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w">
+		</span><span class="p">}</span><span class="w">
+	</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+      <h4 id="integrating-the-service-worker">
+        
+        
+          Integrating the Service Worker <a href="#integrating-the-service-worker">#</a>
+        
+        
+      </h4>
+    
+
+<p>This was possibly the trickiest of the entire flow to figure out. Turns out that the app route (<code class="highlighter-rouge">/websockets</code>), <code class="highlighter-rouge">manifest.json</code> and the service worker, <code class="highlighter-rouge">websockets.js</code> are linked together by a <code class="highlighter-rouge">scope</code> parameter. It took me multiple readings of this <a href="https://developer.mozilla.org/en-US/docs/Web/Manifest/scope">MDN article</a>, this <a href="https://dev.to/njromano/how-to-scope-your-pwa-service-workers-1n6m">Dev.to article</a> to figure this out.</p>
+
+<p>To summarise, the <code class="highlighter-rouge">manifest</code> and the <code class="highlighter-rouge">serviceworker</code> should use <code class="highlighter-rouge">route</code> as the <code class="highlighter-rouge">scope</code> and <code class="highlighter-rouge">start_url</code>. Our <code class="highlighter-rouge">serviceworker</code> (stored in <code class="highlighter-rouge">websockets.js</code>) looks like this:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">staticCacheName</span> <span class="o">=</span> <span class="s2">"pwa"</span><span class="p">;</span>
+
+<span class="nb">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"install"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">e</span><span class="p">.</span><span class="nx">waitUntil</span><span class="p">(</span>
+	<span class="nx">caches</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">staticCacheName</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">cache</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">addAll</span><span class="p">([</span><span class="s2">"/websockets"</span><span class="p">]);</span>
+	<span class="p">})</span>
+<span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nb">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"fetch"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+
+<span class="nx">event</span><span class="p">.</span><span class="nx">respondWith</span><span class="p">(</span>
+	<span class="nx">caches</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">response</span> <span class="o">||</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">);</span>
+	<span class="p">})</span>
+<span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Finally, it’s important that the path to the <code class="highlighter-rouge">serviceworker.js</code> file is a parent of the route being served. Since we will be serving multiple PWAs on this server, we decided to store all our service workers (including <code class="highlighter-rouge">websockets.js</code>) inside <code class="highlighter-rouge">assets/static/</code>.</p>
+
+<p>There’s apparently a header you can set a <code class="highlighter-rouge">Service-Worker-Allowed: "/"</code> as described in this <a href="https://stackoverflow.com/a/48068714/6415409">StackOverflow response</a>. However, I couldn’t figure out a way to set it on the serviceworker.</p>
+      <h3 id="summary">
+        
+        
+          Summary <a href="#summary">#</a>
+        
+        
+      </h3>
+    
+
+<p>That may look like a lot but it’s really not.</p>
+
+<ul>
+  <li>Write your app the way you normally would any other HTML page. You could even use VueJS or ReactJS etc - as long as you point the controller method to the generated <code class="highlighter-rouge">index.html</code>.</li>
+  <li>Add a plug to include the <code class="highlighter-rouge">manifest.json</code> and, optionally, some SEO meta tags. Assign these in the controller method and modify the root layout so they are added to the HTML.</li>
+  <li>Add <code class="highlighter-rouge">manifest.json</code> and <code class="highlighter-rouge">serviceworker.js</code> to <code class="highlighter-rouge">assets/static</code>.</li>
+  <li>Include the <code class="highlighter-rouge">serviceworker.js</code> via a script tag in the html file.</li>
+  <li>Profit!</li>
+</ul>
+
+<p>Feel free to use and copy the source code from our <a href="https://bodh.iotready.co/websockets">Websockets PWA</a>. This series will next look at how PWAs and Websockets can change how we think about IoT apps.</p>
+
+<p>Stay safe and have a good day!</p><hr />
+
+<p>For further queries, please write to us at hello@iotready.co. For more of our open-source projects, visit <a href="https://iotready.co/open-source/">https://iotready.co/open-source/</a></p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-06-10 00:00">June 10, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
