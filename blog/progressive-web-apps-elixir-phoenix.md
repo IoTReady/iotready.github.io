@@ -8,7 +8,7 @@ image: images/pwa.png
 layout: post
 ---
 
-Progress Web Apps are great for the right use cases. They can replace mobile apps and provide great offline user experience at a fraction of the development and maintenance cost.
+Progress Web Apps are great for the right use cases. They can replace mobile apps and provide a similar user experience at a fraction of the development and maintenance cost.
 
 So, how do they fit into the IoT world? We will explore this theme in a series of blogs. First up in the series, a tutorial on how to use Phoenix to host one for you.
 
@@ -22,7 +22,7 @@ The absolute barebones PWA only needs 3 files:
 - `manifest.json` - gives the browser metadata on the app
 - `index.html` - HTML, CSS and any custom JS you need. Pulls in `manifest.json` and `serviceworker.js`.
 
-This [great tutorial](https://www.geeksforgeeks.org/making-a-simple-pwa-under-5-minutes/) will help you get started with exploring these files and bulding your first PWA.
+This [tutorial](https://www.geeksforgeeks.org/making-a-simple-pwa-under-5-minutes/) will help you get started with exploring these files and bulding your first PWA.
 
 ### Hosting a PWA with Phoenix
 
@@ -59,9 +59,9 @@ end
 
 #### Adding the Manifest and SEO Tags
 
-You may have noticed `assign(:manifest, "manifests/websockets.json")` above. This is the line which makes adding the manifest possible. And the `meta_attrs` improve SEO while allows social media sites render a nice card view of your app when shared.
+You may have noticed `assign(:manifest, "manifests/websockets.json")` above. This is the line which makes adding the manifest possible. And the `meta_attrs` improve SEO while allowing social media sites render a nice card summary of your app when shared.
 
-The `manifest` needs to be added to the head of the served HTML. Phoenix does not have built-ins to be able to do this. Instead, we add a new plug in `router.ex` and call in the `browser` pipeline.
+The `manifest` needs to be added to the head of the served HTML. Phoenix does not have built-ins to be able to do this. Instead, we add a new plug in `router.ex` and call it in the `browser` pipeline.
 
 ```elixir
 def default_assigns(conn, _opts) do
@@ -146,7 +146,7 @@ Notice `manifests` in the assets list. We also add some icons to `assets/static/
 
 This was possibly the trickiest of the entire flow to figure out. Turns out that the app route (`/websockets`), `manifest.json` and the service worker, `websockets.js` are linked together by a `scope` parameter. It took me multiple readings of this [MDN article](https://developer.mozilla.org/en-US/docs/Web/Manifest/scope), this [Dev.to article](https://dev.to/njromano/how-to-scope-your-pwa-service-workers-1n6m) to figure this out. 
 
-To summarise, the `manifest` and the `serviceworker` should use `route` as the `scope` and `start_url`. Our `serviceworker` (stored in `websockets.js`) looks like this:
+To summarise, the `manifest` and the `serviceworker` should use the `route` (e.g. `/websockets`) as the `scope` and `start_url`. Our `serviceworker` (stored in `websockets.js`) looks like this:
 
 
 ```js
@@ -171,7 +171,7 @@ event.respondWith(
 });
 ```
 
-Finally, it's important that the path to the `serviceworker.js` file is a parent of the route being served. Since we will be serving multiple PWAs on this server, we decided to store all our service workers (including `websockets.js`) inside `assets/static/`.
+Finally, it's important that the path to the `serviceworker.js` file is a parent of the route being served. Since we will be serving multiple PWAs from this Phoenix app, we decided to store all our service workers (including `websockets.js`) inside `assets/static/`.
 
 There's apparently a header you can set a `Service-Worker-Allowed: "/"` as described in this [StackOverflow response](https://stackoverflow.com/a/48068714/6415409). However, I couldn't figure out a way to set it on the serviceworker. 
 
