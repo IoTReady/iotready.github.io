@@ -1,7 +1,7 @@
 ---
 title: Progressive Web Apps & Elixir Phoenix
 excerpt: >-
-  Elixir Phoenix is one of the best choices out there for building server side web applications. So, how does one build progresive web apps on it?
+  Elixir Phoenix is one of the best choices out there for building server side web applications. So, how does one build progressive web apps on it?
 date: '2021-06-10'
 thumb_image: images/pwa.png
 image: images/pwa.png
