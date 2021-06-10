@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="google" content="notranslate" />
-        <meta name="description" content="Elixir Phoenix is one of the best choices out there for building server side web applications. So, how does one build progresive web apps on it?"/>
+        <meta name="description" content="Elixir Phoenix is one of the best choices out there for building server side web applications. So, how does one build progressive web apps on it?"/>
         <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
         <link rel="stylesheet" href="/assets/css/main.css">
         <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
@@ -168,7 +168,7 @@
     </div>
     
     <div class="post-content inner-sm">
-      <p>Progress Web Apps are great for the right use cases. They can replace mobile apps and provide great offline user experience at a fraction of the development and maintenance cost.</p>
+      <p>Progress Web Apps are great for the right use cases. They can replace mobile apps and provide a similar user experience at a fraction of the development and maintenance cost.</p>
 
 <p>So, how do they fit into the IoT world? We will explore this theme in a series of blogs. First up in the series, a tutorial on how to use Phoenix to host one for you.</p>
       <h3 id="mvpwa-aka-minimum-viable-progress-web-app">
@@ -190,7 +190,7 @@
   <li><code class="highlighter-rouge">index.html</code> - HTML, CSS and any custom JS you need. Pulls in <code class="highlighter-rouge">manifest.json</code> and <code class="highlighter-rouge">serviceworker.js</code>.</li>
 </ul>
 
-<p>This <a href="https://www.geeksforgeeks.org/making-a-simple-pwa-under-5-minutes/">great tutorial</a> will help you get started with exploring these files and bulding your first PWA.</p>
+<p>This <a href="https://www.geeksforgeeks.org/making-a-simple-pwa-under-5-minutes/">tutorial</a> will help you get started with exploring these files and bulding your first PWA.</p>
       <h3 id="hosting-a-pwa-with-phoenix">
         
         
@@ -244,9 +244,9 @@
       </h4>
     
 
-<p>You may have noticed <code class="highlighter-rouge">assign(:manifest, "manifests/websockets.json")</code> above. This is the line which makes adding the manifest possible. And the <code class="highlighter-rouge">meta_attrs</code> improve SEO while allows social media sites render a nice card view of your app when shared.</p>
+<p>You may have noticed <code class="highlighter-rouge">assign(:manifest, "manifests/websockets.json")</code> above. This is the line which makes adding the manifest possible. And the <code class="highlighter-rouge">meta_attrs</code> improve SEO while allowing social media sites render a nice card summary of your app when shared.</p>
 
-<p>The <code class="highlighter-rouge">manifest</code> needs to be added to the head of the served HTML. Phoenix does not have built-ins to be able to do this. Instead, we add a new plug in <code class="highlighter-rouge">router.ex</code> and call in the <code class="highlighter-rouge">browser</code> pipeline.</p>
+<p>The <code class="highlighter-rouge">manifest</code> needs to be added to the head of the served HTML. Phoenix does not have built-ins to be able to do this. Instead, we add a new plug in <code class="highlighter-rouge">router.ex</code> and call it in the <code class="highlighter-rouge">browser</code> pipeline.</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">default_assigns</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_opts</span><span class="p">)</span> <span class="k">do</span>
     <span class="n">conn</span>
@@ -332,7 +332,7 @@
 
 <p>This was possibly the trickiest of the entire flow to figure out. Turns out that the app route (<code class="highlighter-rouge">/websockets</code>), <code class="highlighter-rouge">manifest.json</code> and the service worker, <code class="highlighter-rouge">websockets.js</code> are linked together by a <code class="highlighter-rouge">scope</code> parameter. It took me multiple readings of this <a href="https://developer.mozilla.org/en-US/docs/Web/Manifest/scope">MDN article</a>, this <a href="https://dev.to/njromano/how-to-scope-your-pwa-service-workers-1n6m">Dev.to article</a> to figure this out.</p>
 
-<p>To summarise, the <code class="highlighter-rouge">manifest</code> and the <code class="highlighter-rouge">serviceworker</code> should use <code class="highlighter-rouge">route</code> as the <code class="highlighter-rouge">scope</code> and <code class="highlighter-rouge">start_url</code>. Our <code class="highlighter-rouge">serviceworker</code> (stored in <code class="highlighter-rouge">websockets.js</code>) looks like this:</p>
+<p>To summarise, the <code class="highlighter-rouge">manifest</code> and the <code class="highlighter-rouge">serviceworker</code> should use the <code class="highlighter-rouge">route</code> (e.g. <code class="highlighter-rouge">/websockets</code>) as the <code class="highlighter-rouge">scope</code> and <code class="highlighter-rouge">start_url</code>. Our <code class="highlighter-rouge">serviceworker</code> (stored in <code class="highlighter-rouge">websockets.js</code>) looks like this:</p>
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">staticCacheName</span> <span class="o">=</span> <span class="s2">"pwa"</span><span class="p">;</span>
 
@@ -355,7 +355,7 @@
 <span class="p">});</span>
 </code></pre></div></div>
 
-<p>Finally, it’s important that the path to the <code class="highlighter-rouge">serviceworker.js</code> file is a parent of the route being served. Since we will be serving multiple PWAs on this server, we decided to store all our service workers (including <code class="highlighter-rouge">websockets.js</code>) inside <code class="highlighter-rouge">assets/static/</code>.</p>
+<p>Finally, it’s important that the path to the <code class="highlighter-rouge">serviceworker.js</code> file is a parent of the route being served. Since we will be serving multiple PWAs from this Phoenix app, we decided to store all our service workers (including <code class="highlighter-rouge">websockets.js</code>) inside <code class="highlighter-rouge">assets/static/</code>.</p>
 
 <p>There’s apparently a header you can set a <code class="highlighter-rouge">Service-Worker-Allowed: "/"</code> as described in this <a href="https://stackoverflow.com/a/48068714/6415409">StackOverflow response</a>. However, I couldn’t figure out a way to set it on the serviceworker.</p>
       <h3 id="summary">
