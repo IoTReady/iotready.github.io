@@ -1,7 +1,7 @@
 ---
 title: Bringing simplicity to using ESP32 with AWS IoT Core
 excerpt: >-
-  Manually preparing devices to connect to AWS IoT Core can be cumbersome, specially in large nummbers. Here is how to do it using a 'prepare' script while saving build time and automating it for simplicity. 
+  Manually preparing devices to connect to AWS IoT Core can be cumbersome, specially in large nummbers. Here is how to do it using a 'prepare' script that saves build time and automates the process for simplicity. 
 date: '2021-06-12'
 thumb_image: images/esp32-awsiot.png
 image: images/esp32-awsiot.png
@@ -14,13 +14,13 @@ layout: post
 - AWS IoT Core is one of the biggest services to occupy the IoT service markets, and rightfully so.
 - It lets you connect IoT devices to the AWS cloud without the need to provision or manage servers.
 - It can support very large numbers of devices and messages, hence is very scalable.
-- The billing methods are very attactive. You only pay exactly for what and how much you use.
+- The billing methods are very attactive. You only pay for exactly which and how much of AWS resources you use.
 - AWS IoT Core makes it easy to use other AWS services with least effort.
 - AWS IoT Core provides authentication when devices connect to AWS IoT Core, so data is only transferred after proven identity.
 
-However, it might still take users quite some reading, researching and head-scratching the first few times at least before they start to get a hang of the environment and technology. So, in this way, it could use more simplicity.
+However, it might still take users quite some reading, researching and head-scratching the first few times at least before they start to get a hang of the environment and technology. It definitely could use more simplicity.
 
-AWS IoT Core also has robust security features as I mentioned above. However, this causes the user to go through quite some repetitive steps in order to get their devices to start sharing data with AWS IoT Core.
+AWS IoT Core also has robust security features as I mentioned above. However, setting these up causes the user to go through quite a few repeated steps in order to get their devices to start sharing data with AWS IoT Core.
 
 Here are the steps needed to prepare a device to connect to AWS IoT Core:
 1. Create a unique 'thing' on the AWS IoT server
@@ -38,9 +38,9 @@ The prepare script is a tool that automates the creating and flashing of devices
 1. Use esptool to get the default MAC address of the device.
 2. Creates an AWS policy if it does not already exist. To learn about policies in AWS, visit [here](https://docs.aws.amazon.com/iot/latest/developerguide/iot-policies.html).
 3. Create keys(private and public) and the certificate for the device and saves them as files.
-4. Attach the existing/created policy in step 2 to the certificate.
-5. Create a new thing with the MAC address obtained in step1 as thing name.
-6. Copy/embed the downloaded certificate and keys files into the necessary folder.
+4. Attaches the existing/created policy in step 2 to the certificate.
+5. Creates a new thing with the MAC address obtained in step1 as thing name.
+6. Copies/embeds the downloaded certificate and keys files into the necessary folder.
 
 ![prepare_flow](/images/prepare_script_flow.png)
 
@@ -56,7 +56,7 @@ If the above is done, the idf.py command makes sure that "my_folder" is turned i
 We have released a working example of the script in our ESP32 Firmware Base [repository](https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/aws_iot). 
 
 ## Running the example:
-- You will need AWS configured in your device in order to automatically access your AWS and do the various steps above. If you haven't already:
+- You will need AWS configured in your device in order to automatically access your AWS account and do the various steps above. If you haven't already:
     - Install the python AWS CLI on your machine
     ````
     $ pip3 install awscli
