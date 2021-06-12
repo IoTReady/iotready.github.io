@@ -1,5 +1,5 @@
 ---
-title: Bringing simplicity to using ESP32 with AWS IoT Core
+title: Using SPIFFS to Simplify AWS IoT Integration For ESP32
 excerpt: >-
   Manually preparing devices to connect to AWS IoT Core can be cumbersome, specially in large nummbers. Here is how to do it using a 'prepare' script that saves build time and automates the process for simplicity. 
 date: '2021-06-12'
@@ -8,55 +8,73 @@ image: images/esp32-awsiot.png
 layout: post
 ---
 
-# ESP32 and AWS IoT Core
+## Why AWS IoT?
 
-## AWS IoT Core
-- AWS IoT Core is one of the biggest services to occupy the IoT service markets, and rightfully so.
-- It lets you connect IoT devices to the AWS cloud without the need to provision or manage servers.
-- It can support very large numbers of devices and messages, hence is very scalable.
-- The billing methods are very attactive. You only pay for exactly which and how much of AWS resources you use.
-- AWS IoT Core makes it easy to use other AWS services with least effort.
-- AWS IoT Core provides authentication when devices connect to AWS IoT Core, so data is only transferred after proven identity.
+- AWS IoT is a managed service from AWS to provide secure connectivity for your devices. 
+- It's highly scalable, supporting millions of devices and billions of messages without you having to manage servers.
+- You pay per event at a pretty reasonable rate. 
+- The built-in rules engine makes it easy to integrate other AWS services or your external APIs.
+- Authentication is handled using X509 certificates making the service highly secure. 
 
-However, it might still take users quite some reading, researching and head-scratching the first few times at least before they start to get a hang of the environment and technology. It definitely could use more simplicity.
+However, as the service has grown, so has the complexity. One part of the flow that has remained constant but trips some of our customers up constantly is the device preparation flow. It goes as follows:
 
-AWS IoT Core also has robust security features as I mentioned above. However, setting these up causes the user to go through quite a few repeated steps in order to get their devices to start sharing data with AWS IoT Core.
-
-Here are the steps needed to prepare a device to connect to AWS IoT Core:
-1. Create a unique 'thing' on the AWS IoT server
-2. Create a unique set of [certificates](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html) for the thing just created.
-3. Create a AWS IoT Core [policy](https://docs.aws.amazon.com/iot/latest/developerguide/iot-policies.html) to control access to the AWS IoT Core server.
+1. Register a unique 'thing' with a thing ID on AWS IoT.
+2. Create a set of thing-specific [certificates](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html).
+3. Create a [policy](https://docs.aws.amazon.com/iot/latest/developerguide/iot-policies.html) for access control.
 4. Attach the policy to the certificate used for the thing.
-5. Upload these certificates into the device so that it can access them to authenticate the connection from the device to the AWS IoT server.
+5. Upload these certificates into the device for authentication while connecting.
 
-## Need for simplicity and efficiency
-As you must have realized, this can be a tedious and time-consuming task, hence inefficient for preparing large number of devices. We wanted to create a tool that not only saves compile time but also automates this process to make it a layman's task to prepare as many devices as possible in the shortest time possible while maintaining simplicity and configurability.
+If you do this often enough, it's second nature. But if you do this often, why wouldn't you...
 
-## The [Prepare Script](https://github.com/IoTReady/prepare_script_awsiot)
-The prepare script is a tool that automates the creating and flashing of devices making them ready-to-deploy with just one command, saving time in abundance. It does the following:
+# Script it!
 
-1. Use esptool to get the default MAC address of the device.
-2. Creates an AWS policy if it does not already exist. To learn about policies in AWS, visit [here](https://docs.aws.amazon.com/iot/latest/developerguide/iot-policies.html).
-3. Create keys(private and public) and the certificate for the device and saves them as files.
-4. Attaches the existing/created policy in step 2 to the certificate.
-5. Creates a new thing with the MAC address obtained in step1 as thing name.
-6. Copies/embeds the downloaded certificate and keys files into the necessary folder.
+As you must have realized, this can be a tedious and time-consuming task. Highly inefficient, and error prone, for preparing large number of devices. For our devices, we wrote a simple `bash` script. 
+
+## [prepare.sh](https://github.com/IoTReady/prepare_script_awsiot)
+
+`prepare.sh` automates registration with AWS IoT and flashes the ESP32 devices in one smooth flow. Flashing each device with the right certificates takes less than 30 seconds!
+
+You can inspect the script linked above and the flow below. Feel free to adapt it to your own use case!
+
 
 ![prepare_flow](/images/prepare_script_flow.png)
 
-### SPIFFS Handling
-What remains then is a mechanism to upload these unique certificates into the device. This can be done using the [spiffsgen.py](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/spiffs.html#spiffsgen-py) tool. The unique certificates that are downloaded for each device are stored into a directory, which is then created into an image and stored into the SPIFFS partition space in the ESP32 (using the [spiffsgen.py](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/spiffs.html#spiffsgen-py) tool). The code then has provisions to read these files and use them for SSL verification and authentication.
+### Architectural Choices
 
-All you need to make sure is to add this into the CMakeLists.txt file under the 'main' directory of your project:
+There are a couple of choices we make that are worth highlighting:
+
+1. We use the `MAC` address of the ESP32 as the `thingId` on AWS IoT and as `clientId` everytime the ESP32 connects.
+2. We store the certificates in an SPIFFS partition on the ESP32 instead of embedding the certificates in a header file as the example code suggests.
+
+The first of these choices is a simple, pragmatic choice that we imagine most other developers make too. 
+
+The second of these is our little gift to you. Storing the certificates in SPIFFS has 2 important benefits:
+
+1. Changing a header file leads to recompilation of your entire project. Compiling an SPIFFS partition takes a fraction of that time.
+2. SPIFFS files can be handled as regular files during operation and, thus, can be replaced as needed.
+
+
+### SPIFFS Handling
+
+What remains then is a mechanism to upload these unique certificates into the device. This can be done using the nifty [spiffsgen.py](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/spiffs.html#spiffsgen-py) tool. 
+
+
+You will need to add the following snippet into the CMakeLists.txt file under the 'main' directory of your project:
+
 ````
 spiffs_create_partition_image(my_spiffs_partition my_folder FLASH_IN_PROJECT)
 ````
-If the above is done, the idf.py command makes sure that "my_folder" is turned into an SPIFFS image and flashed into the "my_spiffs_partition" SPIFFS partition
 
-We have released a working example of the script in our ESP32 Firmware Base [repository](https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/aws_iot). 
+If the above is done, the `idf.py` ensures that `my_folder` is converted into an SPIFFS image and flashed into the "my_spiffs_partition" partition. Make sure you allocate sufficient space for this partition in your `partitions.csv`!
 
-## Running the example:
-- You will need AWS configured in your device in order to automatically access your AWS account and do the various steps above. If you haven't already:
+For a complete working example, check out our [ESP32 Firmware Base repository](https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/aws_iot). You will notice that we load the certificates from `SPIFFS` on boot insides `tasks.c`.
+
+## Running the example
+
+- We use a Python script [`registerDevice.py`](https://github.com/IoTReady/esp32_firmware_base/blob/master/examples/aws_iot/registerDevice.py) for registering things with AWS IoT and downloading certificates.
+- By default, the script relies on your global AWS CLI credentials. 
+  - You will need to install and configure AWS CLI if you haven't already done so:
+
     - Install the python AWS CLI on your machine
     ````
     $ pip3 install awscli
@@ -70,30 +88,37 @@ We have released a working example of the script in our ESP32 Firmware Base [rep
     Default region name [None]:
     Default output format [None]:
     ````
-    > For more details on AWS access keys :https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys<br>
-    For more details on AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
 
-- You will need esptool and boto3 installed. Just run:
+    - In lieu of setting up AWS CLI system-wide, you can also use environment variables to access the keys explicly in `registerDevice.py`. 
+
+> Read more about [AWS access keys](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+    
+
+- For getting the `MAC` address and flashing, we use `esptool` and for AWS API connectivity, we use `boto3` installed. Install them with:
+
 ````
 $ pip3 install -r requirements.txt
 ````
-- Make sure you have configured the AWS variables in [registerDevice.py](./registerDevice.py#L19)
+- Configure the region and other AWS parameters in `registerDevice.py` as per your needs.
 - Put your code project into a directory named `source`. This can be changed in the script.
-- Connect your ESP32 
+- Connect your ESP32 via USB
+
 > This script is designed to be used for production firmware. Therefore, at every run, it stashes and pulls from the remote git repo. Please move ahead accordingly.
+
 - The AWS certificates will be stored in a folder named `aws_credentials` directory according to the current setup. You can change this in the registerDevice.py file. Make sure the directory exists before you run the script.
 - Make sure the prepare.sh file has executable permission:
 ````
-$ sudo chmod a+x prepare.sh
+$ chmod a+x prepare.sh
 ````
 - Run prepare.sh in your project folder.
 ````
 $ ./prepare.sh
 ````
 
-**Note:**
-- If the project is not a git repository, comment the following lines in prepare.sh:
-````
-git stash
-git pull
-````
+## Summary
+
+We have used variants of this script to flash and ship over 50,000 ESP32 powered products worth over $40M. There are other ways, today, of provisioning devices - including self-provisioning. Yet, this trusty little script with the SPIFFS trick has helped save hundreds of hours of effort and mistakes. Good luck!
+
+## Ideas, questions or corrections?
+
+Write to us at [hello@iotready.co](mailto:hello@iotready.co)
