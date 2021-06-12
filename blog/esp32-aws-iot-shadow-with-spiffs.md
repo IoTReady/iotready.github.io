@@ -1,7 +1,7 @@
 ---
 title: Using SPIFFS to Simplify AWS IoT Integration For ESP32
 excerpt: >-
-  Manually preparing devices to connect to AWS IoT Core can be cumbersome, specially in large nummbers. Here is how to do it using a 'prepare' script that saves build time and automates the process for simplicity. 
+  Manually preparing devices to connect to AWS IoT Core can be cumbersome, specially in large numbers. Here is how to do it using a 'prepare' script that saves build time and automates the process for simplicity. 
 date: '2021-06-12'
 thumb_image: images/esp32-awsiot.png
 image: images/esp32-awsiot.png
