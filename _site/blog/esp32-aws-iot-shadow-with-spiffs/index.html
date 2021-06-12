@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Bringing simplicity to using ESP32 with AWS IoT Core - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="Manually preparing devices to connect to AWS IoT Core can be cumbersome, specially in large nummbers. Here is how to do it using a 'prepare' script that saves build time and automates the process for simplicity. "/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="https://bodh.iotready.co/" target="_blank" rel="noopener">
+  
+  Bodh
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/solutions/" >
+  
+  Solutions
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/building-blocks/" >
+  
+  Building Blocks
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          Bringing simplicity to using ESP32 with AWS IoT Core
+        
+        
+      </h1>
+    
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/esp32-awsiot.png" alt="Bringing simplicity to using ESP32 with AWS IoT Core" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <h1 id="esp32-and-aws-iot-core">
+        
+        
+          ESP32 and AWS IoT Core <a href="#esp32-and-aws-iot-core">#</a>
+        
+        
+      </h1>
+    
+      <h2 id="aws-iot-core">
+        
+        
+          AWS IoT Core <a href="#aws-iot-core">#</a>
+        
+        
+      </h2>
+    
+<ul>
+  <li>AWS IoT Core is one of the biggest services to occupy the IoT service markets, and rightfully so.</li>
+  <li>It lets you connect IoT devices to the AWS cloud without the need to provision or manage servers.</li>
+  <li>It can support very large numbers of devices and messages, hence is very scalable.</li>
+  <li>The billing methods are very attactive. You only pay for exactly which and how much of AWS resources you use.</li>
+  <li>AWS IoT Core makes it easy to use other AWS services with least effort.</li>
+  <li>AWS IoT Core provides authentication when devices connect to AWS IoT Core, so data is only transferred after proven identity.</li>
+</ul>
+
+<p>However, it might still take users quite some reading, researching and head-scratching the first few times at least before they start to get a hang of the environment and technology. It definitely could use more simplicity.</p>
+
+<p>AWS IoT Core also has robust security features as I mentioned above. However, setting these up causes the user to go through quite a few repeated steps in order to get their devices to start sharing data with AWS IoT Core.</p>
+
+<p>Here are the steps needed to prepare a device to connect to AWS IoT Core:</p>
+<ol>
+  <li>Create a unique ‘thing’ on the AWS IoT server</li>
+  <li>Create a unique set of <a href="https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html">certificates</a> for the thing just created.</li>
+  <li>Create a AWS IoT Core <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-policies.html">policy</a> to control access to the AWS IoT Core server.</li>
+  <li>Attach the policy to the certificate used for the thing.</li>
+  <li>Upload these certificates into the device so that it can access them to authenticate the connection from the device to the AWS IoT server.</li>
+</ol>
+      <h2 id="need-for-simplicity-and-efficiency">
+        
+        
+          Need for simplicity and efficiency <a href="#need-for-simplicity-and-efficiency">#</a>
+        
+        
+      </h2>
+    
+<p>As you must have realized, this can be a tedious and time-consuming task, hence inefficient for preparing large number of devices. We wanted to create a tool that not only saves compile time but also automates this process to make it a layman’s task to prepare as many devices as possible in the shortest time possible while maintaining simplicity and configurability.</p>
+      <h2 id="the-prepare-script">
+        
+        
+          The <a href="https://github.com/IoTReady/prepare_script_awsiot">Prepare Script</a> <a href="#the-prepare-script">#</a>
+        
+        
+      </h2>
+    
+<p>The prepare script is a tool that automates the creating and flashing of devices making them ready-to-deploy with just one command, saving time in abundance. It does the following:</p>
+
+<ol>
+  <li>Use esptool to get the default MAC address of the device.</li>
+  <li>Creates an AWS policy if it does not already exist. To learn about policies in AWS, visit <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-policies.html">here</a>.</li>
+  <li>Create keys(private and public) and the certificate for the device and saves them as files.</li>
+  <li>Attaches the existing/created policy in step 2 to the certificate.</li>
+  <li>Creates a new thing with the MAC address obtained in step1 as thing name.</li>
+  <li>Copies/embeds the downloaded certificate and keys files into the necessary folder.</li>
+</ol>
+
+<p><img src="/images/prepare_script_flow.png" alt="prepare_flow" /></p>
+      <h3 id="spiffs-handling">
+        
+        
+          SPIFFS Handling <a href="#spiffs-handling">#</a>
+        
+        
+      </h3>
+    
+<p>What remains then is a mechanism to upload these unique certificates into the device. This can be done using the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/spiffs.html#spiffsgen-py">spiffsgen.py</a> tool. The unique certificates that are downloaded for each device are stored into a directory, which is then created into an image and stored into the SPIFFS partition space in the ESP32 (using the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/spiffs.html#spiffsgen-py">spiffsgen.py</a> tool). The code then has provisions to read these files and use them for SSL verification and authentication.</p>
+
+<p>All you need to make sure is to add this into the CMakeLists.txt file under the ‘main’ directory of your project:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spiffs_create_partition_image(my_spiffs_partition my_folder FLASH_IN_PROJECT)
+</code></pre></div></div>
+<p>If the above is done, the idf.py command makes sure that “my_folder” is turned into an SPIFFS image and flashed into the “my_spiffs_partition” SPIFFS partition</p>
+
+<p>We have released a working example of the script in our ESP32 Firmware Base <a href="https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/aws_iot">repository</a>.</p>
+      <h2 id="running-the-example">
+        
+        
+          Running the example: <a href="#running-the-example">#</a>
+        
+        
+      </h2>
+    
+<ul>
+  <li>You will need AWS configured in your device in order to automatically access your AWS account and do the various steps above. If you haven’t already:
+    <ul>
+      <li>Install the python AWS CLI on your machine
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ pip3 install awscli
+</code></pre></div>        </div>
+      </li>
+      <li>Once done, run the command below to configure your AWS security credentials by providing the respective values:
+  ````
+  $ aws configure</li>
+    </ul>
+
+    <p>AWS Access Key ID [None]:
+  AWS Secret Access Key [None]:
+  Default region name [None]:
+  Default output format [None]:
+  ````</p>
+    <blockquote>
+      <p>For more details on AWS access keys :https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys<br />
+  For more details on AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html</p>
+    </blockquote>
+  </li>
+  <li>You will need esptool and boto3 installed. Just run:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip3 install -r requirements.txt
+</code></pre></div>    </div>
+  </li>
+  <li>Make sure you have configured the AWS variables in <a href="./registerDevice.py#L19">registerDevice.py</a></li>
+  <li>Put your code project into a directory named <code class="highlighter-rouge">source</code>. This can be changed in the script.</li>
+  <li>Connect your ESP32
+    <blockquote>
+      <p>This script is designed to be used for production firmware. Therefore, at every run, it stashes and pulls from the remote git repo. Please move ahead accordingly.</p>
+    </blockquote>
+  </li>
+  <li>The AWS certificates will be stored in a folder named <code class="highlighter-rouge">aws_credentials</code> directory according to the current setup. You can change this in the registerDevice.py file. Make sure the directory exists before you run the script.</li>
+  <li>Make sure the prepare.sh file has executable permission:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo chmod a+x prepare.sh
+</code></pre></div>    </div>
+  </li>
+  <li>Run prepare.sh in your project folder.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./prepare.sh
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><strong>Note:</strong></p>
+<ul>
+  <li>If the project is not a git repository, comment the following lines in prepare.sh:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash
+git pull
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-06-12 00:00">June 12, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
