@@ -33,17 +33,17 @@ The input power is supplied through the castellated edge connector pins which ar
 The 3.3 Volts for the esp32 wroom module is sourced through the voltage regulator AMS117_3.3 which is the U2 component in the schematics.
 The LED D1 indicates the presence of power supply to the circuit.
 
-![Image]/images/stamp_esp32-Docs/AMS117_3.3_LED.png)
+![Image](/images/stamp_esp32-Docs/AMS117_3.3_LED.png)
 
 ### Programing pins
 
 For data transmission we have used the two castellated edge connector pins that are D+ and D- which are marked on the board
 
-<p align="center"><img src="/images/stamp_esp32-Docs/Powe_supply_pin.png")></p>
+<p align="center"><img src="/images/stamp_esp32-Docs/Powe_supply_pin.png"></p>
 
 This board is UART protocol based hence, for convenience it provides onboard USB to UART conversion, The USB to UART Bridge chip is provides transfer rates of up to 3 Mbps.
 
-![Image](/images/stamp_esp32-Docs/USB_to_UART_Bridge.png)
+<p align="center"><img src="/images/stamp_esp32-Docs/USB_to_UART_Bridge.png"></p>
 
 ### Switch Buttons
 
