@@ -35,20 +35,20 @@ In our case, when we connect up to our pre-signed S3 link (which happens to be i
 
 In Figure (2) we see that the S3 certificate is issued with the Common Name (CN) s3.amazonaws.com, and the the certificate is issued by DigiCert Baltimore CA-2 G2.
 
-![](/images/Client-Server-Figure-2.jpg)
+<p align="center"><img src="/images/Client-Server-Figure-2.jpg"></p>
 <p align="center"><small><b>Figure (2)</b></small></p>
 
 
 in Figure (3) we inspect the Digicert Certificate and see that it is signed by Baltimore CyberTrust Root, which is a root certificate.
 
-![](/images/Client-Server-Figure-3.jpg)
+<p align="center"><img src="/images/Client-Server-Figure-3.jpg"></p>
 <p align="center"><small><b>Figure (3)</b></small></p>
 
 You may be wondering, how is it that the AWS S3 region is US-East and the certificate is for s3.amazonaws.com. There exists the capability to use a single certificate to authenticate multiple sub-domains of a given domain, typically by using a wild-card CN like *.amazonaws.com. This does not seem to be the case here. While wildcard names were common usage, that functionality is being subsumed by the usage of a capability called Subject Alternative Names (SAN). A SAN is an extension to the X.509 specification that allows users to specify additional host names for the SSL certificate. While SAN hostnames are not specifically limited, there usually exist some limitations that are imposed by the certificate signer.
 
 In Figure(4) we examine the SAN field of the S3 certificate and note that in addition to a wildcard for subdomains of s3.amazonaws.com it also includes several other AWS S3 domains. The advantage of course is that we don't need separate S3 certificates depending on our region or location, but can use this single certificate chain for our accesses.
 
-![](/images/Client-Server-Figure-4.jpg)
+<p align="center"><img src="/images/Client-Server-Figure-4.jpg"></p>
 <p align="center"><small><b>Figure (4)</b></small></p>
 
 There is one more step that we have to take complete the requirements for server authentication. When the node connects to the server and receives the server certificate, it has to validate the certificate chain. In order to do so, the node needs to know that the certificate(chain) is signed by a trusted CA. ESP-IDF, by default uses a restricted set of recognized validated root server certificates, and it is possible that when the server presents its certificate(s), the node cannot find the signer in its list of recognized signers. Fortunately, ESP-IDF allows us to over-ride the bundle of accepted signers as a configuration option in the menuconfig file for mbedtls. Mozilla provides a list of some 130+ trusted certificates that are used by Firefox, and that can be downloaded directly from Mozilla. Use this list to download the subset of trusted certificates you want the node house, making sure that the Root Certificate signer for the server is included.
@@ -57,7 +57,7 @@ Once you have completed these steps, you will be able to have the node issue a r
 
 We now need to look at how to have the node prove to the server that it is authorized to connect.  When a server is configured for client certificate authentication, at the time the node tries to connect to the server, the server sends a request to the client for its certificate along with a list of supported CA names. The node sends its client certificate and uses its private key to generate a hash that the server can verify using the public key of the node. This process is outlined in Figure (5)
 
-![](/images/Client-Server-Figure-5.png)
+<p align="center"><img src="/images/Client-Server-Figure-5.png"></p>
 <p align="center"><small><b>Figure (5)</b></small></p>
 
 The node therefore must hold a signed client certificate and  private key, where the client certificate is signed by a CA known to the server..
