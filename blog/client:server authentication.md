@@ -19,13 +19,6 @@ The basic outline of how this happens is shown in Figure(1)
 ![](/images/Client-Server-Figure-1.png)
 <p align="center"><small><b>Figure (1)</b></small></p>
 
-
-1) The OTA image is stored in a location where it is accessible to download via an HTTPS request from the node
-2) The node is setup with additional partitions to hold at least the OTA images, and the OTA app.
-3) The node, on reset, or on first boot, triggers the OTA process.
-4) The node then connects up to an HTTPS server and downloads the OTA into a separate OTA partition.
-5) After verifying and flashing the OTA, the node reboots and starts executing the new application.
-
 Information about the HTTPS server address could be made available to the node either as part of the initial flash of an image, or by booting the node into AP mode where a local host can initialize the device appropriately.
 
 In this example, we will use AWS S3 as the storage location for OTA updates for our ESP32 product. OTA images are stored (encrypted) on S3. Normally, bundles/files on S3 are not available over HTTPS. However we will use S3 pre-signed URLS that enable us to provide short-term access to our OTA images. This fits the model where the node can access a standard OTA URL hosted on an OTA server, and on being authenticated, can be given a pre-signed URL to use for the OTA.
