@@ -16,7 +16,7 @@ Let's begin by taking a look at an example. We will build this example around th
 
 The basic outline of how this happens is shown in Figure(1)
 
-![](/images/Client-Server-Figure-1.png)
+<p align="center"><img src="/images/Client-Server-Figure-1.png"></p>
 <p align="center"><small><b>Figure (1)</b></small></p>
 
 Information about the HTTPS server address could be made available to the node either as part of the initial flash of an image, or by booting the node into AP mode where a local host can initialize the device appropriately.
