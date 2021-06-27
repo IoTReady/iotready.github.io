@@ -1,14 +1,14 @@
 ---
-title: Using client and server certificates to secure ESP32 connections
+title: Using client and server certificate bundles to secure and mutually authenticate ESP32 connections
 excerpt: >-
-  This article will show you some simple steps of how to use client and server certificates to secure your communications and to achieve mutual authentication. 
+  This article will show you some simple steps of how to use client and server certificate bundles to secure your communications and to achieve mutual authentication. 
 date: '2021-06-20'
 thumb_image: images/Client-Server/Client-Server-Figure-1.jpg
 image: images/Client-Server/Client-Server-Figure-1.jpg
 layout: post
 ---
 
-Once we have our ESP32 modules up and communicating on the network, we start looking to integrate them into cloud frameworks such as Azure or AWS IoT. We quickly discover the need to pick up a basic knowledge of how secure connections work since these are a fundamental building block of integrating our nodes with these cloud frameworks.
+Once we have our ESP32 modules up and communicating on the network, we start looking to integrate them into cloud frameworks such as Azure or AWS IoT. We quickly discover the need for a basic knowledge of how secure connections work since these are a fundamental to integrating our nodes with these cloud frameworks. You also need to understand the ESP32 mbedtls implementation, because by default, the ESP32 cannot connect to every server. This happens because the default ESP32 mbedtls configuration uses a subset of of the certificates typically used by [Mozilla](https://ccadb-public.secure.force.com/mozilla/CACertificatesInFirefoxReport). For closed system applications, eg where you are using certificates signed by your own certificate authority, then you must ensure that the certificate bundles hold the necessary CA and intermediate certificates.
 
 This article will show you some simple steps of how to use client and server certificates to secure your communications and to achieve mutual authentication. This means that you know that you are talking to a verified server, and the server knows that you are a verified client. This kind of mutual authentication is important for critical operations such as over-the -air updates.
 
