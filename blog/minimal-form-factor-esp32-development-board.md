@@ -12,9 +12,9 @@ layout: post
 
 ## Product Description
 
-While the ESP32 has many development boards available on the market, sometimes you want a minimally sized version that can easily mount on your own pcb. Stamp_esp32 is an entry level development board which is essentially a shrunken version of the esp32C DEvKitC. Thanks to Ruhan A, our 19 year old Junior Electronics Engineer for the design !
+While the ESP32 has many development boards available on the market, sometimes you want a minimally sized version that can easily mount on your own pcb. Stamp_esp32 is an entry level development board which is essentially a shrunken version of the esp32C DEvKitC. Thanks to Ruhan Akram, our 19 year old Junior Electronics Engineer for the design !
 
-It has all the ESP32 pins exposed and is easy to connect and use. This board is designed with the castellated edge connector pins which makes easier for the board to be either directly soldered or used with heade pins. 
+It has all the ESP32 pins exposed and is easy to connect and use. This board is designed with the castellated edge connector pins which makes easier for the board to be either directly soldered or used with header pins. 
 
 ## Circuit
 
