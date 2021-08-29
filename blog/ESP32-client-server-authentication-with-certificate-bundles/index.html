@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Using client and server certificate bundles to secure and mutually authenticate ESP32 connections - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="This article will show you some simple steps of how to use client and server certificate bundles to secure your communications and to achieve mutual authentication. "/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="https://bodh.iotready.co/" target="_blank" rel="noopener">
+  
+  Bodh
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/solutions/" >
+  
+  Solutions
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/building-blocks/" >
+  
+  Building Blocks
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          Using client and server certificate bundles to secure and mutually authenticate ESP32 connections
+        
+        
+      </h1>
+    
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/Client-Server/Client-Server-Figure-1.png" alt="Using client and server certificate bundles to secure and mutually authenticate ESP32 connections" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>Once we have our ESP32 modules up and communicating on the network, we start looking to integrate them into cloud frameworks such as Azure or AWS IoT. We quickly discover the need for a basic knowledge of how secure connections work since these are a fundamental to integrating our nodes with these cloud frameworks. You also need to understand the ESP32 mbedtls implementation, because by default, the ESP32 cannot connect to every server. This happens because the default ESP32 mbedtls configuration uses a subset of of the certificates typically used by <a href="https://ccadb-public.secure.force.com/mozilla/CACertificatesInFirefoxReport">Mozilla</a>. For closed system applications, eg where you are using certificates signed by your own certificate authority, then you must ensure that the certificate bundles hold the necessary CA and intermediate certificates.</p>
+
+<p>This article will show you some simple steps of how to use client and server certificates to secure your communications and to achieve mutual authentication. This means that you know that you are talking to a verified server, and the server knows that you are a verified client. This kind of mutual authentication is important for critical operations such as over-the -air updates.</p>
+
+<p>Let’s begin by taking a look at an example. We will build this example around the OTA capabilities built into the ESP-IDF framework (V4.2). The ESP-IDF OTA capabilities are quite sophisticated. In addition to optionally handling signed images, rollbacks, versioning etc, the framework provides the ability to do this over secure connections.</p>
+
+<p>The basic outline of how this happens is shown in Figure(1)</p>
+
+<p align="center"><img src="/images/Client-Server/Client-Server-Figure-1.png" /></p>
+<p align="center"><small><b>Figure (1)</b></small></p>
+
+<p>Information about the HTTPS server address could be made available to the node either as part of the initial flash of an image, or by booting the node into AP mode where a local host can initialize the device appropriately.</p>
+
+<p>In this example, we will use AWS S3 as the storage location for OTA updates for our ESP32 product. OTA images are stored (encrypted) on S3. Normally, bundles/files on S3 are not available over HTTPS. However we will use S3 pre-signed URLS that enable us to provide short-term access to our OTA images. This fits the model where the node can access a standard OTA URL hosted on an OTA server, and on being authenticated, can be given a pre-signed URL to use for the OTA.</p>
+
+<p>In order to have a secure connection established, the node must know which server to connect to and must know the server certificate in advance. With this information the node can connect to the server and verify it by validating the peers server certificate.</p>
+
+<p>We must therefore obtain the X509 certificate of our end-point. The easiest way to do this is to use openssl as follows to connect to the server</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>openssl s_client -showcerts -connect SERVER:443 &lt;/dev/null
+</code></pre></div></div>
+
+<p>The details of the certificate chain (the certificate, the list of signers in the signing chain and the root) will be printed on the console.  Note that the full certificate chain is required so that the node can establish that the server certificate is signed by a well-known (root) certificate signer.</p>
+
+<p>In our case, when we connect up to our pre-signed S3 link (which happens to be in the US east region), we see that the certificate chain consists of two certificates. We concatenate the two certificates into the ca_cert.pem file that ESP-IDF asks us to place in the server_certs directory of our project, so that the build system can automatically add the certificates to our node application image.</p>
+
+<p>In Figure (2) we see that the S3 certificate is issued with the Common Name (CN) s3.amazonaws.com, and the the certificate is issued by DigiCert Baltimore CA-2 G2.</p>
+
+<p align="center"><img src="/images/Client-Server/Client-Server-Figure-2.jpg" /></p>
+<p align="center"><small><b>Figure (2)</b></small></p>
+
+<p>in Figure (3) we inspect the Digicert Certificate and see that it is signed by Baltimore CyberTrust Root, which is a root certificate.</p>
+
+<p align="center"><img src="/images/Client-Server/Client-Server-Figure-3.jpg" /></p>
+<p align="center"><small><b>Figure (3)</b></small></p>
+
+<p>You may be wondering, how is it that the AWS S3 region is US-East and the certificate is for s3.amazonaws.com. There exists the capability to use a single certificate to authenticate multiple sub-domains of a given domain, typically by using a wild-card CN like *.amazonaws.com. This does not seem to be the case here. While wildcard names were common usage, that functionality is being subsumed by the usage of a capability called Subject Alternative Names (SAN). A SAN is an extension to the X.509 specification that allows users to specify additional host names for the SSL certificate. While SAN hostnames are not specifically limited, there usually exist some limitations that are imposed by the certificate signer.</p>
+
+<p>In Figure(4) we examine the SAN field of the S3 certificate and note that in addition to a wildcard for subdomains of s3.amazonaws.com it also includes several other AWS S3 domains. The advantage of course is that we don’t need separate S3 certificates depending on our region or location, but can use this single certificate chain for our accesses.</p>
+
+<p align="center"><img src="/images/Client-Server/Client-Server-Figure-4.jpg" /></p>
+<p align="center"><small><b>Figure (4)</b></small></p>
+
+<p>There is one more step that we have to take complete the requirements for server authentication. When the node connects to the server and receives the server certificate, it has to validate the certificate chain. In order to do so, the node needs to know that the certificate(chain) is signed by a trusted CA. ESP-IDF, by default uses a restricted set of recognized validated root server certificates, and it is possible that when the server presents its certificate(s), the node cannot find the signer in its list of recognized signers. Fortunately, ESP-IDF allows us to over-ride the bundle of accepted signers as a configuration option in the menuconfig file for mbedtls. Mozilla provides a list of some 130+ trusted certificates that are used by Firefox, and that can be downloaded directly from Mozilla. Use this list to download the subset of trusted certificates you want the node to use, making sure that the Root Certificate signer for the server is included.</p>
+
+<p>Once you have completed these steps, you will be able to have the node issue a request using the pre-signed S3 URL as the link for the OTA image file, and complete the OTA.</p>
+
+<p>We now need to look at how to have the node prove to the server that it is authorized to connect.  When a server is configured for client certificate authentication, at the time the node tries to connect to the server, the server sends a request to the client for its certificate along with a list of supported CA names. The node sends its client certificate and uses its private key to generate a hash that the server can verify using the public key of the node. This process is outlined in Figure (5)</p>
+
+<p align="center"><img src="/images/Client-Server/Client-Server-Figure-5.png" /></p>
+<p align="center"><small><b>Figure (5)</b></small></p>
+
+<p>The node therefore must hold a signed client certificate and  private key, where the client certificate is signed by a CA known to the server..</p>
+
+<p>Client and server authentication are controlled by mbedtls configuration flags. These are described in the ESP32-IDF documentation under the Certificate Bundle and ESP HTTP Client sections.</p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-06-20 00:00">June 20, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>

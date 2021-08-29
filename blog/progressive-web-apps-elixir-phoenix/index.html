@@ -185,9 +185,9 @@
 <p>The absolute barebones PWA only needs 3 files:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">serviceworker.js</code> - tells the browser to cache the app offline</li>
-  <li><code class="highlighter-rouge">manifest.json</code> - gives the browser metadata on the app</li>
-  <li><code class="highlighter-rouge">index.html</code> - HTML, CSS and any custom JS you need. Pulls in <code class="highlighter-rouge">manifest.json</code> and <code class="highlighter-rouge">serviceworker.js</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">serviceworker.js</code> - tells the browser to cache the app offline</li>
+  <li><code class="language-plaintext highlighter-rouge">manifest.json</code> - gives the browser metadata on the app</li>
+  <li><code class="language-plaintext highlighter-rouge">index.html</code> - HTML, CSS and any custom JS you need. Pulls in <code class="language-plaintext highlighter-rouge">manifest.json</code> and <code class="language-plaintext highlighter-rouge">serviceworker.js</code>.</li>
 </ul>
 
 <p>This <a href="https://www.geeksforgeeks.org/making-a-simple-pwa-under-5-minutes/">tutorial</a> will help you get started with exploring these files and bulding your first PWA.</p>
@@ -212,27 +212,27 @@
       </h4>
     
 
-<p>Our app consists of a simple <code class="highlighter-rouge">HTML</code> page rendered by Phoenix - note that this is not a <code class="highlighter-rouge">LiveView</code>. You can check out the code for the app above by viewing source. Because, we are rendering with Phoenix, the source is quite readable and not a mess of <code class="highlighter-rouge">div</code>s.</p>
+<p>Our app consists of a simple <code class="language-plaintext highlighter-rouge">HTML</code> page rendered by Phoenix - note that this is not a <code class="language-plaintext highlighter-rouge">LiveView</code>. You can check out the code for the app above by viewing source. Because, we are rendering with Phoenix, the source is quite readable and not a mess of <code class="language-plaintext highlighter-rouge">div</code>s.</p>
 
-<p>To make serving such static pages easier, we use a single <code class="highlighter-rouge">StaticPagesController</code> module. For every new page, we add in a new method with an accompanying new route in <code class="highlighter-rouge">router.ex</code>.</p>
+<p>To make serving such static pages easier, we use a single <code class="language-plaintext highlighter-rouge">StaticPagesController</code> module. For every new page, we add in a new method with an accompanying new route in <code class="language-plaintext highlighter-rouge">router.ex</code>.</p>
 
-<p>Here’s the method serving <code class="highlighter-rouge">/websockets</code>:</p>
+<p>Here’s the method serving <code class="language-plaintext highlighter-rouge">/websockets</code>:</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">websockets</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="k">do</span>
     <span class="n">meta_attrs</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">og:title"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">Websockets PWA"</span><span class="p">},</span>
-      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">og:image"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">/images/websockets_512.png"</span><span class="p">},</span>
-      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">og:description"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">Bodh Websockets Client PWA"</span><span class="p">},</span>
-      <span class="p">%{</span><span class="ss">name:</span> <span class="sd">"</span><span class="s2">description"</span><span class="p">,</span> <span class="ss">content:</span> <span class="sd">"</span><span class="s2">Bodh Websockets Client PWA"</span><span class="p">}</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="s2">"og:title"</span><span class="p">,</span> <span class="ss">content:</span> <span class="s2">"Websockets PWA"</span><span class="p">},</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="s2">"og:image"</span><span class="p">,</span> <span class="ss">content:</span> <span class="s2">"/images/websockets_512.png"</span><span class="p">},</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="s2">"og:description"</span><span class="p">,</span> <span class="ss">content:</span> <span class="s2">"Bodh Websockets Client PWA"</span><span class="p">},</span>
+      <span class="p">%{</span><span class="ss">name:</span> <span class="s2">"description"</span><span class="p">,</span> <span class="ss">content:</span> <span class="s2">"Bodh Websockets Client PWA"</span><span class="p">}</span>
     <span class="p">]</span>
 
     <span class="n">conn</span> <span class="o">=</span>
       <span class="n">conn</span>
       <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:meta_attrs</span><span class="p">,</span> <span class="n">meta_attrs</span><span class="p">)</span>
-      <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:page_title</span><span class="p">,</span> <span class="sd">"</span><span class="s2">Bodh Websockets Client"</span><span class="p">)</span>
-      <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:manifest</span><span class="p">,</span> <span class="sd">"</span><span class="s2">manifests/websockets.json"</span><span class="p">)</span>
+      <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:page_title</span><span class="p">,</span> <span class="s2">"Bodh Websockets Client"</span><span class="p">)</span>
+      <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:manifest</span><span class="p">,</span> <span class="s2">"manifests/websockets.json"</span><span class="p">)</span>
 
-    <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="sd">"</span><span class="s2">websockets.html"</span><span class="p">)</span>
+    <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">"websockets.html"</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div></div>
       <h4 id="adding-the-manifest-and-seo-tags">
@@ -244,9 +244,9 @@
       </h4>
     
 
-<p>You may have noticed <code class="highlighter-rouge">assign(:manifest, "manifests/websockets.json")</code> above. This is the line which makes adding the manifest possible. And the <code class="highlighter-rouge">meta_attrs</code> improve SEO while allowing social media sites render a nice card summary of your app when shared.</p>
+<p>You may have noticed <code class="language-plaintext highlighter-rouge">assign(:manifest, "manifests/websockets.json")</code> above. This is the line which makes adding the manifest possible. And the <code class="language-plaintext highlighter-rouge">meta_attrs</code> improve SEO while allowing social media sites render a nice card summary of your app when shared.</p>
 
-<p>The <code class="highlighter-rouge">manifest</code> needs to be added to the head of the served HTML. Phoenix does not have built-ins to be able to do this. Instead, we add a new plug in <code class="highlighter-rouge">router.ex</code> and call it in the <code class="highlighter-rouge">browser</code> pipeline.</p>
+<p>The <code class="language-plaintext highlighter-rouge">manifest</code> needs to be added to the head of the served HTML. Phoenix does not have built-ins to be able to do this. Instead, we add a new plug in <code class="language-plaintext highlighter-rouge">router.ex</code> and call it in the <code class="language-plaintext highlighter-rouge">browser</code> pipeline.</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">default_assigns</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_opts</span><span class="p">)</span> <span class="k">do</span>
     <span class="n">conn</span>
@@ -255,31 +255,31 @@
 <span class="k">end</span>
 
 <span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
-    <span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="p">[</span><span class="sd">"</span><span class="s2">html"</span><span class="p">]</span>
+    <span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="p">[</span><span class="s2">"html"</span><span class="p">]</span>
     <span class="n">plug</span> <span class="ss">:fetch_session</span>
     <span class="o">...</span>
     <span class="n">plug</span> <span class="ss">:default_assigns</span>
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>Then, inside the <code class="highlighter-rouge">root.html.ex</code> layout, we use these assigns in the HTML <code class="highlighter-rouge">head</code>.</p>
+<p>Then, inside the <code class="language-plaintext highlighter-rouge">root.html.ex</code> layout, we use these assigns in the HTML <code class="language-plaintext highlighter-rouge">head</code>.</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
 <span class="o">...</span>
 <span class="o">&lt;%=</span> <span class="k">if</span> <span class="nv">@meta_attrs</span><span class="p">,</span> <span class="k">do</span><span class="p">:</span> <span class="n">meta_tags</span><span class="p">(</span><span class="nv">@meta_attrs</span><span class="p">)</span> <span class="p">%</span><span class="o">&gt;</span>
 <span class="o">&lt;%=</span> <span class="k">if</span> <span class="nv">@manifest</span> <span class="k">do</span> <span class="p">%</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="sd">"</span><span class="s2">manifest"</span> <span class="n">href</span><span class="o">=</span><span class="sd">"</span><span class="s2">&lt;%= @manifest %&gt;"</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s2">"manifest"</span> <span class="n">href</span><span class="o">=</span><span class="s2">"&lt;%= @manifest %&gt;"</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="p">%</span> <span class="k">end</span> <span class="p">%</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<p><code class="highlighter-rouge">meta_tags/1</code> is defined in <code class="highlighter-rouge">views/layout_view.ex</code>:</p>
+<p><code class="language-plaintext highlighter-rouge">meta_tags/1</code> is defined in <code class="language-plaintext highlighter-rouge">views/layout_view.ex</code>:</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">defmodule</span> <span class="no">BodhWeb</span><span class="o">.</span><span class="no">LayoutView</span> <span class="k">do</span>
   <span class="kn">use</span> <span class="no">BodhWeb</span><span class="p">,</span> <span class="ss">:view</span>
 
   <span class="k">def</span> <span class="n">meta_tags</span><span class="p">(</span><span class="n">attrs_list</span><span class="p">)</span> <span class="k">do</span>
-    <span class="no">Enum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">attrs_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">meta_tag</span><span class="o">/</span><span class="m">1</span><span class="p">)</span>
+    <span class="no">Enum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">attrs_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">meta_tag</span><span class="o">/</span><span class="mi">1</span><span class="p">)</span>
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="n">meta_tag</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span> <span class="k">do</span>
@@ -288,35 +288,35 @@
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>The manifest file itself can be called whatever you want. We call it <code class="highlighter-rouge">websockets.json</code> and store it in <code class="highlighter-rouge">assets/static/manifests/</code>. In order to ensure this is copied over to the generated assets inside <code class="highlighter-rouge">priv</code>, we need to modify the static <code class="highlighter-rouge">plug</code> inside <code class="highlighter-rouge">endpoint.ex</code>:</p>
+<p>The manifest file itself can be called whatever you want. We call it <code class="language-plaintext highlighter-rouge">websockets.json</code> and store it in <code class="language-plaintext highlighter-rouge">assets/static/manifests/</code>. In order to ensure this is copied over to the generated assets inside <code class="language-plaintext highlighter-rouge">priv</code>, we need to modify the static <code class="language-plaintext highlighter-rouge">plug</code> inside <code class="language-plaintext highlighter-rouge">endpoint.ex</code>:</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plug</span> <span class="no">Plug</span><span class="o">.</span><span class="no">Static</span><span class="p">,</span>
-    <span class="ss">at:</span> <span class="sd">"</span><span class="s2">/"</span><span class="p">,</span>
+    <span class="ss">at:</span> <span class="s2">"/"</span><span class="p">,</span>
     <span class="ss">from:</span> <span class="ss">:bodh</span><span class="p">,</span>
     <span class="ss">gzip:</span> <span class="no">false</span><span class="p">,</span>
     <span class="ss">only:</span> <span class="sx">~w(css fonts images js favicon.ico manifests websockets.js robots.txt)</span>
 </code></pre></div></div>
 
-<p>Notice <code class="highlighter-rouge">manifests</code> in the assets list. We also add some icons to <code class="highlighter-rouge">assets/static/images</code> for use in the manifest. Our final manifest file looks like this:</p>
+<p>Notice <code class="language-plaintext highlighter-rouge">manifests</code> in the assets list. We also add some icons to <code class="language-plaintext highlighter-rouge">assets/static/images</code> for use in the manifest. Our final manifest file looks like this:</p>
 
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-	</span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets Client"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"short_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"start_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/websockets"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"standalone"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"background_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#5900b3"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"theme_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/websockets"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets Client PWA"</span><span class="p">,</span><span class="w">
-	</span><span class="s2">"icons"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-			</span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/images/websockets_192.png"</span><span class="p">,</span><span class="w">
-			</span><span class="s2">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192x192"</span><span class="p">,</span><span class="w">
-			</span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w">
+	</span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets Client"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"short_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"start_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/websockets"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"standalone"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"background_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#5900b3"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"theme_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/websockets"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bodh Websockets Client PWA"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"icons"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+			</span><span class="nl">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/images/websockets_192.png"</span><span class="p">,</span><span class="w">
+			</span><span class="nl">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192x192"</span><span class="p">,</span><span class="w">
+			</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w">
 		</span><span class="p">},</span><span class="w">
 		</span><span class="p">{</span><span class="w">
-			</span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/images/websockets_512.png"</span><span class="p">,</span><span class="w">
-			</span><span class="s2">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"512x512"</span><span class="p">,</span><span class="w">
-			</span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w">
+			</span><span class="nl">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/images/websockets_512.png"</span><span class="p">,</span><span class="w">
+			</span><span class="nl">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"512x512"</span><span class="p">,</span><span class="w">
+			</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w">
 		</span><span class="p">}</span><span class="w">
 	</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -330,21 +330,21 @@
       </h4>
     
 
-<p>This was possibly the trickiest of the entire flow to figure out. Turns out that the app route (<code class="highlighter-rouge">/websockets</code>), <code class="highlighter-rouge">manifest.json</code> and the service worker, <code class="highlighter-rouge">websockets.js</code> are linked together by a <code class="highlighter-rouge">scope</code> parameter. It took me multiple readings of this <a href="https://developer.mozilla.org/en-US/docs/Web/Manifest/scope">MDN article</a>, this <a href="https://dev.to/njromano/how-to-scope-your-pwa-service-workers-1n6m">Dev.to article</a> to figure this out.</p>
+<p>This was possibly the trickiest of the entire flow to figure out. Turns out that the app route (<code class="language-plaintext highlighter-rouge">/websockets</code>), <code class="language-plaintext highlighter-rouge">manifest.json</code> and the service worker, <code class="language-plaintext highlighter-rouge">websockets.js</code> are linked together by a <code class="language-plaintext highlighter-rouge">scope</code> parameter. It took me multiple readings of this <a href="https://developer.mozilla.org/en-US/docs/Web/Manifest/scope">MDN article</a>, this <a href="https://dev.to/njromano/how-to-scope-your-pwa-service-workers-1n6m">Dev.to article</a> to figure this out.</p>
 
-<p>To summarise, the <code class="highlighter-rouge">manifest</code> and the <code class="highlighter-rouge">serviceworker</code> should use the <code class="highlighter-rouge">route</code> (e.g. <code class="highlighter-rouge">/websockets</code>) as the <code class="highlighter-rouge">scope</code> and <code class="highlighter-rouge">start_url</code>. Our <code class="highlighter-rouge">serviceworker</code> (stored in <code class="highlighter-rouge">websockets.js</code>) looks like this:</p>
+<p>To summarise, the <code class="language-plaintext highlighter-rouge">manifest</code> and the <code class="language-plaintext highlighter-rouge">serviceworker</code> should use the <code class="language-plaintext highlighter-rouge">route</code> (e.g. <code class="language-plaintext highlighter-rouge">/websockets</code>) as the <code class="language-plaintext highlighter-rouge">scope</code> and <code class="language-plaintext highlighter-rouge">start_url</code>. Our <code class="language-plaintext highlighter-rouge">serviceworker</code> (stored in <code class="language-plaintext highlighter-rouge">websockets.js</code>) looks like this:</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">staticCacheName</span> <span class="o">=</span> <span class="s2">"pwa"</span><span class="p">;</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">staticCacheName</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">pwa</span><span class="dl">"</span><span class="p">;</span>
 
-<span class="nb">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"install"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+<span class="nb">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">install</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
 <span class="nx">e</span><span class="p">.</span><span class="nx">waitUntil</span><span class="p">(</span>
 	<span class="nx">caches</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">staticCacheName</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">cache</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">addAll</span><span class="p">([</span><span class="s2">"/websockets"</span><span class="p">]);</span>
+	<span class="k">return</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">addAll</span><span class="p">([</span><span class="dl">"</span><span class="s2">/websockets</span><span class="dl">"</span><span class="p">]);</span>
 	<span class="p">})</span>
 <span class="p">);</span>
 <span class="p">});</span>
 
-<span class="nb">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"fetch"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<span class="nb">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">fetch</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
 
 <span class="nx">event</span><span class="p">.</span><span class="nx">respondWith</span><span class="p">(</span>
@@ -355,9 +355,9 @@
 <span class="p">});</span>
 </code></pre></div></div>
 
-<p>Finally, it’s important that the path to the <code class="highlighter-rouge">serviceworker.js</code> file is a parent of the route being served. Since we will be serving multiple PWAs from this Phoenix app, we decided to store all our service workers (including <code class="highlighter-rouge">websockets.js</code>) inside <code class="highlighter-rouge">assets/static/</code>.</p>
+<p>Finally, it’s important that the path to the <code class="language-plaintext highlighter-rouge">serviceworker.js</code> file is a parent of the route being served. Since we will be serving multiple PWAs from this Phoenix app, we decided to store all our service workers (including <code class="language-plaintext highlighter-rouge">websockets.js</code>) inside <code class="language-plaintext highlighter-rouge">assets/static/</code>.</p>
 
-<p>There’s apparently a header you can set a <code class="highlighter-rouge">Service-Worker-Allowed: "/"</code> as described in this <a href="https://stackoverflow.com/a/48068714/6415409">StackOverflow response</a>. However, I couldn’t figure out a way to set it on the serviceworker.</p>
+<p>There’s apparently a header you can set a <code class="language-plaintext highlighter-rouge">Service-Worker-Allowed: "/"</code> as described in this <a href="https://stackoverflow.com/a/48068714/6415409">StackOverflow response</a>. However, I couldn’t figure out a way to set it on the serviceworker.</p>
       <h3 id="summary">
         
         
@@ -370,10 +370,10 @@
 <p>That may look like a lot but it’s really not.</p>
 
 <ul>
-  <li>Write your app the way you normally would any other HTML page. You could even use VueJS or ReactJS etc - as long as you point the controller method to the generated <code class="highlighter-rouge">index.html</code>.</li>
-  <li>Add a plug to include the <code class="highlighter-rouge">manifest.json</code> and, optionally, some SEO meta tags. Assign these in the controller method and modify the root layout so they are added to the HTML.</li>
-  <li>Add <code class="highlighter-rouge">manifest.json</code> and <code class="highlighter-rouge">serviceworker.js</code> to <code class="highlighter-rouge">assets/static</code>.</li>
-  <li>Include the <code class="highlighter-rouge">serviceworker.js</code> via a script tag in the html file.</li>
+  <li>Write your app the way you normally would any other HTML page. You could even use VueJS or ReactJS etc - as long as you point the controller method to the generated <code class="language-plaintext highlighter-rouge">index.html</code>.</li>
+  <li>Add a plug to include the <code class="language-plaintext highlighter-rouge">manifest.json</code> and, optionally, some SEO meta tags. Assign these in the controller method and modify the root layout so they are added to the HTML.</li>
+  <li>Add <code class="language-plaintext highlighter-rouge">manifest.json</code> and <code class="language-plaintext highlighter-rouge">serviceworker.js</code> to <code class="language-plaintext highlighter-rouge">assets/static</code>.</li>
+  <li>Include the <code class="language-plaintext highlighter-rouge">serviceworker.js</code> via a script tag in the html file.</li>
   <li>Profit!</li>
 </ul>
 

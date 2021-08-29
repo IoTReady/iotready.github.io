@@ -360,9 +360,9 @@ journey
     <ul>
       <li>These endpoints are known to work:
         <ul>
-          <li><code class="highlighter-rouge">wss://stream.binance.com:9443/ws/!miniTicker@arr</code></li>
-          <li><code class="highlighter-rouge">wss://stream.binance.com:9443/ws/btcusdt@depth</code></li>
-          <li><code class="highlighter-rouge">wss://stream.binance.com:9443/ws/bnbbtc@depth</code></li>
+          <li><code class="language-plaintext highlighter-rouge">wss://stream.binance.com:9443/ws/!miniTicker@arr</code></li>
+          <li><code class="language-plaintext highlighter-rouge">wss://stream.binance.com:9443/ws/btcusdt@depth</code></li>
+          <li><code class="language-plaintext highlighter-rouge">wss://stream.binance.com:9443/ws/bnbbtc@depth</code></li>
         </ul>
       </li>
     </ul>
@@ -415,12 +415,12 @@ journey
   <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html#installation-step-by-step">Set up ESP-IDF</a> on your computer</li>
   <li>Build and flash the <a href="https://github.com/espressif/esp-idf/tree/master/examples/protocols/http_server/ws_echo_server">Websocket Echo Server example</a> from ESP-IDF on the ESP32
     <ul>
-      <li>You will need to configure your WiFi settings with <code class="highlighter-rouge">idf.py menuconfig</code></li>
-      <li>Once booted, the ESP32 will print its <code class="highlighter-rouge">ip_address</code>. You will need this.</li>
+      <li>You will need to configure your WiFi settings with <code class="language-plaintext highlighter-rouge">idf.py menuconfig</code></li>
+      <li>Once booted, the ESP32 will print its <code class="language-plaintext highlighter-rouge">ip_address</code>. You will need this.</li>
     </ul>
   </li>
-  <li>Using websocat, connect to <code class="highlighter-rouge">ws://ip_address/ws</code></li>
-  <li>Once connected, type and send any string message, e.g. <code class="highlighter-rouge">hello</code></li>
+  <li>Using websocat, connect to <code class="language-plaintext highlighter-rouge">ws://ip_address/ws</code></li>
+  <li>Once connected, type and send any string message, e.g. <code class="language-plaintext highlighter-rouge">hello</code></li>
   <li>Open a new terminal and repeat the websocat messaging.
     <ul>
       <li>What do you notice across the two clients?</li>

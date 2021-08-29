@@ -198,7 +198,7 @@
   <li>Analysis, etc.</li>
 </ul>
 
-<p>More often than not, we might find ourselves in a need to use these identifiers before the devices are deployed to the “field”. For ESP32s, we use the unique 12-digit default MAC address as <code class="highlighter-rouge">device_id</code>/<code class="highlighter-rouge">thing_name</code> of the device for:</p>
+<p>More often than not, we might find ourselves in a need to use these identifiers before the devices are deployed to the “field”. For ESP32s, we use the unique 12-digit default MAC address as <code class="language-plaintext highlighter-rouge">device_id</code>/<code class="language-plaintext highlighter-rouge">thing_name</code> of the device for:</p>
 
 <ul>
   <li>Registering them on the cloud</li>
@@ -261,7 +261,7 @@
   <li>You will need AWS configured in your device in order to automatically access your AWS and do the various steps above. If you haven’t already:
     <ul>
       <li>Install the python AWS CLI on your machine
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ pip3 install awscli
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ pip3 install awscli
 </code></pre></div>        </div>
       </li>
       <li>Once done, run the command below to configure your AWS security credentials by providing the respective values:
@@ -280,17 +280,17 @@
     </blockquote>
   </li>
   <li>You will need esptool and boto3 installed. Just run:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip3 install -r requirements.txt
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip3 install -r requirements.txt
 </code></pre></div>    </div>
   </li>
   <li>Make sure you have configured the AWS variables in <a href="./registerDevice.py#L19">registerDevice.py</a></li>
-  <li>Put your code project into a directory named <code class="highlighter-rouge">source</code>. This can be changed in the script.</li>
+  <li>Put your code project into a directory named <code class="language-plaintext highlighter-rouge">source</code>. This can be changed in the script.</li>
   <li>Connect your ESP32
     <blockquote>
       <p>This script is designed to be used for production firmware. Therefore, at every run, it stashes and pulls from the remote git repo. Please move ahead accordingly.</p>
     </blockquote>
   </li>
-  <li>The AWS certificates will be stored in a folder named <code class="highlighter-rouge">aws_credentials</code> directory according to the current setup. You can change this in the registerDevice.py file. Make sure the directory exists before you run the script.</li>
+  <li>The AWS certificates will be stored in a folder named <code class="language-plaintext highlighter-rouge">aws_credentials</code> directory according to the current setup. You can change this in the registerDevice.py file. Make sure the directory exists before you run the script.</li>
   <li>Run prepare.sh in your project folder.</li>
 </ul>
 
@@ -298,7 +298,7 @@
 <ul>
   <li>If the project is not a git repository, comment lines 9 and 10 in prepare.sh</li>
   <li>Make sure the prepare.sh file has executable permission:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo chmod +x prepare.sh
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo chmod +x prepare.sh
 </code></pre></div>    </div>
   </li>
 </ul>

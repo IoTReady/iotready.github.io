@@ -233,9 +233,9 @@
       </h2>
     
 
-<p>We use the <a href="https://openweathermap.org/api">OpenWeatherMap API</a> to grab basic weather data. Our <code class="highlighter-rouge">Ecto</code> schema looks a bit like this:</p>
+<p>We use the <a href="https://openweathermap.org/api">OpenWeatherMap API</a> to grab basic weather data. Our <code class="language-plaintext highlighter-rouge">Ecto</code> schema looks a bit like this:</p>
 
-<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">schema</span> <span class="sd">"</span><span class="s2">weather"</span> <span class="k">do</span>
+<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">schema</span> <span class="s2">"weather"</span> <span class="k">do</span>
   <span class="n">field</span> <span class="ss">:latitude</span><span class="p">,</span> <span class="ss">:float</span>
   <span class="n">field</span> <span class="ss">:longitude</span><span class="p">,</span> <span class="ss">:float</span>
   <span class="n">field</span> <span class="ss">:temp</span><span class="p">,</span> <span class="ss">:float</span>
@@ -255,7 +255,7 @@ Gets weather data points for a given latitude and longitude tuple.
     iex&gt; get_weather({latitude, longitude}, limit)
     {:ok, [%Weather{}]}
 """</span>
-<span class="k">def</span> <span class="n">get_weather</span><span class="p">({</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">},</span> <span class="n">limit</span> <span class="p">\\</span> <span class="m">100</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">def</span> <span class="n">get_weather</span><span class="p">({</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">},</span> <span class="n">limit</span> <span class="p">\\</span> <span class="mi">100</span><span class="p">)</span> <span class="k">do</span>
   <span class="n">q</span> <span class="o">=</span> <span class="n">from</span> <span class="n">w</span> <span class="ow">in</span> <span class="no">Weather</span><span class="p">,</span>
       <span class="ss">where:</span> <span class="p">[</span><span class="ss">latitude:</span> <span class="o">^</span><span class="n">latitude</span><span class="p">,</span> <span class="ss">longitude:</span> <span class="o">^</span><span class="n">longitude</span><span class="p">],</span>
       <span class="ss">order_by:</span> <span class="p">[</span><span class="ss">desc:</span> <span class="ss">:inserted_at</span><span class="p">],</span>
@@ -265,20 +265,20 @@ Gets weather data points for a given latitude and longitude tuple.
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>This query returns a <code class="highlighter-rouge">list</code> of <code class="highlighter-rouge">maps</code> that look like this:</p>
+<p>This query returns a <code class="language-plaintext highlighter-rouge">list</code> of <code class="language-plaintext highlighter-rouge">maps</code> that look like this:</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span>
   <span class="p">%{</span>
-    <span class="ss">humidity:</span> <span class="m">73.0</span><span class="p">,</span>
+    <span class="ss">humidity:</span> <span class="mf">73.0</span><span class="p">,</span>
     <span class="ss">inserted_at:</span> <span class="sx">~N[2021-01-27 17:00:01]</span><span class="p">,</span>
-    <span class="ss">pressure:</span> <span class="m">1016.0</span><span class="p">,</span>
-    <span class="ss">temp:</span> <span class="m">297.27</span>
+    <span class="ss">pressure:</span> <span class="mf">1016.0</span><span class="p">,</span>
+    <span class="ss">temp:</span> <span class="mf">297.27</span>
   <span class="p">},</span>
   <span class="p">%{</span>
-    <span class="ss">humidity:</span> <span class="m">73.0</span><span class="p">,</span>
+    <span class="ss">humidity:</span> <span class="mf">73.0</span><span class="p">,</span>
     <span class="ss">inserted_at:</span> <span class="sx">~N[2021-01-27 17:00:01]</span><span class="p">,</span>
-    <span class="ss">pressure:</span> <span class="m">1016.0</span><span class="p">,</span>
-    <span class="ss">temp:</span> <span class="m">297.27</span>
+    <span class="ss">pressure:</span> <span class="mf">1016.0</span><span class="p">,</span>
+    <span class="ss">temp:</span> <span class="mf">297.27</span>
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div></div>
@@ -291,13 +291,13 @@ Gets weather data points for a given latitude and longitude tuple.
       </h2>
     
 
-<p>Now that we have our data, time to set up <code class="highlighter-rouge">Contex</code>. Since it’s still early days for Contex, it’s best to work with the <code class="highlighter-rouge">master</code> branch off the Github repo rather than the <code class="highlighter-rouge">0.3.0</code> release on Hex. For instance, the <code class="highlighter-rouge">0.3.0</code> release does not include <code class="highlighter-rouge">LinePlot</code>, which we need.</p>
+<p>Now that we have our data, time to set up <code class="language-plaintext highlighter-rouge">Contex</code>. Since it’s still early days for Contex, it’s best to work with the <code class="language-plaintext highlighter-rouge">master</code> branch off the Github repo rather than the <code class="language-plaintext highlighter-rouge">0.3.0</code> release on Hex. For instance, the <code class="language-plaintext highlighter-rouge">0.3.0</code> release does not include <code class="language-plaintext highlighter-rouge">LinePlot</code>, which we need.</p>
 
 <div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># mix.exs</span>
 <span class="k">defp</span> <span class="n">deps</span> <span class="k">do</span>
   <span class="p">[</span>
     <span class="o">...</span><span class="p">,</span>
-    <span class="p">{</span><span class="ss">:contex</span><span class="p">,</span> <span class="ss">git:</span> <span class="sd">"</span><span class="s2">https://github.com/mindok/contex"</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:contex</span><span class="p">,</span> <span class="ss">git:</span> <span class="s2">"https://github.com/mindok/contex"</span><span class="p">},</span>
   <span class="p">]</span>
 <span class="k">end</span>
 </code></pre></div></div>
@@ -317,10 +317,10 @@ Gets weather data points for a given latitude and longitude tuple.
 
 
 <span class="n">plot_options</span> <span class="o">=</span> <span class="p">%{</span>
-  <span class="ss">top_margin:</span> <span class="m">5</span><span class="p">,</span>
-  <span class="ss">right_margin:</span> <span class="m">5</span><span class="p">,</span>
-  <span class="ss">bottom_margin:</span> <span class="m">5</span><span class="p">,</span>
-  <span class="ss">left_margin:</span> <span class="m">5</span><span class="p">,</span>
+  <span class="ss">top_margin:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="ss">right_margin:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="ss">bottom_margin:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="ss">left_margin:</span> <span class="mi">5</span><span class="p">,</span>
   <span class="ss">show_x_axis:</span> <span class="no">true</span><span class="p">,</span>
   <span class="ss">show_y_axis:</span> <span class="no">true</span><span class="p">,</span>
 <span class="p">}</span>
@@ -333,16 +333,16 @@ Gets weather data points for a given latitude and longitude tuple.
     <span class="p">[</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">humidity</span><span class="p">,</span> <span class="n">pressure</span><span class="p">]</span>
   <span class="k">end</span><span class="p">)</span>
   <span class="c1"># Assign legend titles using list indices</span>
-  <span class="o">|&gt;</span> <span class="no">Dataset</span><span class="o">.</span><span class="n">new</span><span class="p">([</span><span class="sd">"</span><span class="s2">Time"</span><span class="p">,</span> <span class="sd">"</span><span class="s2">Temperature"</span><span class="p">,</span> <span class="sd">"</span><span class="s2">Humidity"</span><span class="p">,</span> <span class="sd">"</span><span class="s2">Pressure"</span><span class="p">])</span>
+  <span class="o">|&gt;</span> <span class="no">Dataset</span><span class="o">.</span><span class="n">new</span><span class="p">([</span><span class="s2">"Time"</span><span class="p">,</span> <span class="s2">"Temperature"</span><span class="p">,</span> <span class="s2">"Humidity"</span><span class="p">,</span> <span class="s2">"Pressure"</span><span class="p">])</span>
   <span class="c1"># Specify plot type (LinePlot), SVG dimensions, column mapping, title, label and legend</span>
   <span class="o">|&gt;</span> <span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
     <span class="no">LinePlot</span><span class="p">,</span>
-    <span class="m">600</span><span class="p">,</span>
-    <span class="m">300</span><span class="p">,</span>
-    <span class="ss">mapping:</span> <span class="p">%{</span><span class="ss">x_col:</span> <span class="sd">"</span><span class="s2">Time"</span><span class="p">,</span> <span class="ss">y_cols:</span> <span class="p">[</span><span class="sd">"</span><span class="s2">Temperature"</span><span class="p">,</span> <span class="sd">"</span><span class="s2">Humidity"</span><span class="p">,</span> <span class="sd">"</span><span class="s2">Pressure"</span><span class="p">]},</span>
+    <span class="mi">600</span><span class="p">,</span>
+    <span class="mi">300</span><span class="p">,</span>
+    <span class="ss">mapping:</span> <span class="p">%{</span><span class="ss">x_col:</span> <span class="s2">"Time"</span><span class="p">,</span> <span class="ss">y_cols:</span> <span class="p">[</span><span class="s2">"Temperature"</span><span class="p">,</span> <span class="s2">"Humidity"</span><span class="p">,</span> <span class="s2">"Pressure"</span><span class="p">]},</span>
     <span class="ss">plot_options:</span> <span class="n">plot_options</span><span class="p">,</span>
-    <span class="ss">title:</span> <span class="sd">"</span><span class="s2">Weather"</span><span class="p">,</span>
-    <span class="ss">x_label:</span> <span class="sd">"</span><span class="s2">Time"</span><span class="p">,</span>
+    <span class="ss">title:</span> <span class="s2">"Weather"</span><span class="p">,</span>
+    <span class="ss">x_label:</span> <span class="s2">"Time"</span><span class="p">,</span>
     <span class="ss">legend_setting:</span> <span class="ss">:legend_right</span>
   <span class="p">)</span>
   <span class="c1"># Generate SVG</span>
