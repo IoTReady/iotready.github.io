@@ -198,7 +198,7 @@
 
 <ol>
   <li>Simulate a smart grid sensor capable of measuring current, voltage, tempterature and humidity</li>
-  <li>Train an anomaly detector in ODFE on each of these metrics or <code class="highlighter-rouge">features</code> as ODFE calls them.</li>
+  <li>Train an anomaly detector in ODFE on each of these metrics or <code class="language-plaintext highlighter-rouge">features</code> as ODFE calls them.</li>
   <li>Simulate various grades of anomalies and verify that detector is working fine</li>
   <li>Integrate the anomaly detector with Kibana’s alerts (<a href="/blog/metal-to-alerts-with-aws-iot-elasticsearch-kibana">previously discussed here</a>)</li>
 </ol>
@@ -256,7 +256,7 @@
       </h4>
     
 
-<p>Assuming you followed the previous post, you will already have an ElasticSearch instance running. However, we need at least 2 CPU cores to use anomaly detection. I am using a <code class="highlighter-rouge">t2.medium</code> instance for this post.</p>
+<p>Assuming you followed the previous post, you will already have an ElasticSearch instance running. However, we need at least 2 CPU cores to use anomaly detection. I am using a <code class="language-plaintext highlighter-rouge">t2.medium</code> instance for this post.</p>
       <h2 id="building-our-first-anomaly-detector">
         
         
@@ -268,10 +268,10 @@
 
 <p>Like before, we will start our simulator to inject sensor data into ElasticSearch. I started a script to simulate 21 sensors sending data every 10s.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
-<span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
-<span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+<span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>The injected data looks a bit like this:</p>
@@ -293,15 +293,15 @@
 <p>Note that:</p>
 
 <ul>
-  <li>I picked <code class="highlighter-rouge">Detector Interval = 5 minutes</code> and <code class="highlighter-rouge">Window Delay = 2 minutes</code>
+  <li>I picked <code class="language-plaintext highlighter-rouge">Detector Interval = 5 minutes</code> and <code class="language-plaintext highlighter-rouge">Window Delay = 2 minutes</code>
     <ul>
       <li>The documentation suggests smaller intervals make the system more real-time but consume more CPU, which sounds about right.</li>
     </ul>
   </li>
   <li>You are allowed to add up to 5 features per detector - this seems to be an ODFE limitation rather than that of the RCF algorithm itself.</li>
-  <li>I have chosen to track the <code class="highlighter-rouge">max()</code> value for each metric. You can use any of the standard ElasticSearch aggregations.</li>
+  <li>I have chosen to track the <code class="language-plaintext highlighter-rouge">max()</code> value for each metric. You can use any of the standard ElasticSearch aggregations.</li>
   <li>Once configured, the detector took between 30-60 minutes to initialise and go live.</li>
-  <li>I made the mistake of trying to enable the detector on a <code class="highlighter-rouge">t2.small</code> instance and kept running into an <code class="highlighter-rouge">unknown error</code>. This disappeared once I changed the instance size to <code class="highlighter-rouge">t2.medium</code>.</li>
+  <li>I made the mistake of trying to enable the detector on a <code class="language-plaintext highlighter-rouge">t2.small</code> instance and kept running into an <code class="language-plaintext highlighter-rouge">unknown error</code>. This disappeared once I changed the instance size to <code class="language-plaintext highlighter-rouge">t2.medium</code>.</li>
 </ul>
       <h3 id="anomaly-generation">
         
@@ -314,7 +314,7 @@
 
 <p>Once the detector was <strong>Live</strong>, I started generating anomalies in about 60% of the data points using the following snippet. Note that I am randomly introducing anomalies into one or all of the four metrics.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
     <span class="n">current</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">voltage</span> <span class="o">=</span> <span class="mi">0</span>
@@ -327,29 +327,29 @@
     <span class="n">humidity</span> <span class="o">=</span> <span class="mi">150</span>
 <span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
     <span class="n">current</span> <span class="o">=</span> <span class="mi">1000</span>
-    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
 <span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
     <span class="n">voltage</span> <span class="o">=</span> <span class="mi">100000</span>
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
 <span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
-    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
-    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
     <span class="n">temperature</span> <span class="o">=</span> <span class="mi">300</span>
-    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
 <span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
-    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
-    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">humidity</span> <span class="o">=</span> <span class="mi">150</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
-    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">)</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">23000.0</span><span class="p">,</span><span class="mf">25000.0</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">humidity</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>The resulting timeseries charts, in their glorious randomness, look like this:</p>

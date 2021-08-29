@@ -220,17 +220,17 @@
       </h2>
     
 
-<p>We will use the <a href="https://aws.amazon.com/elasticsearch-service/">AWS ElasticSearch service</a> that sets up ElasticSearch and Kibana with ODFE. Since, this is just a demo we will set up a single <code class="highlighter-rouge">t2.small</code> node with <code class="highlighter-rouge">10GB</code> disk size under <code class="highlighter-rouge">Deployment type = Development and testing</code>. We will use version <code class="highlighter-rouge">7.9</code> of ElasticSearch which is the latest on the service as of this writing.</p>
+<p>We will use the <a href="https://aws.amazon.com/elasticsearch-service/">AWS ElasticSearch service</a> that sets up ElasticSearch and Kibana with ODFE. Since, this is just a demo we will set up a single <code class="language-plaintext highlighter-rouge">t2.small</code> node with <code class="language-plaintext highlighter-rouge">10GB</code> disk size under <code class="language-plaintext highlighter-rouge">Deployment type = Development and testing</code>. We will use version <code class="language-plaintext highlighter-rouge">7.9</code> of ElasticSearch which is the latest on the service as of this writing.</p>
 
 <blockquote>
-  <p>AWS seems to be tracking the releases much better these days. The latest release on <code class="highlighter-rouge">Elastic.co</code> is <code class="highlighter-rouge">7.10.1</code>.</p>
+  <p>AWS seems to be tracking the releases much better these days. The latest release on <code class="language-plaintext highlighter-rouge">Elastic.co</code> is <code class="language-plaintext highlighter-rouge">7.10.1</code>.</p>
 </blockquote>
 
 <p><strong>CRITICAL SECURITY NOTE</strong></p>
 
-<p>Make sure you read through the notes on network configuration and fine-grained access control for ODFE (not available for <code class="highlighter-rouge">t2.small</code>). For a production system, you should use an instance larger than <code class="highlighter-rouge">t2.small</code> to support encryption at rest and, by extension, access control.</p>
+<p>Make sure you read through the notes on network configuration and fine-grained access control for ODFE (not available for <code class="language-plaintext highlighter-rouge">t2.small</code>). For a production system, you should use an instance larger than <code class="language-plaintext highlighter-rouge">t2.small</code> to support encryption at rest and, by extension, access control.</p>
 
-<p>I am using <code class="highlighter-rouge">Public access</code> here for the purposes of the demo as this instance will be live only for a couple of hours. Google ElasticSearch breaches for the ever increasing counts of exposed servers.</p>
+<p>I am using <code class="language-plaintext highlighter-rouge">Public access</code> here for the purposes of the demo as this instance will be live only for a couple of hours. Google ElasticSearch breaches for the ever increasing counts of exposed servers.</p>
       <h3 id="create-index-and-mapping">
         
         
@@ -240,20 +240,20 @@
       </h3>
     
 
-<p>An <code class="highlighter-rouge">index</code> is the highest logical level within ElasticSearch. Think of these as similar to tables in a database.</p>
+<p>An <code class="language-plaintext highlighter-rouge">index</code> is the highest logical level within ElasticSearch. Think of these as similar to tables in a database.</p>
 
 <ul>
-  <li>You need an <code class="highlighter-rouge">index</code> before ingesting data.</li>
+  <li>You need an <code class="language-plaintext highlighter-rouge">index</code> before ingesting data.</li>
   <li>You <em>do not</em> need data columns and types to be defined before ingestion.</li>
-  <li>You need to define <code class="highlighter-rouge">mappings</code> for specific columns that you want to transform during ingestion.</li>
+  <li>You need to define <code class="language-plaintext highlighter-rouge">mappings</code> for specific columns that you want to transform during ingestion.</li>
   <li>You <strong>need</strong> types and columns defined before analysis or visualisation.</li>
 </ul>
 
-<p>Creating an index needs an HTTP <code class="highlighter-rouge">PUT</code> as shown below:</p>
+<p>Creating an index needs an HTTP <code class="language-plaintext highlighter-rouge">PUT</code> as shown below:</p>
 
 <p><img src="/images/es_create_index_mapping.png" alt="ElasticSearch Index Creation" /></p>
 
-<p>Note that we are specifying in the mapping that our <code class="highlighter-rouge">timestamp</code> field should be interpreted by ElasticSearch as a <code class="highlighter-rouge">date</code> (really, datetime) field.</p>
+<p>Note that we are specifying in the mapping that our <code class="language-plaintext highlighter-rouge">timestamp</code> field should be interpreted by ElasticSearch as a <code class="language-plaintext highlighter-rouge">date</code> (really, datetime) field.</p>
 
 <p>That’s it, our ElasticSearch instance is ready to receive data.</p>
       <h2 id="persisting-shadow-updates">
@@ -265,7 +265,7 @@
       </h2>
     
 
-<p>Go to <code class="highlighter-rouge">AWS IoT Core -&gt; Act -&gt; Rules</code> to get started. We will create a new rule <code class="highlighter-rouge">SendShadowsToElasticSearch</code>. Like before, we will add a <code class="highlighter-rouge">filter</code> and an <code class="highlighter-rouge">action</code>.</p>
+<p>Go to <code class="language-plaintext highlighter-rouge">AWS IoT Core -&gt; Act -&gt; Rules</code> to get started. We will create a new rule <code class="language-plaintext highlighter-rouge">SendShadowsToElasticSearch</code>. Like before, we will add a <code class="language-plaintext highlighter-rouge">filter</code> and an <code class="language-plaintext highlighter-rouge">action</code>.</p>
       <h3 id="filter">
         
         
@@ -275,7 +275,7 @@
       </h3>
     
 
-<p>We will need add back the <code class="highlighter-rouge">timestamp</code> field and we will also need the <code class="highlighter-rouge">device_id</code>. So, our SQL query will now look like this:</p>
+<p>We will need add back the <code class="language-plaintext highlighter-rouge">timestamp</code> field and we will also need the <code class="language-plaintext highlighter-rouge">device_id</code>. So, our SQL query will now look like this:</p>
 
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> 
   <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_usage</span> <span class="k">as</span> <span class="n">cpu_usage</span><span class="p">,</span>
@@ -283,7 +283,7 @@
   <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">cpu_temp</span> <span class="k">as</span> <span class="n">cpu_temp</span><span class="p">,</span>
   <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">ram_usage</span> <span class="k">as</span> <span class="n">ram_usage</span><span class="p">,</span>
   <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="n">ram_total</span> <span class="k">as</span> <span class="n">ram_total</span><span class="p">,</span>
-  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="k">timestamp</span> <span class="k">as</span> <span class="k">timestamp</span><span class="p">,</span>
+  <span class="k">state</span><span class="p">.</span><span class="n">reported</span><span class="p">.</span><span class="nb">timestamp</span> <span class="k">as</span> <span class="nb">timestamp</span><span class="p">,</span>
   <span class="n">clientid</span><span class="p">()</span> <span class="k">as</span> <span class="n">device_id</span>
 <span class="k">FROM</span> <span class="s1">'$aws/things/+/shadow/update'</span>
 </code></pre></div></div>
@@ -305,12 +305,12 @@
 <ul>
   <li>Selected the ElasticSearch instance we created in the previous step</li>
   <li>Granted access to AWS IoT via an IAM rule</li>
-  <li>Added an <code class="highlighter-rouge">id</code> using the built-in <code class="highlighter-rouge">newuuid()</code> function</li>
+  <li>Added an <code class="language-plaintext highlighter-rouge">id</code> using the built-in <code class="language-plaintext highlighter-rouge">newuuid()</code> function</li>
   <li>Specified our index</li>
-  <li>Specified a type <code class="highlighter-rouge">_doc</code> for our data which is the default built-in type for new documents</li>
+  <li>Specified a type <code class="language-plaintext highlighter-rouge">_doc</code> for our data which is the default built-in type for new documents</li>
 </ul>
 
-<p>As before, we will enable the <code class="highlighter-rouge">CloudWatch</code> action in case of errors.</p>
+<p>As before, we will enable the <code class="language-plaintext highlighter-rouge">CloudWatch</code> action in case of errors.</p>
 
 <p>Our rule will finally look like this:</p>
 
@@ -324,11 +324,11 @@
       </h2>
     
 
-<p>Let’s start our simulators again and hop over to the Kibana to start analysing our data. The Kibana URL will be visible in your AWS ElasticSearch Console and should just be <code class="highlighter-rouge">https://ES_DOMAIN/_plugin/kibana/</code>.</p>
+<p>Let’s start our simulators again and hop over to the Kibana to start analysing our data. The Kibana URL will be visible in your AWS ElasticSearch Console and should just be <code class="language-plaintext highlighter-rouge">https://ES_DOMAIN/_plugin/kibana/</code>.</p>
 
-<p>Before we can query the data, we need to create an <a href="https://www.elastic.co/guide/en/kibana/current/index-patterns.html"><code class="highlighter-rouge">index pattern</code></a>. Kibana should prompt you to create an index pattern as soon as you enter. If you missed that, go to <code class="highlighter-rouge">Stack Management --&gt; Index Patterns</code> from the left sidebar.</p>
+<p>Before we can query the data, we need to create an <a href="https://www.elastic.co/guide/en/kibana/current/index-patterns.html"><code class="language-plaintext highlighter-rouge">index pattern</code></a>. Kibana should prompt you to create an index pattern as soon as you enter. If you missed that, go to <code class="language-plaintext highlighter-rouge">Stack Management --&gt; Index Patterns</code> from the left sidebar.</p>
 
-<p>Click on <code class="highlighter-rouge">Create index pattern</code> and walk through the wizard. Since your index has been receiving some data, the columns will already be detected. Ensure that you select <code class="highlighter-rouge">timestamp</code> as your date field.</p>
+<p>Click on <code class="language-plaintext highlighter-rouge">Create index pattern</code> and walk through the wizard. Since your index has been receiving some data, the columns will already be detected. Ensure that you select <code class="language-plaintext highlighter-rouge">timestamp</code> as your date field.</p>
 
 <p><img src="/images/es_create_index_pattern.png" alt="ES Create Index Pattern" /></p>
 
@@ -342,7 +342,7 @@
       </h3>
     
 
-<p>With the index pattern in place, go to <code class="highlighter-rouge">Discover</code> in the sidebar to see your data streaming in.</p>
+<p>With the index pattern in place, go to <code class="language-plaintext highlighter-rouge">Discover</code> in the sidebar to see your data streaming in.</p>
 
 <p><img src="/images/es_discover.png" alt="Kibana - Discover" /></p>
 
@@ -364,24 +364,24 @@
       </h3>
     
 
-<p>Once we start receiving data, visualisations within Kibana are easy to set up. Go to <code class="highlighter-rouge">Visualisations</code> in the sidebar and create a line chart for each of our metrics. Specifically,</p>
+<p>Once we start receiving data, visualisations within Kibana are easy to set up. Go to <code class="language-plaintext highlighter-rouge">Visualisations</code> in the sidebar and create a line chart for each of our metrics. Specifically,</p>
 
 <ul>
-  <li>Select the index <code class="highlighter-rouge">aws_iot_demo</code> as data source</li>
-  <li>For the Y-axis, select <code class="highlighter-rouge">average</code> as the aggregation and the metric, e.g. <code class="highlighter-rouge">cpu_usage</code> under field. Give a custom label for the axis if you want.</li>
-  <li>To enable timeseries visualisation, add an X-axis bucket with aggregation <code class="highlighter-rouge">Date Histogram</code>, field <code class="highlighter-rouge">timestamp</code> and <code class="highlighter-rouge">Auto</code> interval.</li>
-  <li>To enable distinction by <code class="highlighter-rouge">device_id</code>, add another bucket, this time with sub-aggregation <code class="highlighter-rouge">Terms</code>, field <code class="highlighter-rouge">device_id.keyword</code> and the default Order By options.
+  <li>Select the index <code class="language-plaintext highlighter-rouge">aws_iot_demo</code> as data source</li>
+  <li>For the Y-axis, select <code class="language-plaintext highlighter-rouge">average</code> as the aggregation and the metric, e.g. <code class="language-plaintext highlighter-rouge">cpu_usage</code> under field. Give a custom label for the axis if you want.</li>
+  <li>To enable timeseries visualisation, add an X-axis bucket with aggregation <code class="language-plaintext highlighter-rouge">Date Histogram</code>, field <code class="language-plaintext highlighter-rouge">timestamp</code> and <code class="language-plaintext highlighter-rouge">Auto</code> interval.</li>
+  <li>To enable distinction by <code class="language-plaintext highlighter-rouge">device_id</code>, add another bucket, this time with sub-aggregation <code class="language-plaintext highlighter-rouge">Terms</code>, field <code class="language-plaintext highlighter-rouge">device_id.keyword</code> and the default Order By options.
     <ul>
-      <li><code class="highlighter-rouge">device_id.keyword</code> indicates that ElasticSearch is indexing the strings stored in the <code class="highlighter-rouge">device_id</code> column.</li>
+      <li><code class="language-plaintext highlighter-rouge">device_id.keyword</code> indicates that ElasticSearch is indexing the strings stored in the <code class="language-plaintext highlighter-rouge">device_id</code> column.</li>
     </ul>
   </li>
 </ul>
 
-<p>Click on <code class="highlighter-rouge">Update</code> and your chart should look similar to this:</p>
+<p>Click on <code class="language-plaintext highlighter-rouge">Update</code> and your chart should look similar to this:</p>
 
 <p><img src="/images/es_visualisation.png" alt="Kibana Visualisation" /></p>
 
-<p>Create visualisations for the other metrics and add them to a <code class="highlighter-rouge">Dashboard</code> from the sidebar.  Your dashboard should look something like this:</p>
+<p>Create visualisations for the other metrics and add them to a <code class="language-plaintext highlighter-rouge">Dashboard</code> from the sidebar.  Your dashboard should look something like this:</p>
 
 <p><img src="/images/es_dashboard.png" alt="Kibana Dashboard" /></p>
 
@@ -415,11 +415,11 @@
         
       </h3>
     
-<p>Triggers compare the value returned by the monitor with specific thresholds. If the threshold is crossed, triggers can notify certain endpoints. At the moment, the built-in destinations are limited to <code class="highlighter-rouge">Amazon SNS</code>, <code class="highlighter-rouge">Amazon Chime</code>, <code class="highlighter-rouge">Slack</code> and <code class="highlighter-rouge">Custom webhook</code>. We will create a trigger without a destination so we can see the alerts in the UI.</p>
+<p>Triggers compare the value returned by the monitor with specific thresholds. If the threshold is crossed, triggers can notify certain endpoints. At the moment, the built-in destinations are limited to <code class="language-plaintext highlighter-rouge">Amazon SNS</code>, <code class="language-plaintext highlighter-rouge">Amazon Chime</code>, <code class="language-plaintext highlighter-rouge">Slack</code> and <code class="language-plaintext highlighter-rouge">Custom webhook</code>. We will create a trigger without a destination so we can see the alerts in the UI.</p>
 
 <p><img src="/images/es_alert_trigger.png" alt="Kibana Alert Trigger" /></p>
 
-<p>Once an alert has been triggered, it will be activated and will show up on the Alerts Dashboard. <code class="highlighter-rouge">Active</code> alerts can be <code class="highlighter-rouge">Acknowledged</code> to let the system know that an operator is looking into the issue. Once the metric/query is no longer in breach of the threshold, the alert is <code class="highlighter-rouge">Completed</code>. For a detailed description, check <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/#work-with-alerts">the docs</a>.</p>
+<p>Once an alert has been triggered, it will be activated and will show up on the Alerts Dashboard. <code class="language-plaintext highlighter-rouge">Active</code> alerts can be <code class="language-plaintext highlighter-rouge">Acknowledged</code> to let the system know that an operator is looking into the issue. Once the metric/query is no longer in breach of the threshold, the alert is <code class="language-plaintext highlighter-rouge">Completed</code>. For a detailed description, check <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/alerting/monitors/#work-with-alerts">the docs</a>.</p>
 
 <p><img src="/images/es_active_alert.png" alt="Kibana Active Alert" /></p>
       <h3 id="anomaly-detection">
@@ -430,11 +430,11 @@
         
       </h3>
     
-<p>Anomaly detection is a relatively new feature in ODFE and is getting frequent updates. As of release <code class="highlighter-rouge">7.9</code> on AWS, you can set up</p>
+<p>Anomaly detection is a relatively new feature in ODFE and is getting frequent updates. As of release <code class="language-plaintext highlighter-rouge">7.9</code> on AWS, you can set up</p>
 
 <ul>
-  <li><code class="highlighter-rouge">detectors</code> that query all or some portion of your data at regular intervals, and</li>
-  <li><code class="highlighter-rouge">models</code> that monitor specific fields or custom queries for anomalies.</li>
+  <li><code class="language-plaintext highlighter-rouge">detectors</code> that query all or some portion of your data at regular intervals, and</li>
+  <li><code class="language-plaintext highlighter-rouge">models</code> that monitor specific fields or custom queries for anomalies.</li>
 </ul>
 
 <p>We will explore this feature in detail in a future post. For now, see <a href="https://opendistro.github.io/for-elasticsearch/blog/odfe-updates/2019/11/real-time-anomaly-detection-in-open-distro-for-elasticsearch/">this post</a> and <a href="https://opendistro.github.io/for-elasticsearch-docs/docs/ad/">the docs</a> for more on anomaly detection.</p>

@@ -199,7 +199,7 @@
       <li>You could replace this with actual hardware, perhaps run this script on an Raspberry Pi or even send FreeRTOS metrics from ESP32 but we will save that for another day.</li>
     </ol>
   </li>
-  <li>Create multiple <code class="highlighter-rouge">things</code> on AWS IoT Core.</li>
+  <li>Create multiple <code class="language-plaintext highlighter-rouge">things</code> on AWS IoT Core.</li>
   <li>Send these metrics as shadow updates to AWS IoT every 10s (configurable)</li>
   <li>Configure AWS IoT to route shadow updates to a database</li>
   <li>Set up a visualisation tool and create dashboards using these updates</li>
@@ -217,9 +217,9 @@
 <p><a href="https://github.com/IoTReady/aws_iot_demo">https://github.com/IoTReady/aws_iot_demo</a></p>
 
 <ul>
-  <li><code class="highlighter-rouge">master</code> = final code + AWS IoT configuration + Grafana dashboard JSON</li>
-  <li><code class="highlighter-rouge">1_python_script</code> = Python script without AWS IoT integration (print to console)</li>
-  <li><code class="highlighter-rouge">2_aws_iot</code> = Python script with AWS IoT integration (shadow updates)</li>
+  <li><code class="language-plaintext highlighter-rouge">master</code> = final code + AWS IoT configuration + Grafana dashboard JSON</li>
+  <li><code class="language-plaintext highlighter-rouge">1_python_script</code> = Python script without AWS IoT integration (print to console)</li>
+  <li><code class="language-plaintext highlighter-rouge">2_aws_iot</code> = Python script with AWS IoT integration (shadow updates)</li>
 </ul>
       <h2 id="1---python-script-for-system-metrics">
         
@@ -232,7 +232,7 @@
 
 <p>We are going to adapt this excellent <a href="https://www.pragmaticlinux.com/2020/12/monitor-cpu-and-ram-usage-in-python-with-psutil/">blog post</a> to create our system monitor script.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 -m venv venv
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 -m venv venv
 source venv/bin/activate
 echo psutil==5.8.0 &gt; requirements.txt
 pip install -r requirements.txt
@@ -240,23 +240,23 @@ touch sysmon.py
 </code></pre></div></div>
 
 <ol>
-  <li>Edit <code class="highlighter-rouge">sysmon.py</code> in your preferred text editor and add in the following functions from the blog post:
+  <li>Edit <code class="language-plaintext highlighter-rouge">sysmon.py</code> in your preferred text editor and add in the following functions from the blog post:
     <ul>
-      <li><code class="highlighter-rouge">get_cpu_usage_pct</code></li>
-      <li><code class="highlighter-rouge">get_cpu_frequency</code></li>
-      <li><code class="highlighter-rouge">get_cpu_temp</code></li>
-      <li><code class="highlighter-rouge">get_ram_usage</code></li>
-      <li><code class="highlighter-rouge">get_ram_total</code></li>
+      <li><code class="language-plaintext highlighter-rouge">get_cpu_usage_pct</code></li>
+      <li><code class="language-plaintext highlighter-rouge">get_cpu_frequency</code></li>
+      <li><code class="language-plaintext highlighter-rouge">get_cpu_temp</code></li>
+      <li><code class="language-plaintext highlighter-rouge">get_ram_usage</code></li>
+      <li><code class="language-plaintext highlighter-rouge">get_ram_total</code></li>
     </ul>
   </li>
-  <li>Next, create a <code class="highlighter-rouge">main</code> function that calls each of these functions and populates a dictionary: <code class="highlighter-rouge">payload</code> and prints it.
+  <li>Next, create a <code class="language-plaintext highlighter-rouge">main</code> function that calls each of these functions and populates a dictionary: <code class="language-plaintext highlighter-rouge">payload</code> and prints it.
     <ol>
-      <li>We will also add a <code class="highlighter-rouge">timestamp</code> to the payload for use in visualisations later.</li>
+      <li>We will also add a <code class="language-plaintext highlighter-rouge">timestamp</code> to the payload for use in visualisations later.</li>
     </ol>
   </li>
-  <li>Add a <code class="highlighter-rouge">while(1)</code> that calls this <code class="highlighter-rouge">main</code> function every 10 seconds.</li>
-  <li>Add an argument parser so we can pass the <code class="highlighter-rouge">interval</code> and a <code class="highlighter-rouge">device_id</code> as command line arguments.</li>
-  <li>Run the script with <code class="highlighter-rouge">python sysmon.py 10 my_iot_device_1</code></li>
+  <li>Add a <code class="language-plaintext highlighter-rouge">while(1)</code> that calls this <code class="language-plaintext highlighter-rouge">main</code> function every 10 seconds.</li>
+  <li>Add an argument parser so we can pass the <code class="language-plaintext highlighter-rouge">interval</code> and a <code class="language-plaintext highlighter-rouge">device_id</code> as command line arguments.</li>
+  <li>Run the script with <code class="language-plaintext highlighter-rouge">python sysmon.py 10 my_iot_device_1</code></li>
 </ol>
 
 <p>You should see output similar to:
@@ -270,7 +270,7 @@ touch sysmon.py
       </h2>
     
 
-<p>Now, we will add in the ability to send our metrics to AWS IoT. But first, we need to register our devices or <code class="highlighter-rouge">things</code> as AWS calls them.</p>
+<p>Now, we will add in the ability to send our metrics to AWS IoT. But first, we need to register our devices or <code class="language-plaintext highlighter-rouge">things</code> as AWS calls them.</p>
       <h3 id="registering-the-devices">
         
         
@@ -280,47 +280,47 @@ touch sysmon.py
       </h3>
     
 
-<p>We will register the devices individually via the AWS Console. However, if you have a large number of devices to register, you may want to script it or use <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html">Bulk Registration</a> via <code class="highlighter-rouge">aws-cli</code> or the AWS IoT Core Console.</p>
+<p>We will register the devices individually via the AWS Console. However, if you have a large number of devices to register, you may want to script it or use <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html">Bulk Registration</a> via <code class="language-plaintext highlighter-rouge">aws-cli</code> or the AWS IoT Core Console.</p>
 
 <blockquote>
-  <p>We are using <code class="highlighter-rouge">us-east-1</code> aka N. Virginia for integration later with Amazon Timestream which is not yet available in all regions.</p>
+  <p>We are using <code class="language-plaintext highlighter-rouge">us-east-1</code> aka N. Virginia for integration later with Amazon Timestream which is not yet available in all regions.</p>
 </blockquote>
 
 <ol>
-  <li>Click on <code class="highlighter-rouge">Create a single thing</code>
+  <li>Click on <code class="language-plaintext highlighter-rouge">Create a single thing</code>
     <ol>
-      <li>Give your thing a name, e.g. <code class="highlighter-rouge">my_iot_device_1</code></li>
-      <li>You can skip <code class="highlighter-rouge">Thing Type</code> and <code class="highlighter-rouge">Group</code> for this demo.</li>
+      <li>Give your thing a name, e.g. <code class="language-plaintext highlighter-rouge">my_iot_device_1</code></li>
+      <li>You can skip <code class="language-plaintext highlighter-rouge">Thing Type</code> and <code class="language-plaintext highlighter-rouge">Group</code> for this demo.</li>
       <li>Create the thing</li>
     </ol>
   </li>
-  <li>Use the <code class="highlighter-rouge">One-click certificate creation (recommended)</code> option to generate the certificates.
+  <li>Use the <code class="language-plaintext highlighter-rouge">One-click certificate creation (recommended)</code> option to generate the certificates.
     <ol>
       <li>Download the generated certificates and the root CA certificate.</li>
       <li>Activate the certificates.</li>
     </ol>
   </li>
-  <li>Attach a policy and register the <code class="highlighter-rouge">Thing</code>.
+  <li>Attach a policy and register the <code class="language-plaintext highlighter-rouge">Thing</code>.
     <ol>
-      <li>Because we are cavalier and this is a demo, we are using the following <code class="highlighter-rouge">PubSubToAny</code> policy.</li>
+      <li>Because we are cavalier and this is a demo, we are using the following <code class="language-plaintext highlighter-rouge">PubSubToAny</code> policy.</li>
       <li><strong>DO NOT</strong> use this in production!</li>
     </ol>
   </li>
 </ol>
 
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="nl">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iot:*"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+      </span><span class="nl">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iot:*"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Now repeat this a couple more times so we have a few things. I am setting up 3 devices with the imaginative names: <code class="highlighter-rouge">my_iot_device_1</code>, <code class="highlighter-rouge">my_iot_device_2</code>, <code class="highlighter-rouge">my_iot_device_3</code>.</p>
+<p>Now repeat this a couple more times so we have a few things. I am setting up 3 devices with the imaginative names: <code class="language-plaintext highlighter-rouge">my_iot_device_1</code>, <code class="language-plaintext highlighter-rouge">my_iot_device_2</code>, <code class="language-plaintext highlighter-rouge">my_iot_device_3</code>.</p>
 
 <p>Finally, we will rename our certificates to match our thing names so that it’s easier to script together. For instance, I am using the rename utility to bulk rename my certificates:</p>
 
@@ -334,24 +334,24 @@ touch sysmon.py
       </h3>
     
 
-<p>Because AWS IoT supports MQTT, we could use any MQTT client that supports X.509 certificates. However, to keep things simple, we will use the <a href="https://github.com/aws/aws-iot-device-sdk-python">official Python SDK</a> from AWS IoT. Specifically, we will adapt the <a href="https://github.com/aws/aws-iot-device-sdk-python/blob/master/samples/basicShadow/basicShadowUpdater.py"><code class="highlighter-rouge">basicShadowUpdater.py</code> sample</a>.</p>
+<p>Because AWS IoT supports MQTT, we could use any MQTT client that supports X.509 certificates. However, to keep things simple, we will use the <a href="https://github.com/aws/aws-iot-device-sdk-python">official Python SDK</a> from AWS IoT. Specifically, we will adapt the <a href="https://github.com/aws/aws-iot-device-sdk-python/blob/master/samples/basicShadow/basicShadowUpdater.py"><code class="language-plaintext highlighter-rouge">basicShadowUpdater.py</code> sample</a>.</p>
 
 <ul>
-  <li>Please inspect <code class="highlighter-rouge">aws_shadow_upater.py</code> for the changes we are making. Primarily, we are wrapping the functionality into 2 functions:
+  <li>Please inspect <code class="language-plaintext highlighter-rouge">aws_shadow_upater.py</code> for the changes we are making. Primarily, we are wrapping the functionality into 2 functions:
     <ul>
-      <li><code class="highlighter-rouge">init_device_shadow_handler</code> that takes AWS IoT specific config parameters and returns a <code class="highlighter-rouge">deviceShadowHandler</code> specific to our configuration and thing.</li>
-      <li><code class="highlighter-rouge">update_device_shadow</code> that takes our system metrics payload and wraps it into a <code class="highlighter-rouge">json</code> structure that AWS IoT expects for <code class="highlighter-rouge">device shadows</code>.</li>
+      <li><code class="language-plaintext highlighter-rouge">init_device_shadow_handler</code> that takes AWS IoT specific config parameters and returns a <code class="language-plaintext highlighter-rouge">deviceShadowHandler</code> specific to our configuration and thing.</li>
+      <li><code class="language-plaintext highlighter-rouge">update_device_shadow</code> that takes our system metrics payload and wraps it into a <code class="language-plaintext highlighter-rouge">json</code> structure that AWS IoT expects for <code class="language-plaintext highlighter-rouge">device shadows</code>.</li>
     </ul>
   </li>
-  <li>We will also take this opportunity to modularise our code a bit by moving the <code class="highlighter-rouge">main</code> function from <code class="highlighter-rouge">sysmon.py</code> into its own separate file.</li>
-  <li>Within <code class="highlighter-rouge">main.py</code> we are reading our AWS configuration from a combination of environment variables and the local certificates.
+  <li>We will also take this opportunity to modularise our code a bit by moving the <code class="language-plaintext highlighter-rouge">main</code> function from <code class="language-plaintext highlighter-rouge">sysmon.py</code> into its own separate file.</li>
+  <li>Within <code class="language-plaintext highlighter-rouge">main.py</code> we are reading our AWS configuration from a combination of environment variables and the local certificates.
     <ul>
-      <li>We only need the following: <code class="highlighter-rouge">export AWS_IOT_HOST=YOUR_AWS_IOT_ENDPOINT.amazonaws.com</code> and <code class="highlighter-rouge">export CERTS_DIR=certs</code> assuming you are keeping your certificates in <code class="highlighter-rouge">certs/</code>.</li>
-      <li>You will probably want to create a script or <code class="highlighter-rouge">.env</code> file to set these environment variables</li>
+      <li>We only need the following: <code class="language-plaintext highlighter-rouge">export AWS_IOT_HOST=YOUR_AWS_IOT_ENDPOINT.amazonaws.com</code> and <code class="language-plaintext highlighter-rouge">export CERTS_DIR=certs</code> assuming you are keeping your certificates in <code class="language-plaintext highlighter-rouge">certs/</code>.</li>
+      <li>You will probably want to create a script or <code class="language-plaintext highlighter-rouge">.env</code> file to set these environment variables</li>
       <li>For good measure, we are also verifying that the certificates actually exist.</li>
     </ul>
   </li>
-  <li>With this done, we stitch our two modules <code class="highlighter-rouge">sysmon.py</code> and <code class="highlighter-rouge">aws_shadow_updater.py</code> together and start publishing updates. If all goes well, you should see the following in your terminal and your AWS Console (go to Thing -&gt; Shadows -&gt; Classic Shadow)</li>
+  <li>With this done, we stitch our two modules <code class="language-plaintext highlighter-rouge">sysmon.py</code> and <code class="language-plaintext highlighter-rouge">aws_shadow_updater.py</code> together and start publishing updates. If all goes well, you should see the following in your terminal and your AWS Console (go to Thing -&gt; Shadows -&gt; Classic Shadow)</li>
 </ul>
 
 <p><img src="/images/aws_iot_terminal.png" alt="Terminal Output" /></p>
@@ -370,7 +370,7 @@ touch sysmon.py
   <p>We are done with almost all of the coding needed to get this working.</p>
 </blockquote>
 
-<p>This is an easy one, open up multiple terminals/tabs and start a separate process for updating the shadow for each <code class="highlighter-rouge">device</code>. Something like this:</p>
+<p>This is an easy one, open up multiple terminals/tabs and start a separate process for updating the shadow for each <code class="language-plaintext highlighter-rouge">device</code>. Something like this:</p>
 
 <p><img src="/images/multiple_shadow_updates.png" alt="Multiple Devices" /></p>
       <h2 id="4---persisting-shadow-updates">
@@ -384,7 +384,7 @@ touch sysmon.py
 
 <p>In order to visualise, and perhaps analyse, these metrics, we need to persist them in some form of database. Thankfully, AWS IoT has a <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rules.html">Rules Engine</a> designed for just this purpose. The Rules Engine is essentially a message router with the ability to filter messages using an SQL syntax and send them to various destinations.</p>
 
-<p>Go to <code class="highlighter-rouge">AWS IoT Core -&gt; Act -&gt; Rules</code> to get started.</p>
+<p>Go to <code class="language-plaintext highlighter-rouge">AWS IoT Core -&gt; Act -&gt; Rules</code> to get started.</p>
 
 <p>There are 2 steps to enabling rules:</p>
 <ol>
@@ -403,8 +403,8 @@ touch sysmon.py
 <p>AWS IoT uses a reduced <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html">SQL syntax</a> for filtering messages. Points to note:</p>
 
 <ul>
-  <li>The <a href="https://docs.aws.amazon.com/iot/latest/developerguide/device-shadow-mqtt.html#update-pub-sub-topic">shadow topic</a> we are interested in is <code class="highlighter-rouge">$aws/things/thingName/shadow/update</code> where we need to replace <code class="highlighter-rouge">thingName</code> with the wildcard <code class="highlighter-rouge">+</code>. Follow <a href="https://docs.aws.amazon.com/iot/latest/developerguide/topics.html">this reference</a> on topics and wildcards.</li>
-  <li>The content of each message contains the entire <code class="highlighter-rouge">state</code> with <code class="highlighter-rouge">desired</code> and <code class="highlighter-rouge">reported</code> properties as well as other metadata. We will need to unpack the <code class="highlighter-rouge">reported</code> property to get the data we need. Follow <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-select.html">this reference</a> for more details.</li>
+  <li>The <a href="https://docs.aws.amazon.com/iot/latest/developerguide/device-shadow-mqtt.html#update-pub-sub-topic">shadow topic</a> we are interested in is <code class="language-plaintext highlighter-rouge">$aws/things/thingName/shadow/update</code> where we need to replace <code class="language-plaintext highlighter-rouge">thingName</code> with the wildcard <code class="language-plaintext highlighter-rouge">+</code>. Follow <a href="https://docs.aws.amazon.com/iot/latest/developerguide/topics.html">this reference</a> on topics and wildcards.</li>
+  <li>The content of each message contains the entire <code class="language-plaintext highlighter-rouge">state</code> with <code class="language-plaintext highlighter-rouge">desired</code> and <code class="language-plaintext highlighter-rouge">reported</code> properties as well as other metadata. We will need to unpack the <code class="language-plaintext highlighter-rouge">reported</code> property to get the data we need. Follow <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-select.html">this reference</a> for more details.</li>
 </ul>
 
 <p>Our SQL filter will look essentially like this:</p>
@@ -418,7 +418,7 @@ touch sysmon.py
 <span class="k">FROM</span> <span class="s1">'$aws/things/+/shadow/update'</span>
 </code></pre></div></div>
 
-<p>Before we can save this rule, we will also need to add an <code class="highlighter-rouge">action</code>. Actions define what to do with the filtered messages. This depends on our choice of database.</p>
+<p>Before we can save this rule, we will also need to add an <code class="language-plaintext highlighter-rouge">action</code>. Actions define what to do with the filtered messages. This depends on our choice of database.</p>
       <h3 id="act">
         
         
@@ -430,7 +430,7 @@ touch sysmon.py
 
 <p>AWS IoT supports a large range of actions out of the box including CloudWatch, DynamoDB, ElasticSearch, Timestream DB and custom HTTP endpoints. See the <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rule-actions.html">full list here</a>.</p>
 
-<p>To confirm that our messages are coming through and we are able to store them, we will use the shiny, new time series database from AWS - Timestream. We will also enable the <code class="highlighter-rouge">CloudWatch</code> action in case of errors.</p>
+<p>To confirm that our messages are coming through and we are able to store them, we will use the shiny, new time series database from AWS - Timestream. We will also enable the <code class="language-plaintext highlighter-rouge">CloudWatch</code> action in case of errors.</p>
       <h4 id="timestream-db">
         
         
@@ -446,11 +446,11 @@ touch sysmon.py
 
 <p>It’s <strong>essential</strong> to create the DB in the same region as your AWS IoT endpoint as the Rules Engine does not, yet, support multiple regions for the built-in actions. _You could use a Lambda function to do this for you but that’s more management and cost.</p>
 
-<p>We will create a <code class="highlighter-rouge">Standard</code> (empty) DB with the name <code class="highlighter-rouge">aws_iot_demo</code>:</p>
+<p>We will create a <code class="language-plaintext highlighter-rouge">Standard</code> (empty) DB with the name <code class="language-plaintext highlighter-rouge">aws_iot_demo</code>:</p>
 
 <p><img src="/images/create_timestream_db.png" alt="Create Timestream DB" /></p>
 
-<p>We will also need a <code class="highlighter-rouge">table</code> to store our data, so let’s do that too:</p>
+<p>We will also need a <code class="language-plaintext highlighter-rouge">table</code> to store our data, so let’s do that too:</p>
 
 <p><img src="/images/create_timestream_table.png" alt="Create Timestream Table" /></p>
 
@@ -460,11 +460,11 @@ touch sysmon.py
 
 <p>Notes:</p>
 <ul>
-  <li>The AWS IoT Rule Action for Timestream needs at least one <a href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html"><code class="highlighter-rouge">dimension</code></a> to be specified. Dimensions can be used for grouping and filtering incoming data.</li>
-  <li>I used the following <code class="highlighter-rouge">key</code>:<code class="highlighter-rouge">value</code> pair using a substitution template - <code class="highlighter-rouge">device_id</code>: <code class="highlighter-rouge">${clientId()}</code></li>
-  <li>We are sending the device timestamp as part of the shadow update. If we include it as part of the <code class="highlighter-rouge">SELECT</code> query in the rule, Timestream will assume that <code class="highlighter-rouge">timestamp</code> is a measurement metric too.
+  <li>The AWS IoT Rule Action for Timestream needs at least one <a href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html"><code class="language-plaintext highlighter-rouge">dimension</code></a> to be specified. Dimensions can be used for grouping and filtering incoming data.</li>
+  <li>I used the following <code class="language-plaintext highlighter-rouge">key</code>:<code class="language-plaintext highlighter-rouge">value</code> pair using a substitution template - <code class="language-plaintext highlighter-rouge">device_id</code>: <code class="language-plaintext highlighter-rouge">${clientId()}</code></li>
+  <li>We are sending the device timestamp as part of the shadow update. If we include it as part of the <code class="language-plaintext highlighter-rouge">SELECT</code> query in the rule, Timestream will assume that <code class="language-plaintext highlighter-rouge">timestamp</code> is a measurement metric too.
     <ul>
-      <li>Instead, we will ignore the device <code class="highlighter-rouge">timestamp</code> and use <code class="highlighter-rouge">${timestamp()}</code> as the time parameter within the Rule Action. This generates a server timestamp.</li>
+      <li>Instead, we will ignore the device <code class="language-plaintext highlighter-rouge">timestamp</code> and use <code class="language-plaintext highlighter-rouge">${timestamp()}</code> as the time parameter within the Rule Action. This generates a server timestamp.</li>
     </ul>
   </li>
   <li>You will also need to create or select an appropriate IAM role that lets AWS IoT to write to Timestream.</li>
@@ -478,7 +478,7 @@ touch sysmon.py
         
       </h4>
     
-<p>This action is triggered if/when there is an error while processing our rule. Again, follow the guided wizard to create a new <code class="highlighter-rouge">Log Group</code> and assign permissions.</p>
+<p>This action is triggered if/when there is an error while processing our rule. Again, follow the guided wizard to create a new <code class="language-plaintext highlighter-rouge">Log Group</code> and assign permissions.</p>
 
 <p>At the end, your rule should look something like this:</p>
 
@@ -492,10 +492,10 @@ touch sysmon.py
       </h3>
     
 
-<p>Assuming we have started our simulators again, we should start to see data being stored in Timestream. Go over to AWS Console -&gt; Timestream -&gt; Tables -&gt;  <code class="highlighter-rouge">aws_iot_demo</code> -&gt; Query Table. Type in the following query:</p>
+<p>Assuming we have started our simulators again, we should start to see data being stored in Timestream. Go over to AWS Console -&gt; Timestream -&gt; Tables -&gt;  <code class="language-plaintext highlighter-rouge">aws_iot_demo</code> -&gt; Query Table. Type in the following query:</p>
 
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Get the 20 most recently added data points in the past 15 minutes. You can change the time period if you're not continuously ingesting data</span>
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="nv">"aws_iot_demo"</span><span class="p">.</span><span class="nv">"aws_iot_demo"</span> <span class="k">WHERE</span> <span class="n">time</span> <span class="k">between</span> <span class="n">ago</span><span class="p">(</span><span class="mi">15</span><span class="n">m</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">()</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">time</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">20</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="nv">"aws_iot_demo"</span><span class="p">.</span><span class="nv">"aws_iot_demo"</span> <span class="k">WHERE</span> <span class="nb">time</span> <span class="k">between</span> <span class="n">ago</span><span class="p">(</span><span class="mi">15</span><span class="n">m</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">()</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="nb">time</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">20</span>
 </code></pre></div></div>
 
 <p>You should see output similar to the one below:</p>
@@ -504,15 +504,15 @@ touch sysmon.py
 
 <p>You will notice the separate rows for each metric. We will need a different query in order to combine the metrics into a single view, for instance for use with visualisation or analytics tools.</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">BIN</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="mi">1</span><span class="n">m</span><span class="p">)</span> <span class="k">AS</span> <span class="n">time_bin</span><span class="p">,</span>
-    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_usage'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">double</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_usage</span><span class="p">,</span>
-    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_freq'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_freq</span><span class="p">,</span>
-    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_temp'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">double</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_temp</span><span class="p">,</span>
-    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'ram_usage'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_ram_usage</span><span class="p">,</span>
-    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'ram_total'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_ram_total</span>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">BIN</span><span class="p">(</span><span class="nb">time</span><span class="p">,</span> <span class="mi">1</span><span class="n">m</span><span class="p">)</span> <span class="k">AS</span> <span class="n">time_bin</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_usage'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="nb">double</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_usage</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_freq'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="nb">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_freq</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'cpu_temp'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="nb">double</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_cpu_temp</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'ram_usage'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="nb">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_ram_usage</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'ram_total'</span> <span class="k">THEN</span> <span class="n">measure_value</span><span class="p">::</span><span class="nb">bigint</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_ram_total</span>
 <span class="k">FROM</span> <span class="nv">"aws_iot_demo"</span><span class="p">.</span><span class="nv">"aws_iot_demo"</span>
-<span class="k">WHERE</span> <span class="n">time</span> <span class="k">between</span> <span class="n">ago</span><span class="p">(</span><span class="mi">15</span><span class="n">m</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">()</span>
-<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">BIN</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="mi">1</span><span class="n">m</span><span class="p">),</span> <span class="n">device_id</span>
+<span class="k">WHERE</span> <span class="nb">time</span> <span class="k">between</span> <span class="n">ago</span><span class="p">(</span><span class="mi">15</span><span class="n">m</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">()</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">BIN</span><span class="p">(</span><span class="nb">time</span><span class="p">,</span> <span class="mi">1</span><span class="n">m</span><span class="p">),</span> <span class="n">device_id</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">time_bin</span> <span class="k">desc</span>
 </code></pre></div></div>
 
@@ -544,9 +544,9 @@ touch sysmon.py
 
 <ol>
   <li>Created a Python script to monitor common system metrics.</li>
-  <li>Hooked up this script to AWS IoT using the SDK and <code class="highlighter-rouge">Thing</code> certificates.</li>
-  <li>Simulated running multiples of these devices with sending a <code class="highlighter-rouge">Shadow</code> update.</li>
-  <li>Created a rule to persist these device shadows to <code class="highlighter-rouge">Timestream</code> and errors to <code class="highlighter-rouge">CloudWatch</code>.</li>
+  <li>Hooked up this script to AWS IoT using the SDK and <code class="language-plaintext highlighter-rouge">Thing</code> certificates.</li>
+  <li>Simulated running multiples of these devices with sending a <code class="language-plaintext highlighter-rouge">Shadow</code> update.</li>
+  <li>Created a rule to persist these device shadows to <code class="language-plaintext highlighter-rouge">Timestream</code> and errors to <code class="language-plaintext highlighter-rouge">CloudWatch</code>.</li>
   <li>Verified that we are actually getting our data.</li>
 </ol>
 
@@ -626,28 +626,28 @@ touch sysmon.py
       </h3>
     
 
-<p>QuickSight is a managed BI tool from AWS. The <a href="https://docs.aws.amazon.com/timestream/latest/developerguide/QuickSight.html">official documentation</a> to integrate Timestream with QuickSight is a little dense. However, it’s pretty straightforward if you are using <code class="highlighter-rouge">us-east-1</code> as your region.</p>
+<p>QuickSight is a managed BI tool from AWS. The <a href="https://docs.aws.amazon.com/timestream/latest/developerguide/QuickSight.html">official documentation</a> to integrate Timestream with QuickSight is a little dense. However, it’s pretty straightforward if you are using <code class="language-plaintext highlighter-rouge">us-east-1</code> as your region.</p>
 
 <ol>
-  <li>Within QuickSight, click on the user icon at the top right and then on <code class="highlighter-rouge">Manage QuickSight</code>.</li>
-  <li>Here, go to <code class="highlighter-rouge">Security &amp; Permissions</code> -&gt; <code class="highlighter-rouge">QuickSight access to AWS services</code> and enable <code class="highlighter-rouge">Timestream</code> (see image below).</li>
-  <li>Next, within QuickSight, click on <code class="highlighter-rouge">New Dataset</code> and select <code class="highlighter-rouge">Timestream</code>. Click on <code class="highlighter-rouge">Validate Connection</code> to ensure you have given the permissions and confirm.</li>
-  <li>Upon confirmation, select <code class="highlighter-rouge">aws_iot_demo</code> from the discovered databases and select <code class="highlighter-rouge">aws_iot_demo</code> from the tables.</li>
-  <li>Click on <code class="highlighter-rouge">Visualise</code></li>
+  <li>Within QuickSight, click on the user icon at the top right and then on <code class="language-plaintext highlighter-rouge">Manage QuickSight</code>.</li>
+  <li>Here, go to <code class="language-plaintext highlighter-rouge">Security &amp; Permissions</code> -&gt; <code class="language-plaintext highlighter-rouge">QuickSight access to AWS services</code> and enable <code class="language-plaintext highlighter-rouge">Timestream</code> (see image below).</li>
+  <li>Next, within QuickSight, click on <code class="language-plaintext highlighter-rouge">New Dataset</code> and select <code class="language-plaintext highlighter-rouge">Timestream</code>. Click on <code class="language-plaintext highlighter-rouge">Validate Connection</code> to ensure you have given the permissions and confirm.</li>
+  <li>Upon confirmation, select <code class="language-plaintext highlighter-rouge">aws_iot_demo</code> from the discovered databases and select <code class="language-plaintext highlighter-rouge">aws_iot_demo</code> from the tables.</li>
+  <li>Click on <code class="language-plaintext highlighter-rouge">Visualise</code></li>
 </ol>
 
 <p>So far so good. I had to struggle for a while to understand how to get QuickSight to unpack the metrics from Timestream. Turns out, this is surprisingly easy if you follow this <a href="https://www.youtube.com/watch?v=TzW4HWl-L8s">tutorial video</a> from AWS. Essentially,</p>
 
 <ul>
   <li>Create multiple visualisations</li>
-  <li>For each visualisation, add a filter on <code class="highlighter-rouge">measure_name</code>.</li>
-  <li>Click on <code class="highlighter-rouge">time</code> to add it to the X-axis. Change period to <code class="highlighter-rouge">Aggregrate: Minute</code>.</li>
-  <li>Click on <code class="highlighter-rouge">measure_value::bigint</code> or <code class="highlighter-rouge">measure_value::double</code> depending on the metric to add it to the Y-axis. Change to <code class="highlighter-rouge">Aggregate: Average</code>.
+  <li>For each visualisation, add a filter on <code class="language-plaintext highlighter-rouge">measure_name</code>.</li>
+  <li>Click on <code class="language-plaintext highlighter-rouge">time</code> to add it to the X-axis. Change period to <code class="language-plaintext highlighter-rouge">Aggregrate: Minute</code>.</li>
+  <li>Click on <code class="language-plaintext highlighter-rouge">measure_value::bigint</code> or <code class="language-plaintext highlighter-rouge">measure_value::double</code> depending on the metric to add it to the Y-axis. Change to <code class="language-plaintext highlighter-rouge">Aggregate: Average</code>.
     <ul>
-      <li>In our case, only <code class="highlighter-rouge">cpu_usage</code> is a <code class="highlighter-rouge">double</code>.</li>
+      <li>In our case, only <code class="language-plaintext highlighter-rouge">cpu_usage</code> is a <code class="language-plaintext highlighter-rouge">double</code>.</li>
     </ul>
   </li>
-  <li>Click on <code class="highlighter-rouge">device_id</code> to add separate lines for each device. This is added to <code class="highlighter-rouge">Color</code> in QuickSight.</li>
+  <li>Click on <code class="language-plaintext highlighter-rouge">device_id</code> to add separate lines for each device. This is added to <code class="language-plaintext highlighter-rouge">Color</code> in QuickSight.</li>
 </ul>
 
 <p>That’s it! My dashboard looks like this -</p>
@@ -683,24 +683,24 @@ touch sysmon.py
 
 <ul>
   <li>Install the <a href="https://grafana.com/grafana/plugins/grafana-timestream-datasource/installation">Amazon Timestream plugin</a></li>
-  <li>Back in Grafana, add a new <code class="highlighter-rouge">Data Source</code> and search for <code class="highlighter-rouge">Timestream</code>.</li>
+  <li>Back in Grafana, add a new <code class="language-plaintext highlighter-rouge">Data Source</code> and search for <code class="language-plaintext highlighter-rouge">Timestream</code>.</li>
   <li>For authentication, we will use Access Key and Secret for a new IAM User.
     <ul>
-      <li>Back in AWS, create a new user with the ~<code class="highlighter-rouge">AmazonTimestreamReadOnlyAccess</code> policy attached~ <code class="highlighter-rouge">admin</code> rights. For some reason, Grafana would not connect to Timestream even with the <code class="highlighter-rouge">AmazonTimestreamFullAccess</code> policy attached.</li>
+      <li>Back in AWS, create a new user with the ~<code class="language-plaintext highlighter-rouge">AmazonTimestreamReadOnlyAccess</code> policy attached~ <code class="language-plaintext highlighter-rouge">admin</code> rights. For some reason, Grafana would not connect to Timestream even with the <code class="language-plaintext highlighter-rouge">AmazonTimestreamFullAccess</code> policy attached.</li>
     </ul>
   </li>
-  <li>Once the keys are in place, click on <code class="highlighter-rouge">Save &amp; Test</code></li>
-  <li>Select <code class="highlighter-rouge">aws_iot_demo</code> in the <code class="highlighter-rouge">$_database</code> field to set up the default DB. Try as I might, I could not get the dropdown for <code class="highlighter-rouge">$_table</code> to populate.</li>
+  <li>Once the keys are in place, click on <code class="language-plaintext highlighter-rouge">Save &amp; Test</code></li>
+  <li>Select <code class="language-plaintext highlighter-rouge">aws_iot_demo</code> in the <code class="language-plaintext highlighter-rouge">$_database</code> field to set up the default DB. Try as I might, I could not get the dropdown for <code class="language-plaintext highlighter-rouge">$_table</code> to populate.</li>
 </ul>
 
 <p><img src="/images/grafana_timestream_settings.png" alt="Grafana Timestream Settings" /></p>
 
-<p>Now, click on <code class="highlighter-rouge">+ -&gt; Dashboard</code> and <code class="highlighter-rouge">+ Add new panel</code> to get started.</p>
+<p>Now, click on <code class="language-plaintext highlighter-rouge">+ -&gt; Dashboard</code> and <code class="language-plaintext highlighter-rouge">+ Add new panel</code> to get started.</p>
 
 <p>Unlike QuickSight, Grafana allows you to build queries using <strong>SQL</strong>. So, for our first panel, let’s create a CPU Usage chart with the following query:</p>
 
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">device_id</span><span class="p">,</span>
-    <span class="n">CREATE_TIME_SERIES</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">measure_value</span><span class="p">::</span><span class="n">double</span><span class="p">)</span> <span class="k">as</span> <span class="n">avg_cpu_usage</span>
+    <span class="n">CREATE_TIME_SERIES</span><span class="p">(</span><span class="nb">time</span><span class="p">,</span> <span class="n">measure_value</span><span class="p">::</span><span class="nb">double</span><span class="p">)</span> <span class="k">as</span> <span class="n">avg_cpu_usage</span>
 <span class="k">FROM</span> <span class="err">$</span><span class="n">__database</span><span class="p">.</span><span class="err">$</span><span class="n">__table</span>
 <span class="k">WHERE</span> <span class="err">$</span><span class="n">__timeFilter</span>
     <span class="k">AND</span> <span class="n">measure_name</span> <span class="o">=</span> <span class="s1">'$__measure'</span>
@@ -709,7 +709,7 @@ touch sysmon.py
 
 <p><img src="/images/grafana_create_panel.png" alt="Grafana Panel" /></p>
 
-<p>We are essentially doing the same as QuickSight by defining a <code class="highlighter-rouge">where</code> clause to filter by metric and creating a time series that is grouped by <code class="highlighter-rouge">device_id</code>. The one, big, difference is the Grafana allows you to add multiple such queries to a single visualisation chart (panel in Grafana speak). Duplicating this panel and making the mods necessary, we end up with a dashboard very similar to that in QuickSight.</p>
+<p>We are essentially doing the same as QuickSight by defining a <code class="language-plaintext highlighter-rouge">where</code> clause to filter by metric and creating a time series that is grouped by <code class="language-plaintext highlighter-rouge">device_id</code>. The one, big, difference is the Grafana allows you to add multiple such queries to a single visualisation chart (panel in Grafana speak). Duplicating this panel and making the mods necessary, we end up with a dashboard very similar to that in QuickSight.</p>
 
 <p><img src="/images/grafana_timestream_dashboard.png" alt="Grafana Timestream Dashboard" /></p>
 
@@ -733,7 +733,7 @@ touch sysmon.py
 
 <p>If you have multiple queries on a panel, you can even use a combination of queries!</p>
 
-<p>Alerts can trigger notifications to various <code class="highlighter-rouge">channels</code> with built-in options for all the major chat apps, email and webhooks. For instance, if you wanted to trigger a notification within a mobile app, you would set up an API somewhere that will be triggered by a webhook configuration within Grafana. Your API is then responsible for notifying the mobile app.</p>
+<p>Alerts can trigger notifications to various <code class="language-plaintext highlighter-rouge">channels</code> with built-in options for all the major chat apps, email and webhooks. For instance, if you wanted to trigger a notification within a mobile app, you would set up an API somewhere that will be triggered by a webhook configuration within Grafana. Your API is then responsible for notifying the mobile app.</p>
 
 <p>For more on Grafana alerts, check out <a href="https://grafana.com/docs/grafana/latest/alerting/create-alerts/">the docs</a>.</p>
       <h2 id="conclusions">

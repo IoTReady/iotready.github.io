@@ -3,8 +3,8 @@ title: Using client and server certificate bundles to secure and mutually authen
 excerpt: >-
   This article will show you some simple steps of how to use client and server certificate bundles to secure your communications and to achieve mutual authentication. 
 date: '2021-06-20'
-thumb_image: images/Client-Server/Client-Server-Figure-1.jpg
-image: images/Client-Server/Client-Server-Figure-1.jpg
+thumb_image: images/Client-Server/Client-Server-Figure-1.png
+image: images/Client-Server/Client-Server-Figure-1.png
 layout: post
 ---
 

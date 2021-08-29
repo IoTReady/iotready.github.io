@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://iotready.co/blog/ESP32-client-server-authentication-with-certificate-bundles/</loc>
+</url>
+<url>
 <loc>https://iotready.co/blog/a9-gsm-gps-iot-module-library/</loc>
 </url>
 <url>
@@ -31,10 +34,10 @@
 <loc>https://iotready.co/blog/hands-on-aws-iot-timestream-grafana/</loc>
 </url>
 <url>
-<loc>https://iotready.co/blog/</loc>
+<loc>https://iotready.co/portfolio/</loc>
 </url>
 <url>
-<loc>https://iotready.co/portfolio/</loc>
+<loc>https://iotready.co/blog/</loc>
 </url>
 <url>
 <loc>https://iotready.co/</loc>
@@ -62,6 +65,9 @@
 </url>
 <url>
 <loc>https://iotready.co/portfolio/miniature-rfid/</loc>
+</url>
+<url>
+<loc>https://iotready.co/blog/minimal-form-factor-esp32-development-board/</loc>
 </url>
 <url>
 <loc>https://iotready.co/portfolio/moisture-measurement/</loc>
@@ -116,10 +122,10 @@
 </url>
 <url>
 <loc>https://iotready.co/assets/files/smart_grid_monitor.pdf</loc>
-<lastmod>2021-04-07T17:09:59+05:30</lastmod>
+<lastmod>2021-08-14T12:30:15+05:30</lastmod>
 </url>
 <url>
 <loc>https://iotready.co/assets/files/smart_weighing_scale.pdf</loc>
-<lastmod>2021-04-05T10:57:05+05:30</lastmod>
+<lastmod>2021-08-14T12:30:15+05:30</lastmod>
 </url>
 </urlset>

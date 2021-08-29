@@ -205,7 +205,7 @@
       </h1>
     
 
-<p>As you must have realized, this can be a tedious and time-consuming task. Highly inefficient, and error prone, for preparing large number of devices. For our devices, we wrote a simple <code class="highlighter-rouge">bash</code> script.</p>
+<p>As you must have realized, this can be a tedious and time-consuming task. Highly inefficient, and error prone, for preparing large number of devices. For our devices, we wrote a simple <code class="language-plaintext highlighter-rouge">bash</code> script.</p>
       <h2 id="preparesh">
         
         
@@ -215,7 +215,7 @@
       </h2>
     
 
-<p><code class="highlighter-rouge">prepare.sh</code> automates registration with AWS IoT and flashes the ESP32 devices in one smooth flow. Flashing each device with the right certificates takes less than 30 seconds!</p>
+<p><code class="language-plaintext highlighter-rouge">prepare.sh</code> automates registration with AWS IoT and flashes the ESP32 devices in one smooth flow. Flashing each device with the right certificates takes less than 30 seconds!</p>
 
 <p>You can inspect the script linked above and the flow below. Feel free to adapt it to your own use case!</p>
 
@@ -232,7 +232,7 @@
 <p>There are a couple of choices we make that are worth highlighting:</p>
 
 <ol>
-  <li>We use the <code class="highlighter-rouge">MAC</code> address of the ESP32 as the <code class="highlighter-rouge">thingId</code> on AWS IoT and as <code class="highlighter-rouge">clientId</code> everytime the ESP32 connects.</li>
+  <li>We use the <code class="language-plaintext highlighter-rouge">MAC</code> address of the ESP32 as the <code class="language-plaintext highlighter-rouge">thingId</code> on AWS IoT and as <code class="language-plaintext highlighter-rouge">clientId</code> everytime the ESP32 connects.</li>
   <li>We store the certificates in an SPIFFS partition on the ESP32 instead of embedding the certificates in a header file as the example code suggests.</li>
 </ol>
 
@@ -257,12 +257,12 @@
 
 <p>You will need to add the following snippet into the CMakeLists.txt file under the ‘main’ directory of your project:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spiffs_create_partition_image(my_spiffs_partition my_folder FLASH_IN_PROJECT)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spiffs_create_partition_image(my_spiffs_partition my_folder FLASH_IN_PROJECT)
 </code></pre></div></div>
 
-<p>If the above is done, the <code class="highlighter-rouge">idf.py</code> ensures that <code class="highlighter-rouge">my_folder</code> is converted into an SPIFFS image and flashed into the “my_spiffs_partition” partition. Make sure you allocate sufficient space for this partition in your <code class="highlighter-rouge">partitions.csv</code>!</p>
+<p>If the above is done, the <code class="language-plaintext highlighter-rouge">idf.py</code> ensures that <code class="language-plaintext highlighter-rouge">my_folder</code> is converted into an SPIFFS image and flashed into the “my_spiffs_partition” partition. Make sure you allocate sufficient space for this partition in your <code class="language-plaintext highlighter-rouge">partitions.csv</code>!</p>
 
-<p>For a complete working example, check out our <a href="https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/aws_iot">ESP32 Firmware Base repository</a>. You will notice that we load the certificates from <code class="highlighter-rouge">SPIFFS</code> on boot insides <code class="highlighter-rouge">tasks.c</code>.</p>
+<p>For a complete working example, check out our <a href="https://github.com/IoTReady/esp32_firmware_base/tree/master/examples/aws_iot">ESP32 Firmware Base repository</a>. You will notice that we load the certificates from <code class="language-plaintext highlighter-rouge">SPIFFS</code> on boot insides <code class="language-plaintext highlighter-rouge">tasks.c</code>.</p>
       <h2 id="running-the-example">
         
         
@@ -273,7 +273,7 @@
     
 
 <ul>
-  <li>We use a Python script <a href="https://github.com/IoTReady/esp32_firmware_base/blob/master/examples/aws_iot/registerDevice.py"><code class="highlighter-rouge">registerDevice.py</code></a> for registering things with AWS IoT and downloading certificates.</li>
+  <li>We use a Python script <a href="https://github.com/IoTReady/esp32_firmware_base/blob/master/examples/aws_iot/registerDevice.py"><code class="language-plaintext highlighter-rouge">registerDevice.py</code></a> for registering things with AWS IoT and downloading certificates.</li>
   <li>By default, the script relies on your global AWS CLI credentials.
     <ul>
       <li>
@@ -281,7 +281,7 @@
 
         <ul>
           <li>Install the python AWS CLI on your machine
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip3 install awscli
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip3 install awscli
 </code></pre></div>            </div>
           </li>
           <li>Once done, run the command below to configure your AWS security credentials by providing the respective values:
@@ -296,7 +296,7 @@ Default output format [None]:
 ````</p>
 
         <ul>
-          <li>In lieu of setting up AWS CLI system-wide, you can also use environment variables to access the keys explicly in <code class="highlighter-rouge">registerDevice.py</code>.</li>
+          <li>In lieu of setting up AWS CLI system-wide, you can also use environment variables to access the keys explicly in <code class="language-plaintext highlighter-rouge">registerDevice.py</code>.</li>
         </ul>
       </li>
     </ul>
@@ -308,14 +308,14 @@ Default output format [None]:
 </blockquote>
 
 <ul>
-  <li>For getting the <code class="highlighter-rouge">MAC</code> address and flashing, we use <code class="highlighter-rouge">esptool</code> and for AWS API connectivity, we use <code class="highlighter-rouge">boto3</code> installed. Install them with:</li>
+  <li>For getting the <code class="language-plaintext highlighter-rouge">MAC</code> address and flashing, we use <code class="language-plaintext highlighter-rouge">esptool</code> and for AWS API connectivity, we use <code class="language-plaintext highlighter-rouge">boto3</code> installed. Install them with:</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip3 install -r requirements.txt
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip3 install -r requirements.txt
 </code></pre></div></div>
 <ul>
-  <li>Configure the region and other AWS parameters in <code class="highlighter-rouge">registerDevice.py</code> as per your needs.</li>
-  <li>Put your code project into a directory named <code class="highlighter-rouge">source</code>. This can be changed in the script.</li>
+  <li>Configure the region and other AWS parameters in <code class="language-plaintext highlighter-rouge">registerDevice.py</code> as per your needs.</li>
+  <li>Put your code project into a directory named <code class="language-plaintext highlighter-rouge">source</code>. This can be changed in the script.</li>
   <li>Connect your ESP32 via USB</li>
 </ul>
 
@@ -324,13 +324,13 @@ Default output format [None]:
 </blockquote>
 
 <ul>
-  <li>The AWS certificates will be stored in a folder named <code class="highlighter-rouge">aws_credentials</code> directory according to the current setup. You can change this in the registerDevice.py file. Make sure the directory exists before you run the script.</li>
+  <li>The AWS certificates will be stored in a folder named <code class="language-plaintext highlighter-rouge">aws_credentials</code> directory according to the current setup. You can change this in the registerDevice.py file. Make sure the directory exists before you run the script.</li>
   <li>Make sure the prepare.sh file has executable permission:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ chmod a+x prepare.sh
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ chmod a+x prepare.sh
 </code></pre></div>    </div>
   </li>
   <li>Run prepare.sh in your project folder.
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./prepare.sh
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./prepare.sh
 </code></pre></div>    </div>
   </li>
 </ul>

@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>stamp_esp32 - a minimal form factor ESP32 development board - IoTReady</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="While the ESP32 has many development boards available on the market, sometimes you want a minimally sized version that can easily mount on your own pcb. "/>
+        <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+        <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+        
+    </head>
+    <body>
+        
+        <div id="page" class="site palette-light accent-pink"><header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="site-title"><a href='/'>IoTReady</a></p>
+        
+      </div><!-- .site-branding -->
+      
+      
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="https://bodh.iotready.co/" target="_blank" rel="noopener">
+  
+  Bodh
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/solutions/" >
+  
+  Solutions
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/building-blocks/" >
+  
+  Building Blocks
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/portfolio/" >
+  
+  Portfolio
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/open-source/" >
+  
+  Open Source
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/blog/" >
+  
+  Blog
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/about/" >
+  
+  About
+  
+</a>
+
+              </li>
+            
+              
+              
+              <li class="menu-item">
+                
+                
+<a class="" href="/contact/" >
+  
+  Contact
+  
+</a>
+
+              </li>
+            
+          </ul><!-- .menu -->
+        </div><!-- .site-nav-inside -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .inner -->
+</header><!-- .site-header -->
+
+  <main id="content" class="site-content">
+    <div class="inner outer">
+
+  <article class="post post-full"><header class="post-header inner-sm">
+      <h1 class="post-title line-top">
+        
+        
+          stamp_esp32 - a minimal form factor ESP32 development board
+        
+        
+      </h1>
+    
+      
+      
+    </header>
+    
+    
+    <div class="post-image">
+      <img src="/images/stamp_esp32/Front_3D.png" alt="stamp_esp32 - a minimal form factor ESP32 development board" />
+    </div>
+    
+    <div class="post-content inner-sm">
+      <p>This is a post by <a href="https://www.linkedin.com/in/ruhan-a-b93b73177/">Ruhan</a> - who started interning with us at age 16 and recently left for an exchange program in the US at age 19! Thanks and best wishes, Ruhan!</p>
+      <h2 id="product-description">
+        
+        
+          Product Description <a href="#product-description">#</a>
+        
+        
+      </h2>
+    
+
+<p>While the ESP32 has many development boards available on the market, sometimes you want a minimally sized version that can easily mount on your own pcb. Stamp_esp32 is an entry level development board which is essentially a shrunken version of the esp32C DEvKitC.</p>
+
+<p>It has all the ESP32 pins exposed and is easy to connect and use. This board is designed with the castellated edge connector pins which makes easier for the board to be either directly soldered or used with header pins.</p>
+      <h2 id="circuit">
+        
+        
+          Circuit <a href="#circuit">#</a>
+        
+        
+      </h2>
+    
+      <h3 id="power-supply">
+        
+        
+          Power Supply <a href="#power-supply">#</a>
+        
+        
+      </h3>
+    
+
+<p>There are two mutually exclusive ways to provide power to the board:</p>
+
+<ul>
+  <li>
+    <p>5 Volts / GND castellated edge connector pins</p>
+  </li>
+  <li>
+    <p>3.3 Volts / GND castellated edge conector pins</p>
+  </li>
+</ul>
+
+<p>The input power is supplied through the castellated edge connector pins which are marked as VBUS and GND on the board.</p>
+
+<p align="center"><img src="/images/stamp_esp32/Powe_supply_pin.png" /></p>
+
+<p>The 3.3 Volts for the esp32 wroom module is sourced through the voltage regulator AMS117_3.3 which is the U2 component in the schematics.
+The LED D1 indicates the presence of power supply to the circuit.</p>
+
+<p><img src="/images/stamp_esp32/AMS117_3.3_LED.png" alt="Image" /></p>
+      <h3 id="programing-pins">
+        
+        
+          Programing pins <a href="#programing-pins">#</a>
+        
+        
+      </h3>
+    
+
+<p>For data transmission we have used the two castellated edge connector pins that are D+ and D- which are marked on the board</p>
+
+<p align="center"><img src="/images/stamp_esp32/Powe_supply_pin.png" /></p>
+
+<p>This board is UART protocol based hence, for convenience it provides onboard USB to UART conversion, The USB to UART Bridge chip is provides transfer rates of up to 3 Mbps.</p>
+
+<p align="center"><img src="/images/stamp_esp32/USB_to_UART_Bridge.png" /></p>
+      <h3 id="switch-buttons">
+        
+        
+          Switch Buttons <a href="#switch-buttons">#</a>
+        
+        
+      </h3>
+    
+
+<p>The two push button switches are used. SW2  is connected to the enable pin of the Esp32 WROOM. The other switch button, SW1 is used as boot pin which is connected to IO0 of the Esp32 WROOM.</p>
+
+<p><img src="/images/stamp_esp32/Switch_button.png" alt="Image" /></p>
+
+<p>The complete schematic is shown below</p>
+
+<p><img src="/images/stamp_esp32/Schematics.jpg" alt="Image" /></p>
+      <h3 id="esp32-module">
+        
+        
+          ESP32 module <a href="#esp32-module">#</a>
+        
+        
+      </h3>
+    
+
+<p>Briefly, the ESP32-WROOM-32D is a powerful, generic Wi-Fi+BT+BLE MCU module that targets a wide variety of applications, ranging from low-power sensor networks to the most demanding tasks, such as voice encoding, music streaming and MP3 decoding.</p>
+
+<p>The advantage of the ESP32-WROOM is:</p>
+
+<ul>
+  <li>It has the SPI flash rate of 32 Mbits</li>
+  <li>It operates with the 3.3Volts</li>
+  <li>It has the onboard Antenna</li>
+</ul>
+
+<p><img src="/images/stamp_esp32/esp32_wroom_32d.png" alt="Image" /></p>
+      <h3 id="castellated-edge-cuts">
+        
+        
+          Castellated edge cuts <a href="#castellated-edge-cuts">#</a>
+        
+        
+      </h3>
+    
+
+<p>Castellated edge cuts  are plated through holes or vias placed on the edges of a printed circuit board. These are cut through to form a series of half holes. These half holes, called castelations, serve as pads to create a connection between the module board and the board that it will be soldered onto.</p>
+
+<p>The youtube channel VoltLog has a nice explanation of <a href="https://youtu.be/ZtRmQ-350Dc"><strong>How to create Castellated Edge cuts</strong></a></p>
+
+<p>Castellation service is not provided by all PCB  manufacturers.  <a href="https://www.pcbway.com/"><strong>PCB WAY</strong></a> is one PCB manufacturing company which is based in China that provides castellation services. You opt for the castellation on their website while sending your gerber file for the manufacturing.</p>
+      <h3 id="pcb-dimensions">
+        
+        
+          PCB Dimensions <a href="#pcb-dimensions">#</a>
+        
+        
+      </h3>
+    
+<p>The size of the stamp_esp32 is 37.9mm x 31.3mm. The antenna size is 6.5mm</p>
+
+<p align="center"><img src="/images/stamp_esp32/PCB_dimensions.png" /></p>
+
+<p>The final PCB looks like the 3D image given below</p>
+
+<p align="center"><img src="/images/stamp_esp32/Front_3D.png" /></p>
+
+<p align="center"><img src="/images/stamp_esp32/Back_3D.png" /></p>
+
+    </div>
+    <footer class="post-meta inner-sm">
+      <time class="published" datetime="2021-06-20 00:00">June 20, 2021</time>
+    </footer>
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="read-next inner-sm">
+      <h2 class="read-next-title line-top">
+        
+        
+          Read Next
+        
+        
+      </h2>
+    
+    <div class="post-feed grid grid-col-2">
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Previous Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Previous post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+      <article class="post grid-item">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a><header class="post-header">
+      <h3 class="post-title">
+        
+        
+          <a href="#" rel="bookmark">Next Post Title</a>
+        
+        
+      </h3>
+    
+            <div class="post-meta">
+              <time class="published" datetime="">Next post date</time>
+            </div>
+          </header>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+</div><!-- .inner -->
+
+  </main><!-- .site-content -->
+  <footer id="colophon" class="site-footer outer">
+  <div class="inner">
+    <div class="site-footer-inside">
+      <div class="site-info">
+        
+        
+        <span class="copyright">&copy; IoTReady. All rights reserved.</span>
+        
+        
+          
+          
+<a class="" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  Simplifying IoT.
+  
+</a>
+
+        
+      </div><!-- .site-info -->
+      
+      
+      <div class="social-links">
+        
+          
+          
+<a class=" button-icon" href="https://github.com/iotready/" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">Github</span>
+  
+</a>
+
+        
+          
+          
+<a class=" button-icon" href="https://www.linkedin.com/company/jaaga-labs" target="_blank" rel="noopener">
+  
+  <span class="icon fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span>
+  
+</a>
+
+        
+      </div><!-- .social-links -->
+      
+    </div><!-- .site-footer-inside -->
+  </div><!-- .inner -->
+</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+        <script async defer data-domain="iotready.co" src="https://plausible.io/js/plausible.js"></script>
+
+    </body> 
+</html>
