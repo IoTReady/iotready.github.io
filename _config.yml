@@ -12,13 +12,13 @@ header:
   title: IoTReady
   has_nav: true
   nav_links:
+    - label: Solutions
+      url: /solutions/
+      style: link
     - label: Bodh
       url: https://bodh.iotready.co/
       style: link
       new_window: true
-    - label: Solutions
-      url: /solutions/
-      style: link
     - label: Building Blocks
       url: /building-blocks/
       style: link

@@ -4,45 +4,35 @@ hide_title: true
 sections:
   - section_id: hero
     type: section_hero
-    title: 'Simplifying IoT.'
+    title: 'Powering Traceability.'
     content: >-
-      Our full stack IoT solutions and metal-to-cloud building blocks save months of effort and generate millions in revenue for customers worldwide. What are you working on?
+      Our API-ready RFID Readers, Barcode Scanners and Weighing Scales help you implement traceability in days, not months!
     actions:
       - label: Let's talk
         url: /contact
         style: button
-  - section_id: latest-projects
-    type: section_portfolio
-    layout_style: mosaic
-    title: Powered Solutions
-    # subtitle: An optional subtitle of the section
-    projects_number: 6
-    view_all_label: View All
-    view_all_url: portfolio
-  - section_id: services
+  - section_id: solutions
     type: section_grid
-    title: What We Offer
+    title: Solutions
     # subtitle: An optional subtitle of the section
     col_number: two
     is_numbered: true
     grid_items:
+      - title: Automated ID
+        content: >-
+          Use our API-ready RFID Readers & Barcode Scanners to implement ID and tracking systems in a matter of days.
+        url: /solutions/
+      - title: Weighing Scales
+        content: >-
+          Our digital, API-ready weighing scales offer best-in-class accuracy with world-beating battery life and ease of integration.
+        url: /portfolio/weighing-scales/
       - title: Open Source
         content: >-
           All our core firmware libraries, mobile app plugins and a number of our hardware designs are in the open domain. Our firmware and software blocks are MIT licensed and hardware designs are OSHWA certified. 
         url: /open-source/
-      - title: Building Blocks
+      - title: Custom Traceability
         content: >-
-          Build your next product with our specialist hardware designs or 
-          use our battle-tested, customisable code kits for mobile and voice 
-          apps to make great IoT apps.
-        url: /building-blocks/
-      - title: Full Stack Solutions
-        content: >-
-          Adopt our ready-to-deploy solutions for monitoring Smart Grids and agricultural irrigation pumps or to implement RFID based traceability.
-        url: /solutions/
-      - title: Custom Development
-        content: >-
-          If you are developing a high value IoT enabled product, our team can help you deliver secure, scalable solutions across hardware, firmware, cloud and data visualisation.
+          If you are developing a high value IoT enabled product for traceability, our team can help you deliver secure, scalable solutions across hardware, firmware, cloud and data visualisation.
         url: /contact/
   # - section_id: testimonials
     # type: section_testimonials

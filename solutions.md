@@ -16,18 +16,36 @@ layout: page
 - Real-time anomaly detection (coming soon)
 
 
-## Smart RFID Traceability
+## API-Ready RFID Readers
 
 - WiFi meshed RFID readers
 - Short-range readers for indoor location tracking
 - Focused readers for anti-theft/entrance monitoring
 - Built-in long-life battery
-- Secure connectivity via AWS or SAP IoT (optional)
+- Secure MQTT connectivity via AWS or SAP IoT (optional)
+- Out of the box REST and Websockets APIs
 - Offline and cloud data storage and backup
+- Integrate into custom software applications in days, not months!
+
+
+## API-Ready Weighing Scale
+
+[Datasheet](/assets/files/smart_weighing_scale.pdf)
+
+- 20-500kg capacity
+- 0.05% full-scale accuracy
+- Battery powered with automatic recharging (~1y lifetime for BLE variant)
+- Customisable LCD/ePaper display
+- Heavy duty, steel frame
+- Overload protection uses mechanical stops to prevent damage
+- Integration via Bluetooth or WiFi into your on-premise or cloud-based ERP infrastructure
+- Out of the box integration with AWS IoT (optional)
+- Offline and cloud data storage and backup
+- Automated dashboards with alerts
 - API for integration into custom software applications
 
 
-## Smart Grid Monitor
+## Self-Powered Smart Grid Monitor
 
 [Datasheet](/assets/files/smart_grid_monitor.pdf)
 
@@ -44,7 +62,7 @@ layout: page
 - LoRa & NB-IoT connectivity (coming soon)
 
 
-## Smart Irrigation Monitor 
+## Self-Powered Irrigation Monitor 
 
 [Brochure](/assets/files/smart_weighing_scale.pdf)
 
@@ -53,22 +71,6 @@ layout: page
 - Single-phase and three-phase options
 - Built-in 2G/4G modem
 - Secure connectivity via AWS or SAP IoT
-- Offline and cloud data storage and backup
-- Automated dashboards with alerts
-- API for integration into custom software applications
-
-## Smart Weighing Scale
-
-[Datasheet](/assets/files/smart_weighing_scale.pdf)
-
-- 20-500kg capacity
-- 0.05% full-scale accuracy
-- Battery powered with automatic recharging (~1y lifetime for BLE variant)
-- Customisable LCD/ePaper display
-- Heavy duty, steel frame
-- Overload protection uses mechanical stops to prevent damage
-- Integration via Bluetooth or WiFi into your on-premise or cloud-based ERP infrastructure
-- Out of the box integration with AWS IoT (optional)
 - Offline and cloud data storage and backup
 - Automated dashboards with alerts
 - API for integration into custom software applications
