@@ -18,7 +18,7 @@ Tej holds a PhD in Wireless Hardware and has built and sold patents covering inn
 ### [Jay Warrior](https://www.linkedin.com/in/jaywarrior/), PhD
 Jay holds a PhD in control systems and has held leadership positions in global leaders such as Agilent & HP. He has over 25 patents in control systems and machine communications. He was the inventor of the most widely used M2M protocol - [HART](https://fieldcommgroup.org/technologies/hart).
 
-### [Karan Raj Pradhan](https://www.linkedin.com/in/karanrajpradhan/) - Firmware Lead
+### [Karan Raj Pradhan](https://www.linkedin.com/in/karanrajpradhan/) - Technology Lead
 Karan enjoys digging into the depths of firmware SDKs and creating easy to use abstractions. Comfortable with embedded C and MicroPython, he's currently exploring the fascinating world of Elixir.
 
 ### [Shekar YM](https://www.linkedin.com/in/shekar-ym-20273716/) - Operations Lead

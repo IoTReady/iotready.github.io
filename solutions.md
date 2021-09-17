@@ -17,6 +17,7 @@ layout: page
 
 
 ## API-Ready RFID Readers
+[Datasheet](/assets/files/api_ready_rfid_reader.pdf)
 
 - WiFi meshed RFID readers
 - Short-range readers for indoor location tracking
